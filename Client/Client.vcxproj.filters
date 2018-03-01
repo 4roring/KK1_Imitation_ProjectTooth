@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="99.Default">
+      <UniqueIdentifier>{ba5827b2-7f01-44db-b2fb-e27314328a8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Headers">
+      <UniqueIdentifier>{0b8b23ce-cdf6-452b-b218-3676bcc4be21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Managers">
+      <UniqueIdentifier>{b0278162-e11b-4add-8943-543ccd018cbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.MainGame">
+      <UniqueIdentifier>{8dc26858-087e-4c81-9478-81481e72ac15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject">
+      <UniqueIdentifier>{c4e0c7ad-dee7-4625-bd00-19d29cab92a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor">
+      <UniqueIdentifier>{df90311f-ba89-4306-9dff-405e72688bdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Managers\01.GameManager">
+      <UniqueIdentifier>{73d2c776-da77-4dd6-8efd-7df2985ee4d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Managers\00.Device">
+      <UniqueIdentifier>{fe87957f-1e46-4ef8-b9a3-efd175b1c2c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Managers\02.KeyManager">
+      <UniqueIdentifier>{4a971101-43fe-4b0d-b3c4-a48921cfcb02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Managers\99.TextureManager">
+      <UniqueIdentifier>{e2c724af-b4c2-452f-9f2b-2a79b3985027}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Managers\99.TextureManager\00.Texture">
+      <UniqueIdentifier>{8541511f-8d57-46d9-ad62-a4a25bc01629}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Managers\99.TextureManager\01.SingleTexture">
+      <UniqueIdentifier>{d4c7e068-fb1e-49a1-a773-1aebb03d61a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Managers\99.TextureManager\02.MultiTexture">
+      <UniqueIdentifier>{fcefbb62-6cd0-44d7-acb2-0b19d98f7162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\00.Player">
+      <UniqueIdentifier>{d356ba34-25e1-43f3-8c64-782429075023}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\01.Enemy">
+      <UniqueIdentifier>{7bba6077-32c4-47fb-8f8b-ee29f7b960f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\00.Background">
+      <UniqueIdentifier>{9409d15a-1dd5-41ef-8fa3-28f112a166a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Managers\03.TimeManager">
+      <UniqueIdentifier>{c55ae58f-1ec3-4c91-8901-fc5f86720996}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Client.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="GameObject.h">
+      <Filter>01.GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGame.h">
+      <Filter>00.MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>97.Managers\01.GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="AbsFactory.h">
+      <Filter>98.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>02.Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="APlayer.h">
+      <Filter>02.Actor\00.Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.h">
+      <Filter>97.Managers\00.Device</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyManager.h">
+      <Filter>97.Managers\02.KeyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>97.Managers\99.TextureManager\00.Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>97.Managers\99.TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleTexture.h">
+      <Filter>97.Managers\99.TextureManager\01.SingleTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiTexture.h">
+      <Filter>97.Managers\99.TextureManager\02.MultiTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>97.Managers\03.TimeManager</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>99.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>01.GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGame.cpp">
+      <Filter>00.MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="GameManager.cpp">
+      <Filter>97.Managers\01.GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>02.Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="APlayer.cpp">
+      <Filter>02.Actor\00.Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Device.cpp">
+      <Filter>97.Managers\00.Device</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyManager.cpp">
+      <Filter>97.Managers\02.KeyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>97.Managers\99.TextureManager\00.Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>97.Managers\99.TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleTexture.cpp">
+      <Filter>97.Managers\99.TextureManager\01.SingleTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiTexture.cpp">
+      <Filter>97.Managers\99.TextureManager\02.MultiTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>97.Managers\03.TimeManager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Client.ico">
+      <Filter>99.Default</Filter>
+    </Image>
+    <Image Include="small.ico">
+      <Filter>99.Default</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc">
+      <Filter>99.Default</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
