@@ -1,2 +1,2 @@
-## KK1 Tooth and Tail Imitation
-# Develop by C++ & DirectX9 SDK
+# KK1 Imitation Project Tooth
+## Develop by C++ & DirectX9 SDK
