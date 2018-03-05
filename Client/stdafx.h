@@ -29,14 +29,9 @@
 
 
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
-#include "Define.h"
-#include "Extern.h"
-#include "Enum.h"
-#include "Struct.h"
-#include "Typedef.h"
-#include "Function.h"
+#include "Include.h"
 #include "AbsFactory.h"
-#include "Value.h"
+
 
 // Managers
 #include "GameManager.h"

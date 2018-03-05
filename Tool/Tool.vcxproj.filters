@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="99.Default">
+      <UniqueIdentifier>{a2abcb48-7115-40ed-abc7-83d96b9cf017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View">
+      <UniqueIdentifier>{5754dc06-6f45-4233-967d-7278588bae1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View\00.MainView">
+      <UniqueIdentifier>{35f2df09-282d-4f81-8320-d426e858ad20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.MainFrm">
+      <UniqueIdentifier>{a1c02e6a-435a-4ca0-a5ce-dad0c7c0c7d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Managers">
+      <UniqueIdentifier>{30269fd1-c869-40f1-8e5a-c2c599abc80f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Managers\00.Device">
+      <UniqueIdentifier>{c3139789-5797-4a3e-96c4-22b6554a3daa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Managers\99.TextureManager">
+      <UniqueIdentifier>{9ee69608-9f71-46f9-af53-218af36d3a5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Dialog">
+      <UniqueIdentifier>{28627c2e-d259-4baa-8b72-65c7d4148c6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Managers\99.TextureManager\Texture">
+      <UniqueIdentifier>{ed5d6ebe-23a5-4ddf-9119-8c72d86832f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Managers\99.TextureManager\SingleTexture">
+      <UniqueIdentifier>{2aa1d838-b690-4b35-84b9-025005935624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Managers\99.TextureManager\MultiTexture">
+      <UniqueIdentifier>{8a1a6d04-62bd-46ec-9225-631e3f338522}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View\01.MiniMap">
+      <UniqueIdentifier>{a53819b1-089c-47d4-9989-b85f77c5d0d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Isometric">
+      <UniqueIdentifier>{47d7944f-65e4-45bd-ab87-aa0dccd2957d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Managers\01.KeyManager">
+      <UniqueIdentifier>{bc3d29a9-384e-4df3-97b2-7a82900148a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View\03.TapForm">
+      <UniqueIdentifier>{226ac0a6-cfaf-4ccd-86ce-ef4ba7e148f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View\03.TapForm\MySheet">
+      <UniqueIdentifier>{4b681b43-9be3-4775-886a-d59004c0876e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View\03.TapForm\MySheet\OtherTab">
+      <UniqueIdentifier>{66013a9e-0a7b-4bb9-8f32-176032df74cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View\03.TapForm\MySheet\MapToolTab">
+      <UniqueIdentifier>{3e20332c-4d31-48aa-b184-b8b4866d1a22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View\02.ItemView">
+      <UniqueIdentifier>{880e5f82-b2fc-4dde-8f80-ee8790bc320f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Managers\02.ToolManager">
+      <UniqueIdentifier>{9e70d3a6-80c5-4193-8519-052408fb19f8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolDoc.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolView.h">
+      <Filter>01.View\00.MainView</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.h">
+      <Filter>98.Managers\00.Device</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyManager.h">
+      <Filter>98.Managers\01.KeyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>98.Managers\99.TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>98.Managers\99.TextureManager\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiTexture.h">
+      <Filter>98.Managers\99.TextureManager\MultiTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleTexture.h">
+      <Filter>98.Managers\99.TextureManager\SingleTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>00.MainFrm</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniMap.h">
+      <Filter>01.View\01.MiniMap</Filter>
+    </ClInclude>
+    <ClInclude Include="MySheet.h">
+      <Filter>01.View\03.TapForm\MySheet</Filter>
+    </ClInclude>
+    <ClInclude Include="TabForm.h">
+      <Filter>01.View\03.TapForm</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>리소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MapToolTab.h">
+      <Filter>01.View\03.TapForm\MySheet\MapToolTab</Filter>
+    </ClInclude>
+    <ClInclude Include="OtherTab.h">
+      <Filter>01.View\03.TapForm\MySheet\OtherTab</Filter>
+    </ClInclude>
+    <ClInclude Include="Isometric.h">
+      <Filter>03.Isometric</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemView.h">
+      <Filter>01.View\02.ItemView</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolManager.h">
+      <Filter>98.Managers\02.ToolManager</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ToolDoc.cpp">
+      <Filter>99.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>99.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>00.MainFrm</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool.cpp">
+      <Filter>99.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolView.cpp">
+      <Filter>01.View\00.MainView</Filter>
+    </ClCompile>
+    <ClCompile Include="Device.cpp">
+      <Filter>98.Managers\00.Device</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyManager.cpp">
+      <Filter>98.Managers\01.KeyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>98.Managers\99.TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>98.Managers\99.TextureManager\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiTexture.cpp">
+      <Filter>98.Managers\99.TextureManager\MultiTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleTexture.cpp">
+      <Filter>98.Managers\99.TextureManager\SingleTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniMap.cpp">
+      <Filter>01.View\01.MiniMap</Filter>
+    </ClCompile>
+    <ClCompile Include="MySheet.cpp">
+      <Filter>01.View\03.TapForm\MySheet</Filter>
+    </ClCompile>
+    <ClCompile Include="TabForm.cpp">
+      <Filter>01.View\03.TapForm</Filter>
+    </ClCompile>
+    <ClCompile Include="MapToolTab.cpp">
+      <Filter>01.View\03.TapForm\MySheet\MapToolTab</Filter>
+    </ClCompile>
+    <ClCompile Include="OtherTab.cpp">
+      <Filter>01.View\03.TapForm\MySheet\OtherTab</Filter>
+    </ClCompile>
+    <ClCompile Include="Isometric.cpp">
+      <Filter>03.Isometric</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemView.cpp">
+      <Filter>01.View\02.ItemView</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolManager.cpp">
+      <Filter>98.Managers\02.ToolManager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tool.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Tool.rc2">
+      <Filter>리소스 파일</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\ToolDoc.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\Tool.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\Toolbar.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

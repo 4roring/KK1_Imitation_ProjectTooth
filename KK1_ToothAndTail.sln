@@ -11,10 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Headers", "Headers", "{A3D6
 		Headers\Enum.h = Headers\Enum.h
 		Headers\Extern.h = Headers\Extern.h
 		Headers\Function.h = Headers\Function.h
+		Headers\Include.h = Headers\Include.h
 		Headers\Struct.h = Headers\Struct.h
 		Headers\Typedef.h = Headers\Typedef.h
 		Headers\Value.h = Headers\Value.h
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KK1_Tool", "Tool\Tool.vcxproj", "{EA373852-DE62-412C-B25D-3FAB12C2D440}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +39,16 @@ Global
 		{0E0FECF1-2561-4C4E-AF5F-BF8850546921}.Release|x64.Build.0 = Release|x64
 		{0E0FECF1-2561-4C4E-AF5F-BF8850546921}.Release|x86.ActiveCfg = Release|Win32
 		{0E0FECF1-2561-4C4E-AF5F-BF8850546921}.Release|x86.Build.0 = Release|Win32
+		{EA373852-DE62-412C-B25D-3FAB12C2D440}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{EA373852-DE62-412C-B25D-3FAB12C2D440}.Debug|x64.ActiveCfg = Debug|x64
+		{EA373852-DE62-412C-B25D-3FAB12C2D440}.Debug|x64.Build.0 = Debug|x64
+		{EA373852-DE62-412C-B25D-3FAB12C2D440}.Debug|x86.ActiveCfg = Debug|Win32
+		{EA373852-DE62-412C-B25D-3FAB12C2D440}.Debug|x86.Build.0 = Debug|Win32
+		{EA373852-DE62-412C-B25D-3FAB12C2D440}.Release|Any CPU.ActiveCfg = Release|Win32
+		{EA373852-DE62-412C-B25D-3FAB12C2D440}.Release|x64.ActiveCfg = Release|x64
+		{EA373852-DE62-412C-B25D-3FAB12C2D440}.Release|x64.Build.0 = Release|x64
+		{EA373852-DE62-412C-B25D-3FAB12C2D440}.Release|x86.ActiveCfg = Release|Win32
+		{EA373852-DE62-412C-B25D-3FAB12C2D440}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

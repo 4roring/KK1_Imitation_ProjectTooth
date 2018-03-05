@@ -26,3 +26,10 @@ typedef struct tagAnimScene
 	int iScene, iFrame;
 }ANIMSCENE;
 
+typedef struct tagIsometricTile
+{
+	D3DXVECTOR3 vPosition;
+	BYTE byOption;
+	BYTE byDrawID;
+}ISOTILE;
+
