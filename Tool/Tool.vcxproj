@@ -187,8 +187,11 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AtlasTexture.h" />
+    <ClInclude Include="DecoObj.h" />
     <ClInclude Include="Device.h" />
-    <ClInclude Include="Isometric.h" />
+    <ClInclude Include="CollisionTile.h" />
+    <ClInclude Include="FilePath.h" />
     <ClInclude Include="ItemView.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="MainFrm.h" />
@@ -197,6 +200,7 @@
     <ClInclude Include="MultiTexture.h" />
     <ClInclude Include="MySheet.h" />
     <ClInclude Include="OtherTab.h" />
+    <ClInclude Include="PathInfo.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SingleTexture.h" />
     <ClInclude Include="stdafx.h" />
@@ -208,10 +212,14 @@
     <ClInclude Include="ToolDoc.h" />
     <ClInclude Include="ToolManager.h" />
     <ClInclude Include="ToolView.h" />
+    <ClInclude Include="UnitTool.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AtlasTexture.cpp" />
+    <ClCompile Include="DecoObj.cpp" />
     <ClCompile Include="Device.cpp" />
-    <ClCompile Include="Isometric.cpp" />
+    <ClCompile Include="CollisionTile.cpp" />
+    <ClCompile Include="FilePath.cpp" />
     <ClCompile Include="ItemView.cpp" />
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="MainFrm.cpp" />
@@ -220,6 +228,7 @@
     <ClCompile Include="MultiTexture.cpp" />
     <ClCompile Include="MySheet.cpp" />
     <ClCompile Include="OtherTab.cpp" />
+    <ClCompile Include="PathInfo.cpp" />
     <ClCompile Include="SingleTexture.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -234,6 +243,7 @@
     <ClCompile Include="ToolDoc.cpp" />
     <ClCompile Include="ToolManager.cpp" />
     <ClCompile Include="ToolView.cpp" />
+    <ClCompile Include="UnitTool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tool.rc" />

@@ -95,9 +95,9 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	m_SubSplitter.CreateStatic(&m_MainSplitter, 3, 1, WS_CHILD | WS_VISIBLE
 		, m_MainSplitter.IdFromRowCol(0, 0));
 
-	m_SubSplitter.CreateView(0, 0, RUNTIME_CLASS(CMiniMap), CSize(250, 175), pContext);
-	m_SubSplitter.CreateView(1, 0, RUNTIME_CLASS(CItemView), CSize(250, 175), pContext);
-	m_SubSplitter.CreateView(2, 0, RUNTIME_CLASS(CTabForm), CSize(250, 370), pContext);
+	m_SubSplitter.CreateView(0, 0, RUNTIME_CLASS(CMiniMap), CSize(250, 200), pContext);
+	m_SubSplitter.CreateView(1, 0, RUNTIME_CLASS(CItemView), CSize(250, 200), pContext);
+	m_SubSplitter.CreateView(2, 0, RUNTIME_CLASS(CTabForm), CSize(250, 320), pContext);
 
 	m_MainSplitter.SetColumnInfo(0, 250, 50);
 

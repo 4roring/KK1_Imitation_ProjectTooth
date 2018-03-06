@@ -1,6 +1,6 @@
 #pragma once
 
-class CIsometric;
+class CCollisionTile;
 class CMainFrame;
 class CToolManager :
 	public CSingleton<CToolManager>
@@ -14,7 +14,7 @@ public:
 	void Release();
 
 public:
-	CIsometric* GetIsometric() const { return m_pIsometric; }
+	CCollisionTile* GetCollisionTile() const { return m_pCollTile; }
 	const D3DXVECTOR3 GetScroll() const { return m_vScroll; }
 	const float GetZoom() const { return m_fZoom; }
 	const CMainFrame* GetMainFrame() const { return m_pMainFrame; }
@@ -27,7 +27,7 @@ public:
 	void SetIsoRender() { m_bIsoRender = !m_bIsoRender; }
 
 private:
-	CIsometric* m_pIsometric = nullptr;
+	CCollisionTile* m_pCollTile = nullptr;
 	CMainFrame* m_pMainFrame = nullptr;
 
 private:

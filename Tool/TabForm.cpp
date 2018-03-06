@@ -66,5 +66,5 @@ void CTabForm::OnInitialUpdate()
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
 	m_pMySheet = new CMySheet;
 	m_pMySheet->Create(this, WS_CHILD | WS_VISIBLE);
-	m_pMySheet->MoveWindow(0, 0, 250, 500);
+	m_pMySheet->MoveWindow(5, 0, 220, 350);
 }

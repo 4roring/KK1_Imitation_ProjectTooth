@@ -2,7 +2,7 @@
 
 
 // CMiniMap ∫‰¿‘¥œ¥Ÿ.
-class CIsometric;
+class CCollisionTile;
 class CMiniMap : public CView
 {
 	DECLARE_DYNCREATE(CMiniMap)

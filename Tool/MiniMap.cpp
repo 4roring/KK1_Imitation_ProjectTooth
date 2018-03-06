@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "MiniMap.h"
-#include "Isometric.h"
+#include "CollisionTile.h"
 
 // CMiniMap
 
@@ -31,7 +31,7 @@ void CMiniMap::OnDraw(CDC* pDC)
 
 	Device->Begin();
 	
-	ToolMgr->GetIsometric()->MiniMap();
+	ToolMgr->GetCollisionTile()->MiniMap();
 
 	Device->End(m_hWnd);
 }

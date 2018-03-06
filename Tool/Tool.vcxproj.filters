@@ -41,29 +41,47 @@
     <Filter Include="01.View\01.MiniMap">
       <UniqueIdentifier>{a53819b1-089c-47d4-9989-b85f77c5d0d1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.Isometric">
-      <UniqueIdentifier>{47d7944f-65e4-45bd-ab87-aa0dccd2957d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="98.Managers\01.KeyManager">
       <UniqueIdentifier>{bc3d29a9-384e-4df3-97b2-7a82900148a5}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.View\03.TapForm">
       <UniqueIdentifier>{226ac0a6-cfaf-4ccd-86ce-ef4ba7e148f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.View\03.TapForm\MySheet">
-      <UniqueIdentifier>{4b681b43-9be3-4775-886a-d59004c0876e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.View\03.TapForm\MySheet\OtherTab">
-      <UniqueIdentifier>{66013a9e-0a7b-4bb9-8f32-176032df74cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.View\03.TapForm\MySheet\MapToolTab">
-      <UniqueIdentifier>{3e20332c-4d31-48aa-b184-b8b4866d1a22}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.View\02.ItemView">
       <UniqueIdentifier>{880e5f82-b2fc-4dde-8f80-ee8790bc320f}</UniqueIdentifier>
     </Filter>
     <Filter Include="98.Managers\02.ToolManager">
       <UniqueIdentifier>{9e70d3a6-80c5-4193-8519-052408fb19f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Object">
+      <UniqueIdentifier>{47d7944f-65e4-45bd-ab87-aa0dccd2957d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Object\CollisionTile">
+      <UniqueIdentifier>{90f65cdf-cf81-4577-a8e8-1aed3c259d3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Object\DecoObj">
+      <UniqueIdentifier>{0ea6d29f-2acb-4898-a48d-4ec5358cc588}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Dialog\UnitTool">
+      <UniqueIdentifier>{04a01991-bc4f-4eaa-a3a7-6733e0bb3d79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Dialog\FilePath">
+      <UniqueIdentifier>{942d2788-594b-46b4-a952-2a427d66e133}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View\03.TapForm\00.MySheet">
+      <UniqueIdentifier>{4b681b43-9be3-4775-886a-d59004c0876e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View\03.TapForm\02.OtherTab">
+      <UniqueIdentifier>{66013a9e-0a7b-4bb9-8f32-176032df74cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View\03.TapForm\01.MapToolTab">
+      <UniqueIdentifier>{3e20332c-4d31-48aa-b184-b8b4866d1a22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Managers\99.TextureManager\AtlasTexture">
+      <UniqueIdentifier>{24f9ef77-49ca-4ddd-9b60-3bb7452c31ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Object\PathInfo">
+      <UniqueIdentifier>{688b4247-df29-44a7-a2f7-3e14e69800f6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -105,7 +123,7 @@
       <Filter>01.View\01.MiniMap</Filter>
     </ClInclude>
     <ClInclude Include="MySheet.h">
-      <Filter>01.View\03.TapForm\MySheet</Filter>
+      <Filter>01.View\03.TapForm\00.MySheet</Filter>
     </ClInclude>
     <ClInclude Include="TabForm.h">
       <Filter>01.View\03.TapForm</Filter>
@@ -114,19 +132,34 @@
       <Filter>리소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="MapToolTab.h">
-      <Filter>01.View\03.TapForm\MySheet\MapToolTab</Filter>
+      <Filter>01.View\03.TapForm\01.MapToolTab</Filter>
     </ClInclude>
     <ClInclude Include="OtherTab.h">
-      <Filter>01.View\03.TapForm\MySheet\OtherTab</Filter>
-    </ClInclude>
-    <ClInclude Include="Isometric.h">
-      <Filter>03.Isometric</Filter>
+      <Filter>01.View\03.TapForm\02.OtherTab</Filter>
     </ClInclude>
     <ClInclude Include="ItemView.h">
       <Filter>01.View\02.ItemView</Filter>
     </ClInclude>
     <ClInclude Include="ToolManager.h">
       <Filter>98.Managers\02.ToolManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionTile.h">
+      <Filter>03.Object\CollisionTile</Filter>
+    </ClInclude>
+    <ClInclude Include="DecoObj.h">
+      <Filter>03.Object\DecoObj</Filter>
+    </ClInclude>
+    <ClInclude Include="FilePath.h">
+      <Filter>02.Dialog\FilePath</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitTool.h">
+      <Filter>02.Dialog\UnitTool</Filter>
+    </ClInclude>
+    <ClInclude Include="AtlasTexture.h">
+      <Filter>98.Managers\99.TextureManager\AtlasTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="PathInfo.h">
+      <Filter>03.Object\PathInfo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -167,25 +200,40 @@
       <Filter>01.View\01.MiniMap</Filter>
     </ClCompile>
     <ClCompile Include="MySheet.cpp">
-      <Filter>01.View\03.TapForm\MySheet</Filter>
+      <Filter>01.View\03.TapForm\00.MySheet</Filter>
     </ClCompile>
     <ClCompile Include="TabForm.cpp">
       <Filter>01.View\03.TapForm</Filter>
     </ClCompile>
     <ClCompile Include="MapToolTab.cpp">
-      <Filter>01.View\03.TapForm\MySheet\MapToolTab</Filter>
+      <Filter>01.View\03.TapForm\01.MapToolTab</Filter>
     </ClCompile>
     <ClCompile Include="OtherTab.cpp">
-      <Filter>01.View\03.TapForm\MySheet\OtherTab</Filter>
-    </ClCompile>
-    <ClCompile Include="Isometric.cpp">
-      <Filter>03.Isometric</Filter>
+      <Filter>01.View\03.TapForm\02.OtherTab</Filter>
     </ClCompile>
     <ClCompile Include="ItemView.cpp">
       <Filter>01.View\02.ItemView</Filter>
     </ClCompile>
     <ClCompile Include="ToolManager.cpp">
       <Filter>98.Managers\02.ToolManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionTile.cpp">
+      <Filter>03.Object\CollisionTile</Filter>
+    </ClCompile>
+    <ClCompile Include="DecoObj.cpp">
+      <Filter>03.Object\DecoObj</Filter>
+    </ClCompile>
+    <ClCompile Include="FilePath.cpp">
+      <Filter>02.Dialog\FilePath</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTool.cpp">
+      <Filter>02.Dialog\UnitTool</Filter>
+    </ClCompile>
+    <ClCompile Include="AtlasTexture.cpp">
+      <Filter>98.Managers\99.TextureManager\AtlasTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="PathInfo.cpp">
+      <Filter>03.Object\PathInfo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

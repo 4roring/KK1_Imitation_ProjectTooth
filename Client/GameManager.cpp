@@ -16,6 +16,14 @@ void CGameManager::CreateObject(CGameObject * pObject, OBJID eID)
 	m_ObjectList[eID].push_back(pObject);
 }
 
+void CGameManager::Initialize()
+{
+	m_TeamColor[TEAM_RED] = D3DCOLOR_ARGB(255, 255, 0, 0);
+	m_TeamColor[TEAM_GREEN] = D3DCOLOR_ARGB(255, 0, 255, 0);
+	m_TeamColor[TEAM_BLUE] = D3DCOLOR_ARGB(255, 0, 0, 255);
+	m_TeamColor[TEAM_YELLO] = D3DCOLOR_ARGB(255, 255, 255, 0);
+}
+
 void CGameManager::Update(float deltaTime)
 {
 	for (int i = 0; i < OBJ_END; ++i)

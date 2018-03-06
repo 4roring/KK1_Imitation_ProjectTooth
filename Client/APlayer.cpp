@@ -14,6 +14,8 @@ APlayer::~APlayer()
 
 void APlayer::Initialize()
 {
+	CActor::Initialize();
+
 	m_tInfo.vPosition = { 400.f, 300.f, 0.f };
 	m_tInfo.vLook = { 1.f, 0.f, 0.f };
 	m_tInfo.vDir = { 0.f, 0.f, 0.f };
@@ -41,8 +43,6 @@ void APlayer::Initialize()
 	m_eTeam = TEAM_RED;
 
 	m_fSpeed = 100.f;
-
-	SetTintColor();
 }
 
 OBJSTATE APlayer::Update(float deltaTime)
@@ -89,7 +89,7 @@ void APlayer::Render()
 	CDevice::GetInstance()->GetSprite()->Draw(m_pTexTint->pTexture
 		, &rc
 		, &Vector3(float(COMMANDER_CY >> 1), float(COMMANDER_CX >> 1), 0.f)
-		, nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
+		, nullptr, *m_TeamColor);
 }
 
 void APlayer::Release()

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ToolManager.h"
-#include "Isometric.h"
+#include "CollisionTile.h"
 
 CToolManager::CToolManager()
 {
@@ -14,8 +14,8 @@ CToolManager::~CToolManager()
 
 HRESULT CToolManager::Initialize()
 {
-	m_pIsometric = new CIsometric;
-	if (FAILED(m_pIsometric->Initialize()))
+	m_pCollTile = new CCollisionTile;
+	if (FAILED(m_pCollTile->Initialize()))
 	{
 		MSG_BOX(TEXT("Isometric Initialize Failed"));
 		return E_FAIL;
@@ -28,5 +28,5 @@ HRESULT CToolManager::Initialize()
 
 void CToolManager::Release()
 {
-	SafeDelete(m_pIsometric);
+	SafeDelete(m_pCollTile);
 }

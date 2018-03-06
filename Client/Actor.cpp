@@ -11,53 +11,17 @@ CActor::~CActor()
 {
 }
 
+void CActor::Initialize()
+{
+	m_eTeam = TEAM_RED;
+	m_TeamColor = GameMgr->GetTeamColor(m_eTeam);
+}
+
 OBJSTATE CActor::Update(float deltaTime)
 {
 	FrameMove(deltaTime);
 
 	return STATE_PLAY;
-}
-
-void CActor::SetTintColor()
-{
-	D3DLOCKED_RECT LockRect;
-	m_pTexTint->pTexture->LockRect(0, &LockRect, 0, D3DLOCK_DISCARD);
-	DWORD* pColor = (DWORD*)LockRect.pBits;
-
-	for (size_t y = 0; y < m_pTexTint->tImageInfo.Height; ++y)
-	{
-		for (size_t x = 0; x < m_pTexTint->tImageInfo.Width; ++x)
-		{
-			int iIdx = y * m_pTexTint->tImageInfo.Width + x;
-
-			D3DXCOLOR xColor = pColor[iIdx];
-
-			switch (m_eTeam)
-			{
-			case TEAM_RED:
-				xColor.g = 0;
-				xColor.b = 0;
-				break;
-			case TEAM_BLUE:
-				xColor.r = 0;
-				xColor.g = 0;
-				break;
-			case TEAM_GREEN:
-				xColor.r = 0;
-				xColor.b = 0;
-				break;
-			case TEAM_YELLO:
-				xColor.b = 0;
-				break;
-			default:
-				assert(!"Team Color Select Error");
-				break;
-			}
-			pColor[iIdx] = xColor;
-		}
-	}
-
-	m_pTexTint->pTexture->UnlockRect(0);
 }
 
 void CActor::FrameMove(float deltaTime)

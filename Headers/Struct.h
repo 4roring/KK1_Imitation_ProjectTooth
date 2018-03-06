@@ -12,6 +12,7 @@ typedef struct tagTexture
 {
 	LPDIRECT3DTEXTURE9 pTexture;
 	D3DXIMAGE_INFO tImageInfo;
+	LPRECT tRect;
 }TEXINFO;
 
 typedef struct tagAnimFrame
@@ -26,10 +27,26 @@ typedef struct tagAnimScene
 	int iScene, iFrame;
 }ANIMSCENE;
 
-typedef struct tagIsometricTile
+typedef struct tagCollisionTile
 {
 	D3DXVECTOR3 vPosition;
 	BYTE byOption;
 	BYTE byDrawID;
-}ISOTILE;
+}COLLITILE;
 
+typedef struct tagDecoration
+{
+	D3DXVECTOR3 vPosition;
+	BYTE byDrawID;
+}DECO;
+
+
+// ÅøÀü¿ë
+typedef struct tagTexturePath
+{
+	TEXTYPE eType;
+	std::wstring wstrObjKey;
+	std::wstring wstrStateKey;
+	std::wstring wstrPath;
+	int iCount;
+}TEXPATH;

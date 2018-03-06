@@ -1,4 +1,5 @@
 #pragma once
+#include "afxwin.h"
 
 
 // CMapToolTab 대화 상자입니다.
@@ -23,4 +24,16 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual BOOL OnInitDialog();
+
+private:
+	void LoadDecoObj();
+	void LoadTile();
+public:
+	CListBox m_OptionList;
+	afx_msg void OnBnClickedSave();
+	afx_msg void OnBnClickedLoad();
+	afx_msg void OnLbnSelchangeOption();
+	afx_msg void OnLbnSelchangeDeco();
+	CListBox m_DecoList;
+	afx_msg void OnBnClickedLoadFile();
 };

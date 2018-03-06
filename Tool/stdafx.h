@@ -52,6 +52,7 @@
 #include <string>
 #include <d3dx9.h>
 #include <d3d9.h>
+#include <fstream>
 
 #include "Include.h"
 
@@ -61,5 +62,7 @@
 #include "ToolManager.h"
 
 #include <afxdlgs.h>
+
+
 
 

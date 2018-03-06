@@ -8,13 +8,12 @@ public:
 	virtual ~CActor();
 
 	// CGameObject을(를) 통해 상속됨
-	virtual void Initialize() PURE;
-	virtual OBJSTATE Update(float deltaTime);
+	virtual void Initialize() override;
+	virtual OBJSTATE Update(float deltaTime) override;
 	virtual void Render() PURE;
 	virtual void Release() PURE;
 
 protected:
-	void SetTintColor();
 	void FrameMove(float deltaTime);
 
 protected:
@@ -25,5 +24,7 @@ protected:
 	TEAMID m_eTeam;
 	ANIMFRAME m_tFrame;
 	ANIMSCENE m_tScene;
+
+	D3DCOLOR* m_TeamColor;
 };
 

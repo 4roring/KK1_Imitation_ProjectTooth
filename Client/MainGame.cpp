@@ -16,6 +16,7 @@ CMainGame::~CMainGame()
 void CMainGame::Initialize()
 {
 	Device->InitDevice();
+	GameMgr->Initialize();
 	GameMgr->CreateObject(CAbsFactory<APlayer>::Create(), OBJ_PLAYER);
 	Time->InitTime();
 }
@@ -24,6 +25,7 @@ void CMainGame::Update()
 {
 	Time->SetTime();
 	GameMgr->Update(Time->GetTime());
+	GetKey->Update();
 }
 
 void CMainGame::Render()

@@ -12,8 +12,9 @@
 #include "ToolDoc.h"
 #include "ToolView.h"
 #include "MainFrm.h"
-#include "Isometric.h"
 #include "MiniMap.h"
+#include "CollisionTile.h"
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -69,7 +70,7 @@ void CToolView::OnDraw(CDC* /*pDC*/)
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
 	Device->Begin();
 
-	ToolMgr->GetIsometric()->Render();
+	ToolMgr->GetCollisionTile()->Render();
 
 	Device->End(m_hWnd);
 }
@@ -188,7 +189,7 @@ void CToolView::OnMouseMove(UINT nFlags, CPoint point)
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 
 	m_pMainFrame->m_pMiniMap->Invalidate(0);
-	ToolMgr->GetIsometric()->Update();
+	ToolMgr->GetCollisionTile()->Update();
 
 	CView::OnMouseMove(nFlags, point);
 }

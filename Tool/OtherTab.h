@@ -3,6 +3,9 @@
 
 // COtherTab 대화 상자입니다.
 
+#include "FilePath.h"
+#include "UnitTool.h"
+
 class COtherTab : public CPropertyPage
 {
 	DECLARE_DYNAMIC(COtherTab)
@@ -20,4 +23,11 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
 
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnBnClickedFilePath();
+	afx_msg void OnBnClickedUnitTool();
+
+public:
+	CFilePath m_FilePath;
+	CUnitTool m_UnitTool;
 };
