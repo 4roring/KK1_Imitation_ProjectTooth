@@ -25,8 +25,8 @@ public:
 	CListBox m_FilePathList;
 	CListBox m_TexTypeList;
 	afx_msg void OnLbnSelTexOption();
-	afx_msg void OnBnClickedSave();
-	afx_msg void OnBnClickedLoad();
+	afx_msg void OnBnClickedCollTileSave();
+	afx_msg void OnBnClickedCollTileLoad();
 
 public:
 	void Release();

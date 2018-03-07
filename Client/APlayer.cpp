@@ -12,7 +12,7 @@ APlayer::~APlayer()
 	Release();
 }
 
-void APlayer::Initialize()
+HRESULT APlayer::Initialize()
 {
 	CActor::Initialize();
 
@@ -23,9 +23,6 @@ void APlayer::Initialize()
 
 	TextureMgr->InsertTexture(TEXT("../Texture/Actors/commander_commoners.png"), TEXT("Red_Player"), TEX_SINGLE);
 	m_pTexMain = TextureMgr->GetTexture(TEXT("Red_Player"));
-
-	TextureMgr->InsertTexture(TEXT("../Texture/Actors/commander_commoners_overlay.png"), TEXT("Red_Player_Overlay"), TEX_SINGLE);
-	m_pTexOverlay = TextureMgr->GetTexture(TEXT("Red_Player_Overlay"));
 
 	TextureMgr->InsertTexture(TEXT("../Texture/Actors/commander_commoners_tint.png"), TEXT("Red_Player_Tint"), TEX_SINGLE);
 	m_pTexTint = TextureMgr->GetTexture(TEXT("Red_Player_Tint"));
@@ -40,9 +37,9 @@ void APlayer::Initialize()
 	m_tScene.iScene = 0;
 	m_tScene.fSceneMax = 1.f / (float)m_tScene.iMaxFrame;
 
-	m_eTeam = TEAM_RED;
-
 	m_fSpeed = 100.f;
+
+	return S_OK;
 }
 
 OBJSTATE APlayer::Update(float deltaTime)
@@ -66,6 +63,10 @@ OBJSTATE APlayer::Update(float deltaTime)
 	return STATE_PLAY;
 }
 
+void APlayer::LateUpdate()
+{
+}
+
 void APlayer::Render()
 {
 	int iSceneLeft = m_tScene.iFrame * COMMANDER_CX;
@@ -80,11 +81,6 @@ void APlayer::Render()
 		, &rc
 		, &Vector3(float(COMMANDER_CY >> 1), float(COMMANDER_CX >> 1), 0.f)
 		, nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
-
-	//CDevice::GetInstance()->GetSprite()->Draw(m_pTexOverlay->pTexture
-	//	, nullptr
-	//	, &D3DXVECTOR3(m_pTexOverlay->tImageInfo.Width * 0.5f, m_pTexOverlay->tImageInfo.Height * 0.5f, 0.f)
-	//	, nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	CDevice::GetInstance()->GetSprite()->Draw(m_pTexTint->pTexture
 		, &rc

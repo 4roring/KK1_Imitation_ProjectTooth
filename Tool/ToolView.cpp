@@ -13,7 +13,7 @@
 #include "ToolView.h"
 #include "MainFrm.h"
 #include "MiniMap.h"
-#include "CollisionTile.h"
+#include "Level.h"
 
 
 #ifdef _DEBUG
@@ -70,7 +70,7 @@ void CToolView::OnDraw(CDC* /*pDC*/)
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
 	Device->Begin();
 
-	ToolMgr->GetCollisionTile()->Render();
+	ToolMgr->GetLevel()->Render();
 
 	Device->End(m_hWnd);
 }
@@ -189,7 +189,7 @@ void CToolView::OnMouseMove(UINT nFlags, CPoint point)
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 
 	m_pMainFrame->m_pMiniMap->Invalidate(0);
-	ToolMgr->GetCollisionTile()->Update();
+	ToolMgr->GetLevel()->Update();
 
 	CView::OnMouseMove(nFlags, point);
 }
@@ -199,20 +199,22 @@ void CToolView::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 
-	if (GetKey->KeyPress(VK_LEFT))
+	if (GetKey->KeyPress('A'))
 		ToolMgr->SetScroll(D3DXVECTOR3(100.f, 0.f, 0.f));
 
-	if (GetKey->KeyPress(VK_RIGHT))
+	if (GetKey->KeyPress('D'))
 		ToolMgr->SetScroll(D3DXVECTOR3(-100.f, 0.f, 0.f));
 
-	if (GetKey->KeyPress(VK_UP))
+	if (GetKey->KeyPress('W'))
 		ToolMgr->SetScroll(D3DXVECTOR3(0.f, 100.f, 0.f));
 
-	if (GetKey->KeyPress(VK_DOWN))
+	if (GetKey->KeyPress('S'))
 		ToolMgr->SetScroll(D3DXVECTOR3(0.f, -100.f, 0.f));
 
 	if (GetKey->KeyDown('Z'))
-		ToolMgr->SetIsoRender();
+		ToolMgr->SetCollTileRender();
+
+	ToolMgr->GetLevel()->Picking();
 
 	GetKey->Update();
 

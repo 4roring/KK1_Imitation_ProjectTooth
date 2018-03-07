@@ -31,7 +31,20 @@ void CItemView::OnDraw(CDC* pDC)
 
 	Device->Begin();
 
+	if (m_pItem != nullptr)
+	{
+		const TEXINFO* pTexture = TextureMgr->GetTexture(m_pItem->wstrObjKey, m_pItem->wstrStateKey, m_pItem->iCount);
 
+		D3DXMATRIX matScale, matTrans;
+		D3DXMatrixScaling(&matScale, 10.f, 10.f, 1.f);
+		D3DXMatrixTranslation(&matTrans, 512.f, 500.f, 0.f);
+
+		matScale *= matTrans;
+		Device->GetSprite()->SetTransform(&matScale);
+		Device->GetSprite()->Draw(pTexture->pTexture, nullptr
+			, &D3DXVECTOR3(float(pTexture->tImageInfo.Width >> 1), float(pTexture->tImageInfo.Height >> 1), 0.f)
+			, nullptr,D3DCOLOR_ARGB(255, 255, 255, 255));
+	}
 
 	Device->End(m_hWnd);
 }

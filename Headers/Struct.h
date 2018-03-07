@@ -32,16 +32,19 @@ typedef struct tagCollisionTile
 	D3DXVECTOR3 vPosition;
 	BYTE byOption;
 	BYTE byDrawID;
-}COLLITILE;
+	class CGameObject* pObj; // 타일에 존재하는 유닛의 주소를 담음.
+}COLLTILE;
 
 typedef struct tagDecoration
 {
 	D3DXVECTOR3 vPosition;
-	BYTE byDrawID;
+	std::wstring wstrObjKey;
+	std::wstring wstrStateKey;
+	int iCount;
 }DECO;
 
 
-// 툴전용
+// 툴에서 저장 전용
 typedef struct tagTexturePath
 {
 	TEXTYPE eType;

@@ -8,10 +8,14 @@ public:
 	virtual ~CActor();
 
 	// CGameObject을(를) 통해 상속됨
-	virtual void Initialize() override;
+	virtual HRESULT Initialize() override;
 	virtual OBJSTATE Update(float deltaTime) override;
+	virtual void LateUpdate() override;
 	virtual void Render() PURE;
 	virtual void Release() PURE;
+
+public:
+	void SetTeamID(TEAMID eTeam) { m_eTeam = eTeam; }
 
 protected:
 	void FrameMove(float deltaTime);
@@ -25,6 +29,9 @@ protected:
 	ANIMFRAME m_tFrame;
 	ANIMSCENE m_tScene;
 
-	D3DCOLOR* m_TeamColor;
+	const D3DCOLOR* m_TeamColor;
+
+private:
+
 };
 

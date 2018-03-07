@@ -72,12 +72,6 @@ void CDevice::End(HWND hWnd)
 	m_pDevice->Present(nullptr, nullptr, hWnd, nullptr);
 }
 
-void CDevice::Draw(const D3DXMATRIX & matWorld)
-{
-	m_pSprite->SetTransform(&matWorld);
-	
-}
-
 void CDevice::SetParameters(D3DPRESENT_PARAMETERS & d3dpp)
 {
 	d3dpp.BackBufferWidth = WINCX;
@@ -104,8 +98,8 @@ HRESULT CDevice::FontInit()
 	D3DXFONT_DESC tFontInfo;
 	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESC));
 
-	tFontInfo.Width = 10;
-	tFontInfo.Height = 14;
+	tFontInfo.Width = 8;
+	tFontInfo.Height = 10;
 	tFontInfo.Weight = FW_NORMAL;
 	tFontInfo.CharSet = HANGUL_CHARSET;
 	lstrcpy(tFontInfo.FaceName, TEXT("°íµñ"));

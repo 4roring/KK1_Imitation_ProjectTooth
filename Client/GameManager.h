@@ -9,7 +9,7 @@ public:
 
 public:
 	const OBJLIST& GetObjectList(OBJID eObjID) { return m_ObjectList[eObjID]; }
-	D3DCOLOR* GetTeamColor(TEAMID eTeamID) { return &m_TeamColor[eTeamID]; }
+	const D3DCOLOR* GetTeamColor(TEAMID eTeamID) { return &m_TeamColor[eTeamID]; }
 
 public:
 	void CreateObject(CGameObject* pObject, OBJID eID);
@@ -17,10 +17,12 @@ public:
 public:
 	void Initialize();
 	void Update(float deltaTime);
+	void LateUpdate();
 	void Render();
 
 private:
 	OBJLIST m_ObjectList[OBJ_END];
 	D3DCOLOR m_TeamColor[TEAM_END];
+	D3DXVECTOR3 m_vScroll;
 };
 

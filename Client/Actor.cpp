@@ -11,10 +11,12 @@ CActor::~CActor()
 {
 }
 
-void CActor::Initialize()
+HRESULT CActor::Initialize()
 {
-	m_eTeam = TEAM_RED;
+	m_eTeam = TEAM_YELLO;
 	m_TeamColor = GameMgr->GetTeamColor(m_eTeam);
+
+	return S_OK;
 }
 
 OBJSTATE CActor::Update(float deltaTime)
@@ -22,6 +24,14 @@ OBJSTATE CActor::Update(float deltaTime)
 	FrameMove(deltaTime);
 
 	return STATE_PLAY;
+}
+
+void CActor::LateUpdate()
+{
+	// GetTileIndex를 실행하여 현재타일과 이전타일이 다를 경우
+	// 갈 수 있는 공간인지 우선 체크하고
+	// 이전 타일의 CGameObejct*은 nullptr 현재 타일은 자신을 넘겨준다.
+	
 }
 
 void CActor::FrameMove(float deltaTime)

@@ -6,14 +6,14 @@ public:
 	virtual ~CGameObject();
 
 public:
-	virtual void Initialize() PURE;
+	virtual HRESULT Initialize() PURE;
 	virtual OBJSTATE Update(float deltaTime) PURE;
+	virtual void LateUpdate() PURE;
 	virtual void Render() PURE;
 	virtual void Release() PURE;
 
 protected:
 	INFO m_tInfo;
-	RECT m_tRect;
 	const TEXINFO* m_pTexMain;
 	const TEXINFO* m_pTexTint;
 };

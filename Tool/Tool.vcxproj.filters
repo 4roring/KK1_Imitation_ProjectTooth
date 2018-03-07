@@ -56,9 +56,6 @@
     <Filter Include="03.Object">
       <UniqueIdentifier>{47d7944f-65e4-45bd-ab87-aa0dccd2957d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.Object\CollisionTile">
-      <UniqueIdentifier>{90f65cdf-cf81-4577-a8e8-1aed3c259d3a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.Object\DecoObj">
       <UniqueIdentifier>{0ea6d29f-2acb-4898-a48d-4ec5358cc588}</UniqueIdentifier>
     </Filter>
@@ -82,6 +79,9 @@
     </Filter>
     <Filter Include="03.Object\PathInfo">
       <UniqueIdentifier>{688b4247-df29-44a7-a2f7-3e14e69800f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Object\Level">
+      <UniqueIdentifier>{90f65cdf-cf81-4577-a8e8-1aed3c259d3a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -143,9 +143,6 @@
     <ClInclude Include="ToolManager.h">
       <Filter>98.Managers\02.ToolManager</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionTile.h">
-      <Filter>03.Object\CollisionTile</Filter>
-    </ClInclude>
     <ClInclude Include="DecoObj.h">
       <Filter>03.Object\DecoObj</Filter>
     </ClInclude>
@@ -160,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="PathInfo.h">
       <Filter>03.Object\PathInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>03.Object\Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -217,9 +217,6 @@
     <ClCompile Include="ToolManager.cpp">
       <Filter>98.Managers\02.ToolManager</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionTile.cpp">
-      <Filter>03.Object\CollisionTile</Filter>
-    </ClCompile>
     <ClCompile Include="DecoObj.cpp">
       <Filter>03.Object\DecoObj</Filter>
     </ClCompile>
@@ -234,6 +231,9 @@
     </ClCompile>
     <ClCompile Include="PathInfo.cpp">
       <Filter>03.Object\PathInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>03.Object\Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

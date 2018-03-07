@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "MiniMap.h"
-#include "CollisionTile.h"
+#include "Level.h"
 
 // CMiniMap
 
@@ -31,7 +31,7 @@ void CMiniMap::OnDraw(CDC* pDC)
 
 	Device->Begin();
 	
-	ToolMgr->GetCollisionTile()->MiniMap();
+	ToolMgr->GetLevel()->MiniMap();
 
 	Device->End(m_hWnd);
 }

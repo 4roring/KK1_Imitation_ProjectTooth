@@ -4,6 +4,7 @@
 
 // CMapToolTab 대화 상자입니다.
 
+typedef std::unordered_map<std::wstring, DECO*> ITEMTEXMAP;
 
 class CMapToolTab : public CPropertyPage
 {
@@ -25,15 +26,33 @@ protected:
 public:
 	virtual BOOL OnInitDialog();
 
-private:
-	void LoadDecoObj();
-	void LoadTile();
 public:
-	CListBox m_OptionList;
-	afx_msg void OnBnClickedSave();
-	afx_msg void OnBnClickedLoad();
+	afx_msg void OnBnClickedCollTileSave();
+	afx_msg void OnBnClickedCollTileLoad();
+	afx_msg void OnBnClickedDecoSave();
+	afx_msg void OnBnClickedDecoLoad();
 	afx_msg void OnLbnSelchangeOption();
 	afx_msg void OnLbnSelchangeDeco();
-	CListBox m_DecoList;
 	afx_msg void OnBnClickedLoadFile();
+
+private:
+	void SaveCollTile();
+	void SaveDeco();
+	void LoadCollTile();
+	void LoadDeco();
+	void GetFilePath(bool bOpenFileDialog, CString& strPath);
+
+private:
+	CListBox m_OptionList;
+	CListBox m_DecoList;
+
+private:
+	ITEMTEXMAP m_ItemInfoMap;
+
+private:
+	class CItemView* m_pItemView;
+	class CLevel* m_pLevel;
+
+private:
+	bool m_bLoad;
 };

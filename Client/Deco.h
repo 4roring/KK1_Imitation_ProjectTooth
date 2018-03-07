@@ -1,13 +1,13 @@
 #pragma once
-#include "Actor.h"
-class APlayer :
-	public CActor
+#include "GameObject.h"
+class CDeco :
+	public CGameObject
 {
 public:
-	APlayer();
-	virtual ~APlayer();
+	CDeco();
+	virtual ~CDeco();
 
-	// CActor을(를) 통해 상속됨
+	// CGameObject을(를) 통해 상속됨
 	virtual HRESULT Initialize() override;
 	virtual OBJSTATE Update(float deltaTime) override;
 	virtual void LateUpdate() override;

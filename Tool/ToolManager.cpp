@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ToolManager.h"
-#include "CollisionTile.h"
+#include "Level.h"
 
 CToolManager::CToolManager()
 {
@@ -14,19 +14,19 @@ CToolManager::~CToolManager()
 
 HRESULT CToolManager::Initialize()
 {
-	m_pCollTile = new CCollisionTile;
-	if (FAILED(m_pCollTile->Initialize()))
+	m_pLevel = new CLevel;
+	if (FAILED(m_pLevel->Initialize()))
 	{
 		MSG_BOX(TEXT("Isometric Initialize Failed"));
 		return E_FAIL;
 	}
 
 	m_fZoom = 1.f;
-	m_bIsoRender = false;
+	m_bCollTileRender = false;
 	return S_OK;
 }
 
 void CToolManager::Release()
 {
-	SafeDelete(m_pCollTile);
+	SafeDelete(m_pLevel);
 }

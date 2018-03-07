@@ -18,8 +18,7 @@ public:
 	LPD3DXSPRITE GetSprite() { return m_pSprite; }
 	LPD3DXFONT GetFont() { return m_pFont; }
 
-public:
-	void Draw(const D3DXMATRIX& matWorld);
+
 
 private:
 	void SetParameters(D3DPRESENT_PARAMETERS& d3dpp);

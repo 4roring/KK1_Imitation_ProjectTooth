@@ -22,6 +22,11 @@ public:
 protected:
 	DECLARE_MESSAGE_MAP()
 
+public:
+	void SetItem(const DECO* pItem) { m_pItem = pItem; }
+
+private:
+	const DECO* m_pItem = nullptr;
 };
 
 

@@ -10,7 +10,7 @@ typedef std::unordered_map<std::wstring, TEXINFO*> SINGLETEXMAP;
 typedef std::unordered_map<std::wstring, std::vector<TEXINFO*>> MULTITEXMAP;
 typedef std::unordered_map<std::wstring, LPRECT> ATLASTEXMAP;
 
-typedef std::vector<COLLITILE*> VECCOLLTILE;
+typedef std::vector<COLLTILE*> VECCOLLTILE;
 typedef std::vector<DECO*> VECDECO;
 
 // ÅøÀü¿ë

@@ -1,6 +1,6 @@
 #pragma once
 
-class CCollisionTile;
+class CLevel;
 class CMainFrame;
 class CToolManager :
 	public CSingleton<CToolManager>
@@ -14,26 +14,26 @@ public:
 	void Release();
 
 public:
-	CCollisionTile* GetCollisionTile() const { return m_pCollTile; }
+	CLevel* GetLevel() const { return m_pLevel; }
 	const D3DXVECTOR3 GetScroll() const { return m_vScroll; }
-	const float GetZoom() const { return m_fZoom; }
 	const CMainFrame* GetMainFrame() const { return m_pMainFrame; }
-	bool GetIsoRender() { return m_bIsoRender; }
+	const float GetZoom() const { return m_fZoom; }
+	bool GetCollTileRender() { return m_bCollTileRender; }
 	
 public:
 	void SetScroll(D3DXVECTOR3& vScroll) { m_vScroll -= vScroll; }
 	void SetZoom(float fZoom) { m_fZoom += fZoom; }
-	void SetMainFrame(CMainFrame* pMainFrame) { m_pMainFrame = m_pMainFrame; }
-	void SetIsoRender() { m_bIsoRender = !m_bIsoRender; }
+	void SetMainFrame(CMainFrame* pMainFrame) { m_pMainFrame = pMainFrame; }
+	void SetCollTileRender() { m_bCollTileRender = !m_bCollTileRender; }
 
 private:
-	CCollisionTile* m_pCollTile = nullptr;
+	CLevel* m_pLevel = nullptr;
 	CMainFrame* m_pMainFrame = nullptr;
 
 private:
 	D3DXVECTOR3 m_vScroll = {};
 	float m_fZoom = 0.f;
-	bool m_bIsoRender = false;
+	bool m_bCollTileRender = false;
 };
 
 #define ToolMgr CToolManager::GetInstance() 

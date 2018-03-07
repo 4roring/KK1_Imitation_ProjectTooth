@@ -50,6 +50,15 @@ void CGameManager::Update(float deltaTime)
 
 }
 
+void CGameManager::LateUpdate()
+{
+	for (int i = 0; i < OBJ_END; ++i)
+	{
+		for (auto& pObject : m_ObjectList[i])
+			pObject->LateUpdate();
+	}
+}
+
 void CGameManager::Render()
 {
 	for (int i = 0; i < OBJ_END; ++i)

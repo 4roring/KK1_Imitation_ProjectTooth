@@ -32,8 +32,8 @@ void CFilePath::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CFilePath, CDialog)
 	ON_LBN_SELCHANGE(IDC_LIST1, &CFilePath::OnLbnSelTexOption)
-	ON_BN_CLICKED(IDC_BUTTON1, &CFilePath::OnBnClickedSave)
-	ON_BN_CLICKED(IDC_BUTTON2, &CFilePath::OnBnClickedLoad)
+	ON_BN_CLICKED(IDC_BUTTON1, &CFilePath::OnBnClickedCollTileSave)
+	ON_BN_CLICKED(IDC_BUTTON2, &CFilePath::OnBnClickedCollTileLoad)
 	ON_WM_DROPFILES()
 	ON_BN_CLICKED(IDC_BUTTON6, &CFilePath::OnBnClickedRemove)
 END_MESSAGE_MAP()
@@ -65,7 +65,7 @@ void CFilePath::OnLbnSelTexOption()
 }
 
 
-void CFilePath::OnBnClickedSave()
+void CFilePath::OnBnClickedCollTileSave()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	UpdateData(TRUE);
@@ -97,7 +97,7 @@ void CFilePath::OnBnClickedSave()
 		switch (pTexPath->eType)
 		{
 		case TEX_MULTI:
-			SaveFile << TEXT("MULTI@") << pTexPath->iCount;
+			SaveFile << pTexPath->eType << TEXT("@") << pTexPath->iCount;
 			SaveFile << TEXT("@") << pTexPath->wstrStateKey;
 			break;
 		case TEX_ATLAS:
@@ -118,7 +118,7 @@ void CFilePath::OnBnClickedSave()
 }
 
 
-void CFilePath::OnBnClickedLoad()
+void CFilePath::OnBnClickedCollTileLoad()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	UpdateData(TRUE);

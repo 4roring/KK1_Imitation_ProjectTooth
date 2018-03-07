@@ -38,7 +38,9 @@ HRESULT CTextureManager::InsertTexture(const std::wstring & wstrFilePath, const 
 			pTexture = new CMultiTexture;
 			break;
 		default:
+#ifdef _DEBUG
 			assert(!"Not Texture Type");
+#endif
 			break;
 		}
 
