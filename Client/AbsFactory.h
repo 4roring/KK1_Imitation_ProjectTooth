@@ -13,4 +13,13 @@ public:
 		return pObject;
 	}
 
+	static CGameObject* CreateDeco(const std::wstring& wstrObjKey, const std::wstring& wstrStateKey, int iCount, const Vector3& vPos)
+	{
+		CGameObject* pObject = new T;
+		pObject->SetPos(vPos);
+		pObject->SetTexMain(TextureMgr->GetTexture(wstrObjKey, wstrStateKey, iCount));
+		pObject->Initialize();
+
+		return pObject;
+	}
 };

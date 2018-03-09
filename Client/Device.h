@@ -2,7 +2,9 @@
 class CDevice
 	: public CSingleton<CDevice>
 {
-public:
+	friend CSingleton;
+
+private:
 	CDevice();
 	~CDevice();
 

@@ -200,16 +200,16 @@ void CToolView::OnTimer(UINT_PTR nIDEvent)
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 
 	if (GetKey->KeyPress('A'))
-		ToolMgr->SetScroll(D3DXVECTOR3(100.f, 0.f, 0.f));
-
-	if (GetKey->KeyPress('D'))
 		ToolMgr->SetScroll(D3DXVECTOR3(-100.f, 0.f, 0.f));
 
+	if (GetKey->KeyPress('D'))
+		ToolMgr->SetScroll(D3DXVECTOR3(100.f, 0.f, 0.f));
+
 	if (GetKey->KeyPress('W'))
-		ToolMgr->SetScroll(D3DXVECTOR3(0.f, 100.f, 0.f));
+		ToolMgr->SetScroll(D3DXVECTOR3(0.f, -100.f, 0.f));
 
 	if (GetKey->KeyPress('S'))
-		ToolMgr->SetScroll(D3DXVECTOR3(0.f, -100.f, 0.f));
+		ToolMgr->SetScroll(D3DXVECTOR3(0.f, 100.f, 0.f));
 
 	if (GetKey->KeyDown('Z'))
 		ToolMgr->SetCollTileRender();

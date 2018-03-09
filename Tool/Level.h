@@ -18,17 +18,17 @@ public:
 
 public:
 	void MiniMap();
-	bool isCulling(const D3DXVECTOR3& vPos);
-	bool isScreen(const D3DXVECTOR3& vPos);
+	bool isCulling(const Vector3& vPos);
 
 public:
-	void MapRender(float& fZoom, D3DXVECTOR3& vScroll, D3DXMATRIX& matScale);
-	void CollTileRender(float& fZoom, D3DXVECTOR3& vScroll, D3DXMATRIX& matScale);
-	void DecoRender(float& fZoom, D3DXVECTOR3& vScroll, D3DXMATRIX& matScale);
+	void MapRender(float& fZoom, Vector3& vScroll, D3DXMATRIX& matScale);
+	void CollTileRender(float& fZoom, Vector3& vScroll, D3DXMATRIX& matScale);
+	void DecoRender(float& fZoom, Vector3& vScroll, D3DXMATRIX& matScale);
+	void InfoRender();
 
 public: // Tile Picking
-	D3DXVECTOR3 GetMousePos();
-	int GetTileIndex(D3DXVECTOR3 vPos);
+	Vector3 GetMousePos();
+	int GetTileIndex(Vector3 vPos);
 	void Picking();
 	void TileChange();
 	void InsertDeco();

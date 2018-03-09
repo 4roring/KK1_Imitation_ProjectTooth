@@ -4,9 +4,11 @@
 
 CGameObject::CGameObject()
 {
+	m_pSprite = Device->GetSprite();
 }
 
 
 CGameObject::~CGameObject()
 {
 }
+

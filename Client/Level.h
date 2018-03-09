@@ -18,15 +18,18 @@ public:
 	virtual void Release() override;
 
 public:
-	bool isCulling(const D3DXVECTOR3& vPos);
+	bool isCulling(const Vector3& vPos);
 	
 public:
-	void MapRender(D3DXVECTOR3& vScroll);
-	void CollTileRender(D3DXVECTOR3& vScroll);
+	void MapRender(Vector3& vScroll, D3DXMATRIX& matScale);
+	void CollTileRender(Vector3& vScroll, D3DXMATRIX& matScale);
 
 public: // Tile Picking
-	int GetTileIndex(D3DXVECTOR3 vPos);
+	int GetTileIndex(Vector3 vPos);
 	void Picking();
+
+public:
+	void LoadCollTile();
 
 public:
 	VECCOLLTILE* GetVecCollTile(){ return &m_vecCollTile; }
@@ -41,5 +44,6 @@ private:
 
 private:
 	int m_iPickIndex = 0;
+	bool m_bTileRender = false;
 };
 

@@ -4,6 +4,7 @@
 
 CKeyManager::CKeyManager()
 {
+	ZeroMemory(m_bKey, sizeof(m_bKey));
 }
 
 

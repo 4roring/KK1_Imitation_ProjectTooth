@@ -4,6 +4,7 @@
 
 CScene::CScene()
 {
+	m_pSprite = Device->GetSprite();
 }
 
 

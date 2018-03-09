@@ -207,7 +207,7 @@ void CMapToolTab::SaveCollTile()
 {
 	CString strPath;
 	GetFilePath(FALSE, strPath);
-
+	
 	if (strPath.IsEmpty())
 		return;
 
@@ -247,7 +247,7 @@ void CMapToolTab::SaveDeco()
 		lstrcpy(szBuf, pDeco->wstrStateKey.c_str());
 		WriteFile(hFile, szBuf, sizeof(szBuf), &dwByte, nullptr);
 
-		WriteFile(hFile, pDeco->vPosition, sizeof(D3DXVECTOR3), &dwByte, nullptr);
+		WriteFile(hFile, pDeco->vPosition, sizeof(Vector3), &dwByte, nullptr);
 		WriteFile(hFile, &pDeco->iCount, sizeof(int), &dwByte, nullptr);
 	}
 	CloseHandle(hFile);
@@ -255,7 +255,7 @@ void CMapToolTab::SaveDeco()
 
 void CMapToolTab::LoadCollTile()
 {
-	CString strPath;
+	CString strPath = {};
 	GetFilePath(TRUE, strPath);
 
 	if (strPath.IsEmpty())
@@ -316,7 +316,7 @@ void CMapToolTab::LoadDeco()
 		ReadFile(hFile, szBuf, sizeof(szBuf), &dwByte, nullptr);
 		pDeco->wstrStateKey = szBuf;
 
-		ReadFile(hFile, pDeco->vPosition, sizeof(D3DXVECTOR3), &dwByte, nullptr);
+		ReadFile(hFile, pDeco->vPosition, sizeof(Vector3), &dwByte, nullptr);
 		ReadFile(hFile, &pDeco->iCount, sizeof(int), &dwByte, nullptr);
 
 		pVecDeco->push_back(pDeco);
@@ -329,11 +329,11 @@ void CMapToolTab::GetFilePath(bool bOpenFileDialog, CString& strPath)
 {
 	CFileDialog Dlg(bOpenFileDialog, TEXT("dat"), TEXT("*.dat")
 		, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT
-		, TEXT("*.dat"), this);
+		, TEXT("*.dat||"), this);
 
 	HMODULE hModule = GetModuleHandle(nullptr);
 
-	TCHAR szFullPath[MAX_PATH] = L"";
+	TCHAR szFullPath[MAX_PATH] = TEXT("");
 	VERIFY(GetModuleFileNameW(hModule, szFullPath, MAX_PATH));
 	PathRemoveFileSpecW(szFullPath);
 	PathRemoveFileSpecW(szFullPath);

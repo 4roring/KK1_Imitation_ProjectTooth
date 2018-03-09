@@ -73,6 +73,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 				dwTime = GetTickCount();
 
 				mainGame.Update();
+				mainGame.LateUpdate();
 				mainGame.Render();
 			}
 		}

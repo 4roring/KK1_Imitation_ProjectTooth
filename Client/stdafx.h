@@ -42,3 +42,5 @@
 #include "Device.h"
 #include "TextureManager.h"
 #include "TimeManager.h"
+#include "SceneManager.h"
+#include "ViewManager.h"

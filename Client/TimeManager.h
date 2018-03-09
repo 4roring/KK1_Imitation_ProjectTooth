@@ -3,12 +3,14 @@
 class CTimeManager :
 	public CSingleton<CTimeManager>
 {
-public:
+	friend CSingleton;
+
+private:
 	CTimeManager();
 	virtual ~CTimeManager();
 
 public:
-	const float& GetTime() { return m_fTime; }
+	const float& GetDeltaTime() { return m_fTime; }
 	void InitTime();
 	void SetTime();
 
@@ -22,3 +24,4 @@ private:
 	float m_fTime;
 };
 
+#define Time CTimeManager::GetInstance()

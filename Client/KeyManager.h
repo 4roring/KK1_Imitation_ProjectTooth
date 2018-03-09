@@ -5,7 +5,9 @@
 class CKeyManager :
 	public CSingleton<CKeyManager>
 {
-public:
+	friend CSingleton;
+
+private:
 	CKeyManager();
 	virtual ~CKeyManager();
 

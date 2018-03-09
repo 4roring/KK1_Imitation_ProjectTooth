@@ -3,7 +3,9 @@
 class CGameManager :
 	public CSingleton<CGameManager>
 {
-public:
+	friend CSingleton;
+
+private :
 	CGameManager();
 	virtual ~CGameManager();
 
@@ -15,14 +17,18 @@ public:
 	void CreateObject(CGameObject* pObject, OBJID eID);
 
 public:
+	void DestroyObject(int eObjID);
+
+public:
 	void Initialize();
 	void Update(float deltaTime);
 	void LateUpdate();
 	void Render();
+	void Release();
 
 private:
 	OBJLIST m_ObjectList[OBJ_END];
 	D3DCOLOR m_TeamColor[TEAM_END];
-	D3DXVECTOR3 m_vScroll;
+	VECRENDER m_vecRender[LAYER_END];
 };
 

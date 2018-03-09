@@ -2,7 +2,9 @@
 class CTextureManager
 	: public CSingleton<CTextureManager>
 {
-public:
+	friend CSingleton;
+
+private:
 	CTextureManager();
 	~CTextureManager();
 

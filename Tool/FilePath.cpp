@@ -71,7 +71,7 @@ void CFilePath::OnBnClickedCollTileSave()
 	UpdateData(TRUE);
 	CFileDialog Dlg(FALSE, TEXT("dat"), TEXT("*.dat")
 		, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT
-		, TEXT("*.dat"), this);
+		, TEXT("*.dat||"), this);
 
 	HMODULE hModule = GetModuleHandle(nullptr);
 

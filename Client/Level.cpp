@@ -14,45 +14,25 @@ CLevel::~CLevel()
 HRESULT CLevel::Initialize()
 {
 	m_pSprite = Device->GetSprite();
+	
+	m_pTexMain = TextureMgr->GetTexture(TEXT("Map"), TEXT("Map"), 0);
 
-	if (FAILED(TextureMgr->InsertTexture(TEXT("../Texture/Map/Map/Map0.png"), TEXT("Map03"), TEX_SINGLE)))
-	{
-		MSG_BOX(TEXT("Map03 Texture Load Failed"))
+	ViewMgr->SetMaxScroll(Vector3(
+		m_pTexMain->tImageInfo.Width * fScreenZoom - WINCX
+		, m_pTexMain->tImageInfo.Height* fScreenZoom - WINCY
+		, 0.f));
 
-			return E_FAIL;
-	}
+	m_vecCollTile.reserve(COLLTILEX * COLLTILEY);
 
-	if (FAILED(TextureMgr->InsertTexture(TEXT("../Texture/Map/Tile/CollisionTile%d.png"), TEXT("TILE"), TEX_MULTI, TEXT("CollisionTile"), 2)))
-	{
-		MSG_BOX(TEXT("Isometric MultiTexture Load Failed"));
-
-		return E_FAIL;
-	}
-
-	m_vecCollTile.reserve(ISOTILEX * ISOTILEY);
-
-	for (int y = 0; y < ISOTILEY; ++y)
-	{
-		for (int x = 0; x < ISOTILEX; ++x)
-		{
-			COLLTILE* pIsoTile = new COLLTILE;
-
-			float fX = x * ISOTILECX + (y & 1) * (ISOTILECX * 0.5f);
-			float fY = y * (ISOTILECY * 0.5f);
-
-			pIsoTile->vPosition = D3DXVECTOR3(fX, fY, 0.f);
-			pIsoTile->byOption = 0;
-			pIsoTile->byDrawID = 0;
-
-			m_vecCollTile.push_back(pIsoTile);
-		}
-	}
+	LoadCollTile();
 
 	return S_OK;
 }
 
 OBJSTATE CLevel::Update(float deltaTime)
 {
+	if (GetKey->KeyDown('Z'))
+		m_bTileRender = !m_bTileRender;
 
 	return STATE_PLAY;
 }
@@ -63,13 +43,16 @@ void CLevel::LateUpdate()
 
 void CLevel::Render()
 {
+	Vector3 vScroll = ViewMgr->GetScroll();
 	D3DXMATRIX matScale;
-	D3DXMatrixIdentity(&matScale);
-	
+	D3DXMatrixScaling(&matScale, fScreenZoom, fScreenZoom, 1.f);
 
 	// 스크롤을 적용하는 맵 랜더
+	MapRender(vScroll, matScale);
 
 	// 조건에 따라 타일 랜더
+	if (true == m_bTileRender)
+		CollTileRender(vScroll, matScale);
 }
 
 void CLevel::Release()
@@ -79,56 +62,59 @@ void CLevel::Release()
 	m_vecCollTile.swap(vecTile);
 }
 
-bool CLevel::isCulling(const D3DXVECTOR3& vPos)
+bool CLevel::isCulling(const Vector3& vPos)
 {
-	/*if (vPos.x < 0.f + (vScroll.x + 50.f)) return true;
-	if (vPos.y < 0.f + (vScroll.y + 50.f)) return true;
-	if (vPos.x > WINCX + (vScroll.x - 50.f)) return true;
-	if (vPos.y > WINCY + (vScroll.y - 50.f)) return true;*/
+	if (vPos.x < 50.f) return true;
+	if (vPos.y < 50.f) return true;
+	if (vPos.x > WINCX - 50.f) return true;
+	if (vPos.y > WINCY - 50.f) return true;
 
 	return false;
 }
 
-void CLevel::MapRender(D3DXVECTOR3& vScroll)
+void CLevel::MapRender(Vector3& vScroll, D3DXMATRIX& matScale)
 {
 	D3DXMATRIX matTrans;
 	const TEXINFO* pTexture = TextureMgr->GetTexture(TEXT("Map03"));
 
 	D3DXMatrixTranslation(&matTrans
-		, 0.f - vScroll.x
-		, 0.f - vScroll.y
+		, 0.f + vScroll.x 
+		, 0.f + vScroll.y 
 		, 0.f);
+	
+	m_tInfo.matWorld = matScale * matTrans;
 
-	m_pSprite->SetTransform(&matTrans);
-	m_pSprite->Draw(pTexture->pTexture
-		, nullptr, nullptr, nullptr
-		, D3DCOLOR_ARGB(255, 255, 255, 255));
+	m_pSprite->SetTransform(&m_tInfo.matWorld);
+
+	m_pSprite->Draw(m_pTexMain->pTexture, nullptr, nullptr, nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
-void CLevel::CollTileRender(D3DXVECTOR3& vScroll)
+void CLevel::CollTileRender(Vector3& vScroll, D3DXMATRIX& matScale)
 {
 	D3DXMATRIX matWorld, matTrans;
 	const TEXINFO* pTexture = nullptr;
 	TCHAR szBuf[128] = L"";
 
-	for (int y = 0; y < ISOTILEY; ++y)
+	for (int y = 0; y < COLLTILEY; ++y)
 	{
-		for (int x = 0; x < ISOTILEX; ++x)
+		for (int x = 0; x < COLLTILEX; ++x)
 		{
-			int iIndex = y * ISOTILEX + x;
+			int iIndex = y * COLLTILEX + x;
 
-			if (isCulling(m_vecCollTile[iIndex]->vPosition))
+			Vector3 vTempTilePos = m_vecCollTile[iIndex]->vPosition + vScroll;
+
+			if (isCulling(vTempTilePos))
 				continue;
 
 			pTexture = TextureMgr->GetInstance()->GetTexture(
-				TEXT("TILE"), TEXT("CollisionTile"), m_vecCollTile[iIndex]->byDrawID);
+				TEXT("Map"), TEXT("Tile"), m_vecCollTile[iIndex]->byDrawID);
 
-			//D3DXMatrixTranslation(&matTrans
-			//	, m_vecCollTile[iIndex]->vPosition.x * fZoom
-			//	, m_vecCollTile[iIndex]->vPosition.y * fZoom
-			//	, 0.f);
+			D3DXMatrixTranslation(&matTrans
+				, vTempTilePos.x
+				, vTempTilePos.y 
+				, 0.f);
 
-			//matWorld = matScale * matTrans;
+			matWorld = matScale * matTrans;
 
 			m_pSprite->SetTransform(&matWorld);
 
@@ -137,7 +123,7 @@ void CLevel::CollTileRender(D3DXVECTOR3& vScroll)
 
 			m_pSprite->Draw(pTexture->pTexture
 				, nullptr
-				, &D3DXVECTOR3(ISOTILECX * 0.5f, ISOTILECY * 0.5f, 0.f)
+				, &Vector3(COLLTILECX * 0.5f, COLLTILECY * 0.5f, 0.f)
 				, nullptr
 				, color);
 
@@ -158,24 +144,27 @@ void CLevel::CollTileRender(D3DXVECTOR3& vScroll)
 	}
 }
 
-int CLevel::GetTileIndex(D3DXVECTOR3 vPos)
+int CLevel::GetTileIndex(Vector3 vPos)
 {
-	int iPickIdx = (int)(vPos.x / ISOTILECX) + ISOTILEX + (ISOTILEX * 2) * (int)(vPos.y / ISOTILECY);
+	float CX = COLLTILECX * fScreenZoom;
+	float CY = COLLTILECY * fScreenZoom;
 
-	if (iPickIdx < 0 || iPickIdx >= ISOTILEX * ISOTILEY - 1)
+	int iPickIdx = (int)(vPos.x / CX) + COLLTILEX + (COLLTILEX * 2) * (int)(vPos.y / CY);
+
+	if (iPickIdx < 0 || iPickIdx >= COLLTILEX * COLLTILEY - 1)
 		return -1;
 
-	D3DXVECTOR3 vTemp = m_vecCollTile[iPickIdx]->vPosition;
+	Vector3 vTemp = m_vecCollTile[iPickIdx]->vPosition * fScreenZoom;
 
-	D3DXVECTOR3 vPoint[4] =
+	Vector3 vPoint[4] =
 	{
-		{ vTemp.x - ISOTILECX * 0.5f, vTemp.y, 0.f },
-		{ vTemp.x, vTemp.y - ISOTILECY * 0.5f, 0.f },
-		{ vTemp.x + ISOTILECX * 0.5f, vTemp.y, 0.f },
-		{ vTemp.x , vTemp.y + ISOTILECY * 0.5f, 0.f }
+		{ vTemp.x - CX * 0.5f, vTemp.y, 0.f },
+		{ vTemp.x, vTemp.y - CY * 0.5f, 0.f },
+		{ vTemp.x + CX * 0.5f, vTemp.y, 0.f },
+		{ vTemp.x , vTemp.y + CY * 0.5f, 0.f }
 	};
 
-	float fGradient = (ISOTILECY * 0.5f) / (ISOTILECX * 0.5f);
+	float fGradient = (CY * 0.5f) / (CX * 0.5f);
 
 	float fB[4];
 
@@ -186,10 +175,10 @@ int CLevel::GetTileIndex(D3DXVECTOR3 vPos)
 		fB[i] = fB[i] * vPoint[i].x + vPoint[i].y;
 	}
 
-	if (vPos.y + fGradient * vPos.x - fB[0] <= 0.f) return iPickIdx - ISOTILEX;
-	if (vPos.y - fGradient * vPos.x - fB[1] < 0.f) return iPickIdx - (ISOTILEX - 1);
-	if (vPos.y + fGradient * vPos.x - fB[2] > 0.f) return iPickIdx + (ISOTILEX + 1);
-	if (vPos.y - fGradient * vPos.x - fB[3] > 0.f) return iPickIdx + ISOTILEX;
+	if (vPos.y + fGradient * vPos.x - fB[0] <= 0.f) return iPickIdx - COLLTILEX;
+	if (vPos.y - fGradient * vPos.x - fB[1] < 0.f) return iPickIdx - (COLLTILEX - 1);
+	if (vPos.y + fGradient * vPos.x - fB[2] > 0.f) return iPickIdx + (COLLTILEX + 1);
+	if (vPos.y - fGradient * vPos.x - fB[3] > 0.f) return iPickIdx + COLLTILEX;
 
 	return iPickIdx;
 }
@@ -197,4 +186,29 @@ int CLevel::GetTileIndex(D3DXVECTOR3 vPos)
 void CLevel::Picking()
 {
 	
+}
+
+void CLevel::LoadCollTile()
+{
+	HANDLE hFile = CreateFile(TEXT("../Data/CollTileData.dat"),
+		GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+
+	DWORD dwByte = 0;
+
+	while (true)
+	{
+		COLLTILE* pCollTile = new COLLTILE;
+		ReadFile(hFile, pCollTile, sizeof(COLLTILE), &dwByte, nullptr);
+
+		if (dwByte <= 0)
+		{
+			SafeDelete(pCollTile);
+			break;
+		}
+		pCollTile->vPosition *= fScreenZoom;
+
+		m_vecCollTile.push_back(pCollTile);
+	}
+	
+	CloseHandle(hFile);
 }

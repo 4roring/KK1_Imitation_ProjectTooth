@@ -24,7 +24,7 @@ template<typename T>
 class CSingleton
 {
 protected:
-	CSingleton() {}
+	explicit CSingleton() {}
 	virtual ~CSingleton() {}
 
 public:

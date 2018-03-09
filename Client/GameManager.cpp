@@ -9,11 +9,17 @@ CGameManager::CGameManager()
 
 CGameManager::~CGameManager()
 {
+	Release();
 }
 
-void CGameManager::CreateObject(CGameObject * pObject, OBJID eID)
+void CGameManager::CreateObject(CGameObject * pObject, OBJID eObjectID)
 {
-	m_ObjectList[eID].push_back(pObject);
+	m_ObjectList[eObjectID].push_back(pObject);
+}
+
+void CGameManager::DestroyObject(int eObjectID)
+{
+	std::for_each(m_ObjectList[eObjectID].begin(), m_ObjectList[eObjectID].end(), SafeDelete<CGameObject*>);
 }
 
 void CGameManager::Initialize()
@@ -47,7 +53,6 @@ void CGameManager::Update(float deltaTime)
 			}
 		}
 	}
-
 }
 
 void CGameManager::LateUpdate()
@@ -61,9 +66,44 @@ void CGameManager::LateUpdate()
 
 void CGameManager::Render()
 {
-	for (int i = 0; i < OBJ_END; ++i)
+	for(auto& pObject : m_ObjectList[OBJ_LEVEL])
+		pObject->Render();
+
+	for (int i = 1; i < OBJ_END; ++i)
 	{
 		for (auto& pObject : m_ObjectList[i])
+		{
+			OBJLAYER eLayer = pObject->GetLayer();
+
+			if (eLayer != LAYER_BACK)
+			{
+				m_vecRender[eLayer].push_back(pObject);
+				continue;
+			}
 			pObject->Render();
+		}
 	}
+
+	for (int i = 0; i < LAYER_END; ++i)
+	{
+		std::sort(m_vecRender[i].begin(), m_vecRender[i].end(),
+			[](auto& pObj1, auto& pObj2)->bool
+		{
+			return pObj1->GetInfo().vPosition.y < pObj2->GetInfo().vPosition.y;
+		});
+	}
+
+	for (int i = 0; i < LAYER_END; ++i)
+	{
+		for (auto& pObject : m_vecRender[i])
+			pObject->Render();
+
+		m_vecRender[i].clear();
+	}
+}
+
+void CGameManager::Release()
+{
+	for (int i = 0; i < OBJ_END; ++i)
+		DestroyObject(i);
 }

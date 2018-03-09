@@ -11,7 +11,9 @@ typedef std::unordered_map<std::wstring, std::vector<TEXINFO*>> MULTITEXMAP;
 typedef std::unordered_map<std::wstring, LPRECT> ATLASTEXMAP;
 
 typedef std::vector<COLLTILE*> VECCOLLTILE;
-typedef std::vector<DECO*> VECDECO;
+typedef std::vector<CGameObject*> VECRENDER;
+
 
 // ÅøÀü¿ë
 typedef std::list<TEXPATH*> TEXPATHLIST;
+typedef std::vector<DECO*> VECDECO;

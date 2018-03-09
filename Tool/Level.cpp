@@ -31,18 +31,18 @@ HRESULT CLevel::Initialize()
 		return E_FAIL;
 	}
 
-	m_vecCollTile.reserve(ISOTILEX * ISOTILEY);
+	m_vecCollTile.reserve(COLLTILEX * COLLTILEY);
 
-	for (int y = 0; y < ISOTILEY; ++y)
+	for (int y = 0; y < COLLTILEY; ++y)
 	{
-		for (int x = 0; x < ISOTILEX; ++x)
+		for (int x = 0; x < COLLTILEX; ++x)
 		{
 			COLLTILE* pIsoTile = new COLLTILE;
 
-			float fX = x * ISOTILECX + (y & 1) * (ISOTILECX * 0.5f);
-			float fY = y * (ISOTILECY * 0.5f);
+			float fX = x * COLLTILECX + (y & 1) * (COLLTILECX * 0.5f);
+			float fY = y * (COLLTILECY * 0.5f);
 
-			pIsoTile->vPosition = D3DXVECTOR3(fX, fY, 0.f);
+			pIsoTile->vPosition = Vector3(fX, fY, 0.f);
 			pIsoTile->byOption = 0;
 			pIsoTile->byDrawID = 0;
 
@@ -65,7 +65,7 @@ void CLevel::Update()
 void CLevel::Render()
 {
 	float fZoom = ToolMgr->GetZoom();
-	D3DXVECTOR3 vScroll = ToolMgr->GetScroll();
+	Vector3 vScroll = ToolMgr->GetScroll();
 
 	D3DXMATRIX matScale;
 	D3DXMatrixIdentity(&matScale);
@@ -77,6 +77,7 @@ void CLevel::Render()
 		CollTileRender(fZoom, vScroll, matScale);
 
 	DecoRender(fZoom, vScroll, matScale);
+	InfoRender();
 }
 
 void CLevel::Release()
@@ -114,19 +115,19 @@ void CLevel::MiniMap()
 	m_pSprite->SetTransform(&matScale);
 
 	Device->GetSprite()->Draw(pTexture->pTexture
-		, nullptr, nullptr, &D3DXVECTOR3(0.f, 0.f, 0.f)
+		, nullptr, nullptr, &Vector3(0.f, 0.f, 0.f)
 		, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
-bool CLevel::isCulling(const D3DXVECTOR3& vPos)
+bool CLevel::isCulling(const Vector3& vPos)
 {
 	float fZoom = ToolMgr->GetZoom();
-	D3DXVECTOR3 vScroll = ToolMgr->GetScroll();
+	Vector3 vScroll = ToolMgr->GetScroll();
 
-	if (vPos.x * fZoom < 0.f + (vScroll.x + 50.f)) return true;
-	if (vPos.y * fZoom < 0.f + (vScroll.y + 50.f)) return true;
-	if (vPos.x * fZoom > WINCX + (vScroll.x - 50.f)) return true;
-	if (vPos.y * fZoom > WINCY + (vScroll.y - 50.f)) return true;
+	if (vPos.x + vScroll.x < 0.f  + 50.f) return true;
+	if (vPos.y + vScroll.y  < 0.f +  50.f) return true;
+	if (vPos.x + vScroll.x  > WINCX - 50.f) return true;
+	if (vPos.y + vScroll.y  > WINCY - 50.f) return true;
 
 	//if (vPos.x * fZoom < 0.f + (vScroll.x - 50.f)) return true;
 	//if (vPos.y * fZoom < 0.f + (vScroll.y - 50.f)) return true;
@@ -136,58 +137,47 @@ bool CLevel::isCulling(const D3DXVECTOR3& vPos)
 	return false;
 }
 
-bool CLevel::isScreen(const D3DXVECTOR3 & vPos)
+void CLevel::MapRender(float& fZoom, Vector3& vScroll, D3DXMATRIX& matScale)
 {
-	float fZoom = ToolMgr->GetZoom();
-	D3DXVECTOR3 vScroll = ToolMgr->GetScroll();
-
-	if (vPos.x * fZoom < 0.f + vScroll.x) return true;
-	if (vPos.y * fZoom < 0.f - vScroll.y) return true;
-	if (vPos.x * fZoom > WINCX + vScroll.x) return true;
-	if (vPos.y * fZoom > WINCY + vScroll.y) return true;
-
-	return false;
-}
-
-void CLevel::MapRender(float& fZoom, D3DXVECTOR3& vScroll, D3DXMATRIX& matScale)
-{
-	D3DXMATRIX matTrans;
+	D3DXMATRIX matWorld, matTrans;
 	const TEXINFO* pTexture = TextureMgr->GetTexture(TEXT("Map03"));
 
 	D3DXMatrixTranslation(&matTrans
-		, 0.f - vScroll.x
-		, 0.f - vScroll.y
+		, 0.f + vScroll.x
+		, 0.f + vScroll.y
 		, 0.f);
 
-	matScale *= matTrans;
+	matWorld = matScale * matTrans;
 
-	m_pSprite->SetTransform(&matScale);
+	m_pSprite->SetTransform(&matWorld);
 	m_pSprite->Draw(pTexture->pTexture
 		, nullptr, nullptr, nullptr
 		, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
-void CLevel::CollTileRender(float& fZoom, D3DXVECTOR3& vScroll, D3DXMATRIX& matScale)
+void CLevel::CollTileRender(float& fZoom, Vector3& vScroll, D3DXMATRIX& matScale)
 {
 	D3DXMATRIX matWorld, matTrans;
 	const TEXINFO* pTexture = nullptr;
 	TCHAR szBuf[128] = L"";
 
-	for (int y = 0; y < ISOTILEY; ++y)
+	for (int y = 0; y < COLLTILEY; ++y)
 	{
-		for (int x = 0; x < ISOTILEX; ++x)
+		for (int x = 0; x < COLLTILEX; ++x)
 		{
-			int iIndex = y * ISOTILEX + x;
+			int iIndex = y * COLLTILEX + x;
 
-			if (isCulling(m_vecCollTile[iIndex]->vPosition))
+			Vector3 vTempTilePos = m_vecCollTile[iIndex]->vPosition * fZoom;
+
+			if (isCulling(vTempTilePos))
 				continue;
 
 			pTexture = TextureMgr->GetInstance()->GetTexture(
 				TEXT("TILE"), TEXT("CollisionTile"), m_vecCollTile[iIndex]->byDrawID);
 
 			D3DXMatrixTranslation(&matTrans
-				, m_vecCollTile[iIndex]->vPosition.x * fZoom
-				, m_vecCollTile[iIndex]->vPosition.y * fZoom
+				, vTempTilePos.x + vScroll.x
+				, vTempTilePos.y + vScroll.y
 				, 0.f);
 
 			matWorld = matScale * matTrans;
@@ -199,7 +189,7 @@ void CLevel::CollTileRender(float& fZoom, D3DXVECTOR3& vScroll, D3DXMATRIX& matS
 
 			m_pSprite->Draw(pTexture->pTexture
 				, nullptr
-				, &D3DXVECTOR3(ISOTILECX * 0.5f, ISOTILECY * 0.5f, 0.f)
+				, &Vector3(COLLTILECX * 0.5f, COLLTILECY * 0.5f, 0.f)
 				, nullptr
 				, color);
 
@@ -220,15 +210,37 @@ void CLevel::CollTileRender(float& fZoom, D3DXVECTOR3& vScroll, D3DXMATRIX& matS
 	}
 }
 
-void CLevel::DecoRender(float& fZoom, D3DXVECTOR3& vScroll, D3DXMATRIX& matScale)
+void CLevel::DecoRender(float& fZoom, Vector3& vScroll, D3DXMATRIX& matScale)
 {
 	D3DXMATRIX matWorld, matTrans;
 	const TEXINFO* pTexture = nullptr;
+	Vector3 vDecoPos;
+
+	for (auto& pDeco : m_vecDeco)
+	{
+		vDecoPos = pDeco->vPosition * fZoom;
+
+		D3DXMatrixTranslation(&matTrans
+			, vDecoPos.x + vScroll.x
+			, vDecoPos.y + vScroll.y
+			, 0.f);
+
+		matWorld = matScale * matTrans;
+
+		m_pSprite->SetTransform(&matWorld);
+
+		pTexture = TextureMgr->GetTexture(pDeco->wstrObjKey, pDeco->wstrStateKey, pDeco->iCount);
+		m_pSprite->Draw(pTexture->pTexture
+			, nullptr
+			, &Vector3(float(pTexture->tImageInfo.Width >> 1), float(pTexture->tImageInfo.Height * 0.9f), 0.f)
+			, nullptr
+			, D3DCOLOR_ARGB(255, 255, 255, 255));
+	}
 
 	D3DXMatrixIdentity(&matTrans);
 	D3DXMatrixTranslation(&matTrans
-		, GetMousePos().x * fZoom
-		, GetMousePos().y * fZoom
+		, GetMousePos().x + vScroll.x
+		, GetMousePos().y + vScroll.y
 		, 0.f);
 
 	matWorld = matScale * matTrans;
@@ -240,36 +252,29 @@ void CLevel::DecoRender(float& fZoom, D3DXVECTOR3& vScroll, D3DXMATRIX& matScale
 
 		m_pSprite->Draw(pTexture->pTexture
 			, nullptr
-			, &D3DXVECTOR3(float(pTexture->tImageInfo.Width >> 1), float(pTexture->tImageInfo.Height* 0.9f), 0.f)
-			, nullptr
-			, D3DCOLOR_ARGB(255, 255, 255, 255));
-	}
-
-	for (auto& pDeco : m_vecDeco)
-	{
-		D3DXMatrixTranslation(&matTrans
-			, pDeco->vPosition.x * fZoom
-			, pDeco->vPosition.y * fZoom
-			, 0.f);
-
-		matWorld = matScale * matTrans;
-
-		pTexture = TextureMgr->GetTexture(pDeco->wstrObjKey, pDeco->wstrStateKey, pDeco->iCount);
-
-		m_pSprite->SetTransform(&matWorld);
-
-		m_pSprite->Draw(pTexture->pTexture
-			, nullptr
-			, &D3DXVECTOR3(float(pTexture->tImageInfo.Width >> 1), float(pTexture->tImageInfo.Height * 0.9f), 0.f)
+			, &Vector3(float(pTexture->tImageInfo.Width >> 1), float(pTexture->tImageInfo.Height* 0.9f), 0.f)
 			, nullptr
 			, D3DCOLOR_ARGB(255, 255, 255, 255));
 	}
 }
 
-D3DXVECTOR3 CLevel::GetMousePos()
+void CLevel::InfoRender()
+{
+	D3DXMATRIX matTrans;
+	D3DXMatrixIdentity(&matTrans);
+
+	TCHAR szBuf[128] = {};
+
+	m_pSprite->SetTransform(&matTrans);
+	swprintf_s(szBuf, TEXT("Mouse : %.1f, %.1f"), GetMousePos().x , GetMousePos().y);
+	m_pFont->DrawTextW(m_pSprite, szBuf, lstrlen(szBuf)
+		, nullptr, 0, D3DCOLOR_ARGB(255, 255, 255, 255)); 
+}
+
+Vector3 CLevel::GetMousePos()
 {
 	float fZoom = ToolMgr->GetZoom();
-	D3DXVECTOR3 vScroll = ToolMgr->GetScroll();
+	Vector3 vScroll = ToolMgr->GetScroll();
 
 	POINT tPos = {};
 	GetCursorPos(&tPos);
@@ -278,29 +283,33 @@ D3DXVECTOR3 CLevel::GetMousePos()
 	float fX = (float)tPos.x;
 	float fY = (float)tPos.y;
 	
-	D3DXVECTOR3 vPos = D3DXVECTOR3(fX, fY, 0.f);
+	Vector3 vPos = Vector3(fX, fY, 0.f);
 
-	return (vPos + vScroll) / fZoom;
+	return vPos - vScroll;
 }
 
-int CLevel::GetTileIndex(D3DXVECTOR3 vPos)
+int CLevel::GetTileIndex(Vector3 vPos)
 {
-	int iPickIdx = (int)(vPos.x / ISOTILECX) + ISOTILEX + (ISOTILEX * 2) * (int)(vPos.y / ISOTILECY);
+	float fZoom = ToolMgr->GetZoom();
+	float CX = COLLTILECX * fZoom;
+	float CY = COLLTILECY * fZoom;
 
-	if (iPickIdx < 0 || iPickIdx >= ISOTILEX * ISOTILEY - 1)
+	int iPickIdx = (int)(vPos.x / CX) + COLLTILEX + (COLLTILEX * 2) * (int)(vPos.y / CY);
+
+	if (iPickIdx < 0 || iPickIdx >= COLLTILEX * COLLTILEY - 1)
 		return -1;
 
-	D3DXVECTOR3 vTemp = m_vecCollTile[iPickIdx]->vPosition;
+	Vector3 vTemp = m_vecCollTile[iPickIdx]->vPosition * fZoom;
 
-	D3DXVECTOR3 vPoint[4] =
+	Vector3 vPoint[4] =
 	{
-		{ vTemp.x - ISOTILECX * 0.5f, vTemp.y, 0.f },
-		{ vTemp.x, vTemp.y - ISOTILECY * 0.5f, 0.f },
-		{ vTemp.x + ISOTILECX * 0.5f, vTemp.y, 0.f },
-		{ vTemp.x , vTemp.y + ISOTILECY * 0.5f, 0.f }
+		{ vTemp.x - CX * 0.5f, vTemp.y, 0.f },
+		{ vTemp.x, vTemp.y - CY * 0.5f, 0.f },
+		{ vTemp.x + CX * 0.5f, vTemp.y, 0.f },
+		{ vTemp.x , vTemp.y + CY * 0.5f, 0.f }
 	};
 
-	float fGradient = (ISOTILECY * 0.5f) / (ISOTILECX * 0.5f);
+	float fGradient = (CY * 0.5f) / (CX * 0.5f);
 
 	float fB[4];
 
@@ -311,10 +320,10 @@ int CLevel::GetTileIndex(D3DXVECTOR3 vPos)
 		fB[i] = fB[i] * vPoint[i].x + vPoint[i].y;
 	}
 
-	if (vPos.y + fGradient * vPos.x - fB[0] <= 0.f) return iPickIdx - ISOTILEX;
-	if (vPos.y - fGradient * vPos.x - fB[1] < 0.f) return iPickIdx - (ISOTILEX - 1);
-	if (vPos.y + fGradient * vPos.x - fB[2] > 0.f) return iPickIdx + (ISOTILEX + 1);
-	if (vPos.y - fGradient * vPos.x - fB[3] > 0.f) return iPickIdx + ISOTILEX;
+	if (vPos.y + fGradient * vPos.x - fB[0] <= 0.f) return iPickIdx - COLLTILEX;
+	if (vPos.y - fGradient * vPos.x - fB[1] < 0.f) return iPickIdx - (COLLTILEX - 1);
+	if (vPos.y + fGradient * vPos.x - fB[2] > 0.f) return iPickIdx + (COLLTILEX + 1);
+	if (vPos.y - fGradient * vPos.x - fB[3] > 0.f) return iPickIdx + COLLTILEX;
 
 	return iPickIdx;
 }
@@ -322,11 +331,11 @@ int CLevel::GetTileIndex(D3DXVECTOR3 vPos)
 void CLevel::Picking()
 {
 	if (true == m_bFileMode) return;
-	if (true == isScreen(GetMousePos())) return;
+
 	
 	if (GetKey->KeyPress(VK_LBUTTON))
 	{
-		if (m_iPickIndex < 0 || m_iPickIndex >= ISOTILEX * ISOTILEY - 1)
+		if (m_iPickIndex < 0 || m_iPickIndex >= COLLTILEX * COLLTILEY - 1)
 			return;
 
 		if (m_bTileMode)
@@ -350,14 +359,16 @@ void CLevel::TileChange()
 
 void CLevel::InsertDeco()
 {
-	D3DXVECTOR3 vScroll = ToolMgr->GetScroll();
+	Vector3 vScroll = ToolMgr->GetScroll();
 	float fZoom = ToolMgr->GetZoom();
+
+	Vector3 vTemp = GetMousePos() / fZoom;
 
 	DECO* pDeco = new DECO;
 	pDeco->wstrObjKey = m_pItem->wstrObjKey;
 	pDeco->wstrStateKey = m_pItem->wstrStateKey;
 	pDeco->iCount = m_pItem->iCount;
-	pDeco->vPosition = GetMousePos();
+	pDeco->vPosition = vTemp + vScroll;
 
 	m_vecDeco.push_back(pDeco);
 }
