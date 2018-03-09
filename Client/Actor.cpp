@@ -17,7 +17,6 @@ HRESULT CActor::Initialize()
 	m_eTeam = TEAM_RED;
 	m_TeamColor = GameMgr->GetTeamColor(m_eTeam);
 	m_iTileIndex = 0;
-	m_pLevel = dynamic_cast<CLevel*>(GameMgr->GetObjectList(OBJ_LEVEL).back());
 	return S_OK;
 }
 
@@ -147,12 +146,23 @@ void CActor::UpdateFlipX()
 
 void CActor::CheckCollTile()
 {
+	if(nullptr == m_pLevel)
+		m_pLevel = dynamic_cast<CLevel*>(GameMgr->GetObjectList(OBJ_LEVEL).back());
+
 	int m_iTemp = m_pLevel->GetTileIndex(m_tInfo.vPosition);
 
 	if (m_iTileIndex != m_iTemp)
 	{
-		(*m_pLevel->GetVecCollTile())[m_iTileIndex]->pObj = nullptr;
-		(*m_pLevel->GetVecCollTile())[m_iTemp]->pObj = this;
+		VECCOLLTILE* pVecCollTile = m_pLevel->GetVecCollTile();
+
+		if ((*pVecCollTile)[m_iTemp]->byOption == 1)
+		{
+			m_tInfo.vPosition -= m_tInfo.vDir;
+			return;
+		}
+		
+		(*pVecCollTile)[m_iTileIndex]->pObj = nullptr;
+		(*pVecCollTile)[m_iTemp]->pObj = this;
 
 		m_iTileIndex = m_iTemp;
 	}

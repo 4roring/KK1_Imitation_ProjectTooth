@@ -30,11 +30,11 @@ private:
 	void CheckCollTile();
 
 protected:
-	bool m_bFlipX;
-	float m_fSpeed;
-	int m_iMaxHp;
-	int m_iHp;
-	bool m_bDead;
+	bool m_bFlipX = false;
+	float m_fSpeed = 0.f;
+	int m_iMaxHp = 0;
+	int m_iHp = 0;
+	bool m_bDead = false;
 
 protected:
 	ANIMFRAME m_tFrame;
@@ -42,12 +42,12 @@ protected:
 	const TEXINFO* m_pTexTint = nullptr;
 
 protected:
-	class CLevel* m_pLevel;
-	int m_iTileIndex;
+	class CLevel* m_pLevel = nullptr;
+	int m_iTileIndex = 0;
 
 private:
 	RECT m_tRect;
-	TEAMID m_eTeam;
-	const D3DCOLOR* m_TeamColor;
+	TEAMID m_eTeam = TEAM_END;
+	const D3DCOLOR* m_TeamColor = nullptr;
 };
 

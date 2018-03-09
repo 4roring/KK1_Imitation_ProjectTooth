@@ -157,7 +157,7 @@ int CLevel::GetTileIndex(Vector3 vPos)
 	if (iPickIdx < 0 || iPickIdx >= COLLTILEX * COLLTILEY - 1)
 		return -1;
 
-	Vector3 vTemp = m_vecCollTile[iPickIdx]->vPosition * fScreenZoom;
+	Vector3 vTemp = m_vecCollTile[iPickIdx]->vPosition;
 
 	Vector3 vPoint[4] =
 	{
