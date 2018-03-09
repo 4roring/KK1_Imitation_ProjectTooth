@@ -15,7 +15,7 @@ public:
 	virtual void Release() PURE;
 
 public:
-	void SetTeamID(TEAMID eTeam) { m_eTeam = eTeam; }
+	void SetTeamID(TEAMID eTeam);
 
 protected:
 	void FrameMove(float deltaTime);
@@ -23,8 +23,11 @@ protected:
 	void RenderShadow(BYTE Alpha);
 	void RenderFlyChar();
 	void RenderGroundChar();
-	void SetAnimFrame(float fMin, float fMax, float fFrameSpeed);
+	void SetAnimFrame(float fFrameMin, float fFrameMax, float fFrameSpeed);
 	void UpdateFlipX();
+
+private:
+	void CheckCollTile();
 
 protected:
 	bool m_bFlipX;
@@ -33,12 +36,18 @@ protected:
 	int m_iHp;
 	bool m_bDead;
 
-	TEAMID m_eTeam;
+protected:
 	ANIMFRAME m_tFrame;
 	ANIMSCENE m_tScene;
-	RECT m_tRect;
-
-	const D3DCOLOR* m_TeamColor;
 	const TEXINFO* m_pTexTint = nullptr;
+
+protected:
+	class CLevel* m_pLevel;
+	int m_iTileIndex;
+
+private:
+	RECT m_tRect;
+	TEAMID m_eTeam;
+	const D3DCOLOR* m_TeamColor;
 };
 

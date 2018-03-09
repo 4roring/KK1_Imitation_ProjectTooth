@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Actor.h"
-
+#include "Level.h"
 
 CActor::CActor()
 {
@@ -16,7 +16,8 @@ HRESULT CActor::Initialize()
 	m_eLayer = LAYER_OBJ;
 	m_eTeam = TEAM_RED;
 	m_TeamColor = GameMgr->GetTeamColor(m_eTeam);
-
+	m_iTileIndex = 0;
+	m_pLevel = dynamic_cast<CLevel*>(GameMgr->GetObjectList(OBJ_LEVEL).back());
 	return S_OK;
 }
 
@@ -33,6 +34,13 @@ void CActor::LateUpdate()
 	// 갈 수 있는 공간인지 우선 체크하고
 	// 이전 타일의 CGameObejct*은 nullptr 현재 타일은 자신을 넘겨준다.
 	UpdateRect();
+	CheckCollTile();
+}
+
+void CActor::SetTeamID(TEAMID eTeam)
+{
+	m_eTeam = eTeam;
+	m_TeamColor = GameMgr->GetTeamColor(m_eTeam);
 }
 
 void CActor::FrameMove(float deltaTime)
@@ -117,17 +125,16 @@ void CActor::RenderGroundChar()
 		, nullptr, *m_TeamColor);
 }
 
-void CActor::SetAnimFrame(float fMin, float fMax, float fFrameSpeed)
+void CActor::SetAnimFrame(float fFrameMin, float fFrameMax, float fFrameSpeed)
 {
-	m_tFrame.fMin = fMin;
-	m_tFrame.fFrame = fMin;
-	m_tFrame.fCount = (fMax - fMin) * fFrameSpeed;
-	m_tFrame.fMax = fMax;
+	m_tFrame.fMin = fFrameMin;
+	m_tFrame.fFrame = fFrameMin;
+	m_tFrame.fCount = (fFrameMax - fFrameMin) * fFrameSpeed;
+	m_tFrame.fMax = fFrameMax;
 }
 
 void CActor::UpdateFlipX()
 {
-
 	if (m_tInfo.vDir.x > 0.f)
 		m_bFlipX = false;
 	else if (m_tInfo.vDir.x < 0.f)
@@ -136,4 +143,17 @@ void CActor::UpdateFlipX()
 		m_bFlipX = false;
 	else if (m_tInfo.vDir.y > 0.f)
 		m_bFlipX = true;
+}
+
+void CActor::CheckCollTile()
+{
+	int m_iTemp = m_pLevel->GetTileIndex(m_tInfo.vPosition);
+
+	if (m_iTileIndex != m_iTemp)
+	{
+		(*m_pLevel->GetVecCollTile())[m_iTileIndex]->pObj = nullptr;
+		(*m_pLevel->GetVecCollTile())[m_iTemp]->pObj = this;
+
+		m_iTileIndex = m_iTemp;
+	}
 }

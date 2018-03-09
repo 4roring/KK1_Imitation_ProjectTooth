@@ -121,6 +121,9 @@ void CLevel::CollTileRender(Vector3& vScroll, D3DXMATRIX& matScale)
 			D3DCOLOR color = (iIndex == m_iPickIndex) ?
 				D3DCOLOR_ARGB(255, 255, 0, 0) : D3DCOLOR_ARGB(255, 255, 255, 255);
 
+			color = (m_vecCollTile[iIndex]->pObj != nullptr) ?
+				D3DCOLOR_ARGB(255, 0, 255, 0) : D3DCOLOR_ARGB(255, 255, 255, 255);
+
 			m_pSprite->Draw(pTexture->pTexture
 				, nullptr
 				, &Vector3(COLLTILECX * 0.5f, COLLTILECY * 0.5f, 0.f)
@@ -206,7 +209,7 @@ void CLevel::LoadCollTile()
 			break;
 		}
 		pCollTile->vPosition *= fScreenZoom;
-
+		pCollTile->pObj = nullptr;
 		m_vecCollTile.push_back(pCollTile);
 	}
 	

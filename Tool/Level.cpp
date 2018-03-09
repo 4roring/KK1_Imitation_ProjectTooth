@@ -368,7 +368,7 @@ void CLevel::InsertDeco()
 	pDeco->wstrObjKey = m_pItem->wstrObjKey;
 	pDeco->wstrStateKey = m_pItem->wstrStateKey;
 	pDeco->iCount = m_pItem->iCount;
-	pDeco->vPosition = vTemp + vScroll;
+	pDeco->vPosition = vTemp;
 
 	m_vecDeco.push_back(pDeco);
 }
