@@ -4,9 +4,6 @@
     <Filter Include="99.Default">
       <UniqueIdentifier>{ba5827b2-7f01-44db-b2fb-e27314328a8c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="98.Headers">
-      <UniqueIdentifier>{0b8b23ce-cdf6-452b-b218-3676bcc4be21}</UniqueIdentifier>
-    </Filter>
     <Filter Include="97.Managers">
       <UniqueIdentifier>{b0278162-e11b-4add-8943-543ccd018cbb}</UniqueIdentifier>
     </Filter>
@@ -15,9 +12,6 @@
     </Filter>
     <Filter Include="01.GameObject">
       <UniqueIdentifier>{c4e0c7ad-dee7-4625-bd00-19d29cab92a3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Actor">
-      <UniqueIdentifier>{df90311f-ba89-4306-9dff-405e72688bdc}</UniqueIdentifier>
     </Filter>
     <Filter Include="97.Managers\00.Device">
       <UniqueIdentifier>{fe87957f-1e46-4ef8-b9a3-efd175b1c2c2}</UniqueIdentifier>
@@ -73,20 +67,50 @@
     <Filter Include="00.MainGame\ViewManager">
       <UniqueIdentifier>{bf72dc4d-9763-4f29-aa0d-927754105261}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Actor">
+      <UniqueIdentifier>{df90311f-ba89-4306-9dff-405e72688bdc}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.Actor\00.ACommender">
       <UniqueIdentifier>{d356ba34-25e1-43f3-8c64-782429075023}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Actor\00.ACommender\Operator">
-      <UniqueIdentifier>{a8fa55e1-45e4-4547-a4af-bc69f7cf6bb3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Actor\00.ACommender\Operator\PlayerOperator">
-      <UniqueIdentifier>{6c5a21ef-cf5f-40b2-b6d7-e0759d113905}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Actor\00.ACommender\Operator\AIOperator">
-      <UniqueIdentifier>{a636f68c-c3ed-42d3-9dff-3556b565dbeb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.Actor\01.AUnit">
       <UniqueIdentifier>{7bba6077-32c4-47fb-8f8b-ee29f7b960f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Building">
+      <UniqueIdentifier>{355d0270-8791-40b0-85ff-7815365ee173}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Building\BHQ">
+      <UniqueIdentifier>{42b336fc-2227-4e2a-b070-e5a3d7177e4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Building\BFarm">
+      <UniqueIdentifier>{8a65f44b-8e36-46ec-a4bf-33e1be4a1bac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Building\BUnitFactory">
+      <UniqueIdentifier>{8c8f5bf5-168f-4985-8ce5-055dd6c88d10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\02.CNeutralHQ">
+      <UniqueIdentifier>{8c677d74-c524-4cdb-8273-4f474c3fff60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.DesignPattern">
+      <UniqueIdentifier>{9fed4bf9-58ce-4038-8661-9b577f48412a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.DesignPattern\Bridge">
+      <UniqueIdentifier>{432f376c-1a7b-4d2e-ac4d-0dac38a51c0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.DesignPattern\Observer">
+      <UniqueIdentifier>{6aad312b-937e-422f-ae38-781af2452981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\03.HQGround">
+      <UniqueIdentifier>{35ac22a8-2607-477f-91b1-2f9a1ea17006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.DesignPattern\Command">
+      <UniqueIdentifier>{a8fa55e1-45e4-4547-a4af-bc69f7cf6bb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\00.ACommender\PlayerCommend">
+      <UniqueIdentifier>{6c5a21ef-cf5f-40b2-b6d7-e0759d113905}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\00.ACommender\AICommend">
+      <UniqueIdentifier>{a636f68c-c3ed-42d3-9dff-3556b565dbeb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -108,9 +132,6 @@
     </ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>00.MainGame\GameManager</Filter>
-    </ClInclude>
-    <ClInclude Include="AbsFactory.h">
-      <Filter>98.Headers</Filter>
     </ClInclude>
     <ClInclude Include="Actor.h">
       <Filter>02.Actor</Filter>
@@ -160,14 +181,32 @@
     <ClInclude Include="ViewManager.h">
       <Filter>00.MainGame\ViewManager</Filter>
     </ClInclude>
-    <ClInclude Include="Operator.h">
-      <Filter>02.Actor\00.ACommender\Operator</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerOperator.h">
-      <Filter>02.Actor\00.ACommender\Operator\PlayerOperator</Filter>
-    </ClInclude>
     <ClInclude Include="ACommander.h">
       <Filter>02.Actor\00.ACommender</Filter>
+    </ClInclude>
+    <ClInclude Include="DCommand.h">
+      <Filter>98.DesignPattern\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="DPlayerCommand.h">
+      <Filter>02.Actor\00.ACommender\PlayerCommend</Filter>
+    </ClInclude>
+    <ClInclude Include="DBridge.h">
+      <Filter>98.DesignPattern\Bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="Building.h">
+      <Filter>03.Building</Filter>
+    </ClInclude>
+    <ClInclude Include="NeutralHQ.h">
+      <Filter>01.GameObject\02.CNeutralHQ</Filter>
+    </ClInclude>
+    <ClInclude Include="HQGround.h">
+      <Filter>01.GameObject\03.HQGround</Filter>
+    </ClInclude>
+    <ClInclude Include="BFarm.h">
+      <Filter>03.Building\BFarm</Filter>
+    </ClInclude>
+    <ClInclude Include="DObjectFactory.h">
+      <Filter>01.GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -232,14 +271,29 @@
     <ClCompile Include="ViewManager.cpp">
       <Filter>00.MainGame\ViewManager</Filter>
     </ClCompile>
-    <ClCompile Include="Operator.cpp">
-      <Filter>02.Actor\00.ACommender\Operator</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerOperator.cpp">
-      <Filter>02.Actor\00.ACommender\Operator\PlayerOperator</Filter>
-    </ClCompile>
     <ClCompile Include="ACommander.cpp">
       <Filter>02.Actor\00.ACommender</Filter>
+    </ClCompile>
+    <ClCompile Include="DCommand.cpp">
+      <Filter>98.DesignPattern\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="DPlayerCommand.cpp">
+      <Filter>02.Actor\00.ACommender\PlayerCommend</Filter>
+    </ClCompile>
+    <ClCompile Include="DBridge.cpp">
+      <Filter>98.DesignPattern\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="Building.cpp">
+      <Filter>03.Building</Filter>
+    </ClCompile>
+    <ClCompile Include="NeutralHQ.cpp">
+      <Filter>01.GameObject\02.CNeutralHQ</Filter>
+    </ClCompile>
+    <ClCompile Include="HQGround.cpp">
+      <Filter>01.GameObject\03.HQGround</Filter>
+    </ClCompile>
+    <ClCompile Include="BFarm.cpp">
+      <Filter>03.Building\BFarm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

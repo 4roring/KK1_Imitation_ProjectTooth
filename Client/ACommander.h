@@ -1,7 +1,7 @@
 #pragma once
 #include "Actor.h"
 
-class COperator;
+class DCommand;
 class ACommander :
 	public CActor
 {
@@ -17,21 +17,25 @@ public:
 	virtual void Release() override;
 
 private:
-	enum ANIMSTATE { Idle, Order, Run, Build, RunOrder, RunBuild, ReturnHome, Dead };
+	enum ANIMSTATE { Idle, Order, Run, Build, RunOrder, RunBuild, ReturnHome, Dead, End };
 	ANIMSTATE m_eCurAnimState = ACommander::Idle;
-	ANIMSTATE m_ePreAnimState = ACommander::Idle;
+	ANIMSTATE m_ePreAnimState = ACommander::End;
 	
 private:
 	void UpdateState(float deltaTime);
 	void Move(float deltaTime);
 	void SetAnimState();
+	void CheckTileObject();
+	void CheckHQ();
+	void CheckUnit();
 
 private:
-	bool Offset();
+	bool OffsetX();
+	bool OffsetY();
 
 private:
-	COperator* m_pOperator;
-	friend class CPlayerOperator;
+	DCommand* m_pOperator;
+	friend class DPlayerCommand;
 
 private:
 	float m_fReturn;

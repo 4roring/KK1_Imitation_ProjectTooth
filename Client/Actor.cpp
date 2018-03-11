@@ -14,9 +14,8 @@ CActor::~CActor()
 HRESULT CActor::Initialize()
 {
 	m_eLayer = LAYER_OBJ;
-	m_eTeam = TEAM_RED;
 	m_TeamColor = GameMgr->GetTeamColor(m_eTeam);
-	m_iTileIndex = 0;
+
 	return S_OK;
 }
 
@@ -50,6 +49,14 @@ void CActor::FrameMove(float deltaTime)
 
 	m_tScene.iScene = int(m_tScene.fSceneMax * m_tFrame.fFrame);
 	m_tScene.iFrame = int(m_tFrame.fFrame - m_tScene.iMaxFrame * m_tScene.iScene);
+}
+
+void CActor::SetAnimFrame(float fFrameMin, float fFrameMax, float fFrameSpeed)
+{
+	m_tFrame.fMin = fFrameMin;
+	m_tFrame.fFrame = fFrameMin;
+	m_tFrame.fCount = (fFrameMax - fFrameMin) * fFrameSpeed;
+	m_tFrame.fMax = fFrameMax;
 }
 
 void CActor::UpdateRect()
@@ -124,14 +131,6 @@ void CActor::RenderGroundChar()
 		, nullptr, *m_TeamColor);
 }
 
-void CActor::SetAnimFrame(float fFrameMin, float fFrameMax, float fFrameSpeed)
-{
-	m_tFrame.fMin = fFrameMin;
-	m_tFrame.fFrame = fFrameMin;
-	m_tFrame.fCount = (fFrameMax - fFrameMin) * fFrameSpeed;
-	m_tFrame.fMax = fFrameMax;
-}
-
 void CActor::UpdateFlipX()
 {
 	if (m_tInfo.vDir.x > 0.f)
@@ -151,19 +150,28 @@ void CActor::CheckCollTile()
 
 	int m_iTemp = m_pLevel->GetTileIndex(m_tInfo.vPosition);
 
-	if (m_iTileIndex != m_iTemp)
-	{
-		VECCOLLTILE* pVecCollTile = m_pLevel->GetVecCollTile();
+	const VECCOLLTILE* pVecCollTile = m_pLevel->GetVecCollTile();
 
-		if ((*pVecCollTile)[m_iTemp]->byOption == 1)
+	if (m_iTileIndexArr != m_iTemp)
+	{
+		if ((*pVecCollTile)[m_iTemp]->byOption != 0)
 		{
 			m_tInfo.vPosition -= m_tInfo.vDir;
 			return;
 		}
-		
-		(*pVecCollTile)[m_iTileIndex]->pObj = nullptr;
-		(*pVecCollTile)[m_iTemp]->pObj = this;
 
-		m_iTileIndex = m_iTemp;
+		CGameObject*& pObject = (*pVecCollTile)[m_iTileIndexArr]->pGameObject;
+
+		// 타일이 기억하는 오브젝트와 내가 같을 때만 null로 변경.
+		if(pObject == this)
+			pObject = nullptr;
+
+		if(nullptr == (*pVecCollTile)[m_iTemp]->pGameObject)
+			(*pVecCollTile)[m_iTemp]->pGameObject = this;
+
+		m_iTileIndexArr = m_iTemp;
 	}
+
+	//if (nullptr == (*pVecCollTile)[m_iTileIndexArr]->pGameObject)
+	//	(*pVecCollTile)[m_iTileIndexArr]->pGameObject = this;
 }

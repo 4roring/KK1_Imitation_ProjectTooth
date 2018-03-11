@@ -1,11 +1,11 @@
 #pragma once
-#include "Operator.h"
-class CPlayerOperator :
-	public COperator
+#include "DCommand.h"
+class DPlayerCommand :
+	public DCommand
 {
 public:
-	CPlayerOperator();
-	virtual ~CPlayerOperator();
+	DPlayerCommand();
+	virtual ~DPlayerCommand();
 
 	// COperator을(를) 통해 상속됨
 	virtual void Update() override;

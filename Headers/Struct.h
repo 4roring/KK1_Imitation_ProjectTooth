@@ -1,5 +1,7 @@
 #pragma once
 
+class CGameObject;
+
 typedef struct tagInfo
 {
 	D3DXVECTOR3 vPosition;
@@ -33,7 +35,7 @@ typedef struct tagCollisionTile
 	D3DXVECTOR3 vPosition;
 	BYTE byOption;
 	BYTE byDrawID;
-	class CGameObject* pObj = nullptr; // 타일에 존재하는 유닛의 주소를 담음.
+	CGameObject* pGameObject; // 타일에 존재하는 유닛의 주소를 담는 포인터
 }COLLTILE;
 
 typedef struct tagDecoration

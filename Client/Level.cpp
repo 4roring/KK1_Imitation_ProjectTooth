@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "Level.h"
+#include "NeutralHQ.h"
+#include "HQGround.h"
+#include "BFarm.h"
 
 CLevel::CLevel()
 {
@@ -14,7 +17,8 @@ CLevel::~CLevel()
 HRESULT CLevel::Initialize()
 {
 	m_pSprite = Device->GetSprite();
-	
+	m_pFont = Device->GetFont();
+
 	m_pTexMain = TextureMgr->GetTexture(TEXT("Map"), TEXT("Map"), 0);
 
 	ViewMgr->SetMaxScroll(Vector3(
@@ -23,9 +27,9 @@ HRESULT CLevel::Initialize()
 		, 0.f));
 
 	m_vecCollTile.reserve(COLLTILEX * COLLTILEY);
-
+	
 	LoadCollTile();
-
+	CreateBuilding();
 	return S_OK;
 }
 
@@ -121,7 +125,7 @@ void CLevel::CollTileRender(Vector3& vScroll, D3DXMATRIX& matScale)
 			D3DCOLOR color = (iIndex == m_iPickIndex) ?
 				D3DCOLOR_ARGB(255, 255, 0, 0) : D3DCOLOR_ARGB(255, 255, 255, 255);
 
-			color = (m_vecCollTile[iIndex]->pObj != nullptr) ?
+			color = (nullptr != m_vecCollTile[iIndex]->pGameObject) ?
 				D3DCOLOR_ARGB(255, 0, 255, 0) : D3DCOLOR_ARGB(255, 255, 255, 255);
 
 			m_pSprite->Draw(pTexture->pTexture
@@ -130,19 +134,11 @@ void CLevel::CollTileRender(Vector3& vScroll, D3DXMATRIX& matScale)
 				, nullptr
 				, color);
 
-			// 폰트 그리기
-			/*D3DXMatrixTranslation(&matTrans
-				, m_vecCollTile[iIndex]->vPosition.x * fZoom - 30.f
-				, m_vecCollTile[iIndex]->vPosition.y * fZoom - 20.f
-				, 0.f);
-
-			matWorld = matScale * matTrans;
-
-			m_pSprite->SetTransform(&matWorld);
+			m_pSprite->SetTransform(&matTrans);
 
 			swprintf_s(szBuf, TEXT("%d"), iIndex);
 			m_pFont->DrawTextW(m_pSprite, szBuf, lstrlen(szBuf)
-				, nullptr, 0, D3DCOLOR_ARGB(255, 255, 255, 255));*/
+				, nullptr, 0, D3DCOLOR_ARGB(255, 255, 255, 255));
 		}
 	}
 }
@@ -186,9 +182,106 @@ int CLevel::GetTileIndex(Vector3 vPos)
 	return iPickIdx;
 }
 
-void CLevel::Picking()
+void CLevel::GetRange(VECCOLLTILE & rVecRange, int iStart, int iRange)
 {
+	// TODO: iRange에 따른 체크할 타일들을 저장!
+	rVecRange.clear();
+
+	// 체크를 시작하는 타일
+	int iRangeStart = iStart;
+
+	for (int i = 0; i < iRange; ++i)
+	{
+		//int iNum = ((iRangeStart / COLLTILEX) & 1) ? 0 : 1;
+		//iRangeStart -= (COLLTILEX + iNum);
+		iRangeStart = GetNeighborTileIndex(NEIGHBOR_LEFTUP, iRangeStart);
+	}
+		
+	for (int y = 0; y < iRange * 2 + 1; ++y)
+	{
+		for (int x = 0; x < iRange + 1; ++x)
+		{
+			int iIndex = y * COLLTILEX + (x + iRangeStart);
+
+			int iException = (iRange & 1) ? iRange : 0;
+
+			if ((y & 1) && x == iException) continue;
+				
+			if (iIndex < 0 || iIndex >= COLLTILEX * COLLTILEY)
+				continue;
+
+			rVecRange.push_back(m_vecCollTile[iIndex]);
+		}
+	}
+}
+
+// iNeighbor Index
+// 0. Left, 1. Left Up 2. Left Down
+// 3. Right, 4. Right Up, 5. Right Down
+// 6. Up, 7. Down
+int CLevel::GetNeighborTileIndex(int iNeighbor, int iStart)
+{
+	int iOddEven = 0;
+	switch (iNeighbor)
+	{
+	case NEIGHBOR_LEFT: return iStart - 1;
+	case NEIGHBOR_LEFTUP:
+		iOddEven = ((iStart / COLLTILEX) & 1) ? 0 : 1;
+		return iStart -= (COLLTILEX + iOddEven);
+	case NEIGHBOR_LEFTDOWN:
+		iOddEven = ((iStart / COLLTILEX) & 1) ? 0 : 1;
+		return iStart += (COLLTILEX - iOddEven);
 	
+	case NEIGHBOR_RIGHT: return  iStart + 1;
+	case NEIGHBOR_RIGHTUP:
+		iOddEven = ((iStart / COLLTILEX) & 1) ? 1 : 0;
+		return iStart -= (COLLTILEX - iOddEven);
+	case NEIGHBOR_RIGHTDOWN:
+		iOddEven = ((iStart / COLLTILEX) & 1) ? 1 : 0;
+		return iStart += (COLLTILEX + iOddEven);
+
+	case NEIGHBOR_UP: return iStart - (COLLTILEX * 2);
+	case NEIGHBOR_DOWN: return iStart + (COLLTILEX * 2);
+	}
+
+	return -1;
+}
+
+int CLevel::GetNeighborTileIndex(int iNeighbor, int iStart, int iCount)
+{
+	if (iCount == 0)
+		return iStart;
+
+	int iOddEven = 0;
+	int iTemp = 0;
+
+	switch (iNeighbor)
+	{
+	case NEIGHBOR_LEFT: return iStart - (1 * iCount);
+	case NEIGHBOR_LEFTUP:
+		iOddEven = ((iStart / COLLTILEX) & 1) ? 0 : 1;
+		iTemp = iStart -= (COLLTILEX + iOddEven);
+		return GetNeighborTileIndex(iNeighbor, iTemp, --iCount);
+	case NEIGHBOR_LEFTDOWN:
+		iOddEven = ((iStart / COLLTILEX) & 1) ? 0 : 1;
+		iTemp = iStart += (COLLTILEX - iOddEven);
+		return GetNeighborTileIndex(iNeighbor, iTemp, --iCount);
+
+	case NEIGHBOR_RIGHT: return  iStart + (1 * iCount);
+	case NEIGHBOR_RIGHTUP:
+		iOddEven = ((iStart / COLLTILEX) & 1) ? 1 : 0;
+		iTemp = iStart -= (COLLTILEX - iOddEven);
+		return GetNeighborTileIndex(iNeighbor, iTemp, --iCount);
+	case NEIGHBOR_RIGHTDOWN:
+		iOddEven = ((iStart / COLLTILEX) & 1) ? 1 : 0;
+		iTemp = iStart += (COLLTILEX + iOddEven);
+		return GetNeighborTileIndex(iNeighbor, iTemp, --iCount);
+
+	case NEIGHBOR_UP: return iStart - (COLLTILEX * 2) * iCount;
+	case NEIGHBOR_DOWN: return iStart + (COLLTILEX * 2) * iCount;
+	}
+
+	return -1;
 }
 
 void CLevel::LoadCollTile()
@@ -208,10 +301,59 @@ void CLevel::LoadCollTile()
 			SafeDelete(pCollTile);
 			break;
 		}
+
 		pCollTile->vPosition *= fScreenZoom;
-		pCollTile->pObj = nullptr;
+		pCollTile->pGameObject = nullptr;
+
 		m_vecCollTile.push_back(pCollTile);
 	}
 	
 	CloseHandle(hFile);
+}
+
+void CLevel::CreateBuilding()
+{
+	Vector3 GroundPos;
+	CGameObject* pObject = nullptr;
+
+	for (size_t i = 0; i < m_vecCollTile.size(); ++i)
+	{
+		switch (m_vecCollTile[i]->byOption)
+		{
+		case 2: // 중립 HQ 생성
+			pObject = DObjectFactory<CNeutralHQ>::Create(m_vecCollTile[i]->vPosition);
+			static_cast<CNeutralHQ*>(pObject)->SetTileIndexArray(i);
+			GameMgr->CreateObject(pObject, OBJ_HQ);
+
+			CreateNeutralFarm(i);
+
+			GroundPos = Vector3(m_vecCollTile[i]->vPosition.x, m_vecCollTile[i]->vPosition.y - COLLTILECY, 0.f);
+			GameMgr->CreateObject(DObjectFactory<CHQGround>::Create(GroundPos), OBJ_BACK);
+			break;
+
+		case 3: // Red팀 HQ 생성
+
+			CreateTeamStartFarm(i, TEAM_RED);
+			break;
+
+		case 4: // Blue팀 HQ 생성
+			break;
+		}
+	}
+}
+
+void CLevel::CreateFarm(int TileIndex, TEAMID eTeam)
+{
+	CGameObject* pObject = DObjectFactory<BFarm>::CreateFarm(TileIndex, eTeam);
+	GameMgr->CreateObject(pObject, OBJ_FARM);
+}
+
+void CLevel::CreateNeutralFarm(int TileIndex)
+{
+	for (int i = 0; i < NEIGHBOR_END; ++i)
+		CreateFarm(GetNeighborTileIndex(i, TileIndex, 2), TEAM_NEUTRAL);
+}
+
+void CLevel::CreateTeamStartFarm(int TileIndex, TEAMID eTeam)
+{
 }

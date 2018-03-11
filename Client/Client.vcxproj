@@ -151,22 +151,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AbsFactory.h" />
+    <ClInclude Include="BFarm.h" />
+    <ClInclude Include="DObjectFactory.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="ACommander.h" />
     <ClInclude Include="AtlasTexture.h" />
+    <ClInclude Include="Building.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="DBridge.h" />
     <ClInclude Include="Deco.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="HQGround.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Logo.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="MultiTexture.h" />
-    <ClInclude Include="Operator.h" />
-    <ClInclude Include="PlayerOperator.h" />
+    <ClInclude Include="DCommand.h" />
+    <ClInclude Include="DPlayerCommand.h" />
+    <ClInclude Include="NeutralHQ.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
@@ -183,18 +188,23 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="ACommander.cpp" />
     <ClCompile Include="AtlasTexture.cpp" />
+    <ClCompile Include="BFarm.cpp" />
+    <ClCompile Include="Building.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="DBridge.cpp" />
     <ClCompile Include="Deco.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="HQGround.cpp" />
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Logo.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="MultiTexture.cpp" />
-    <ClCompile Include="Operator.cpp" />
-    <ClCompile Include="PlayerOperator.cpp" />
+    <ClCompile Include="DCommand.cpp" />
+    <ClCompile Include="DPlayerCommand.cpp" />
+    <ClCompile Include="NeutralHQ.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ViewManager.cpp" />

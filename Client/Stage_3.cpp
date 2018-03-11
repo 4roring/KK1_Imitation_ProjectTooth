@@ -16,8 +16,9 @@ CStage_3::~CStage_3()
 HRESULT CStage_3::Initialize()
 {
 	GameMgr->Initialize();
-	GameMgr->CreateObject(CAbsFactory<ACommander>::Create(), OBJ_PLAYER);
-	GameMgr->CreateObject(CAbsFactory<CLevel>::Create(), OBJ_LEVEL);
+	Vector3 vPos = Vector3(680.f, 2600.f, 0.f);
+	GameMgr->CreateObject(DObjectFactory<ACommander>::Create(vPos, TEAM_RED), OBJ_PLAYER);
+	GameMgr->CreateObject(DObjectFactory<CLevel>::Create(), OBJ_LEVEL);
 
 	LoadDeco();
 
@@ -73,7 +74,7 @@ void CStage_3::LoadDeco()
 		ReadFile(hFile, vPos, sizeof(Vector3), &dwByte, nullptr);
 		ReadFile(hFile, &iCount, sizeof(int), &dwByte, nullptr);
 
-		GameMgr->CreateObject(CAbsFactory<CDeco>::CreateDeco(wstrObjKey, wstrStateKey, iCount, vPos), OBJ_DECO);
+		GameMgr->CreateObject(DObjectFactory<CDeco>::CreateDeco(wstrObjKey, wstrStateKey, iCount, vPos * fScreenZoom), OBJ_DECO);
 	}
 
 	CloseHandle(hFile);

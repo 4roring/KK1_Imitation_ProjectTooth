@@ -1,7 +1,11 @@
 #pragma once
 
+// 이미지 사이즈들의 상수
 const int COMMANDER_CX = 72;
 const int COMMANDER_CY = 72;
+
+const int FARM_CX = 80;
+const int FARM_CY = 54;
 
 const float COLLTILECX = 42.f;
 const float COLLTILECY = 28.f;

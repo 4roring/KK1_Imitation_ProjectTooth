@@ -1,34 +1,40 @@
 #include "stdafx.h"
-#include "Deco.h"
+#include "HQGround.h"
 
-
-CDeco::CDeco()
+CHQGround::CHQGround()
 {
 }
 
 
-CDeco::~CDeco()
+CHQGround::~CHQGround()
 {
+	Release();
 }
 
-HRESULT CDeco::Initialize()
+HRESULT CHQGround::Initialize()
 {
-	m_eLayer = LAYER_OBJ;
+	m_eLayer = LAYER_BACK;
+	m_pTexMain = TextureMgr->GetTexture(TEXT("windmill_bib_forest"));
 
 	return S_OK;
 }
 
-OBJSTATE CDeco::Update(float deltaTime)
+OBJSTATE CHQGround::Update(float deltaTime)
 {
+	if (m_bDestroy)
+	{
+
+		return STATE_DESTROY;
+	}
+
 	return STATE_PLAY;
 }
 
-void CDeco::LateUpdate()
+void CHQGround::LateUpdate()
 {
-	
 }
 
-void CDeco::Render()
+void CHQGround::Render()
 {
 	Vector3 vScroll = ViewMgr->GetScroll();
 
@@ -44,10 +50,12 @@ void CDeco::Render()
 	m_pSprite->SetTransform(&m_tInfo.matWorld);
 	m_pSprite->Draw(m_pTexMain->pTexture
 		, nullptr
-		, &Vector3(float(m_pTexMain->tImageInfo.Width >> 1), m_pTexMain->tImageInfo.Height * 0.9f, 0.f)
+		, &Vector3(float(m_pTexMain->tImageInfo.Width >> 1), float(m_pTexMain->tImageInfo.Height >> 1), 0.f)
 		, nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
-void CDeco::Release()
+void CHQGround::Release()
 {
 }
+
+

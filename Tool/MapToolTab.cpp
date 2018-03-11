@@ -180,7 +180,6 @@ void CMapToolTab::OnBnClickedCollTileLoad()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	m_pLevel->SetFileMode(true);
-	m_pLevel->CollTileRelease();
 	LoadCollTile();
 	m_pLevel->SetFileMode(false);
 }
@@ -260,6 +259,8 @@ void CMapToolTab::LoadCollTile()
 
 	if (strPath.IsEmpty())
 		return;
+
+	m_pLevel->CollTileRelease();
 
 	HANDLE hFile = CreateFile(strPath
 		, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);

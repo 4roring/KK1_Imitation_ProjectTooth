@@ -3,11 +3,11 @@
 // 명령 패턴, 플레이어와 AI가 Commander를 조작.
 
 class ACommander;
-class COperator
+class DCommand
 {
 public:
-	COperator();
-	virtual ~COperator();
+	DCommand();
+	virtual ~DCommand();
 
 	virtual void Update() PURE;
 

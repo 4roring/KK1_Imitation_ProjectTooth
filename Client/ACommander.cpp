@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ACommander.h"
-#include "PlayerOperator.h"
+#include "DPlayerCommand.h"
+#include "Level.h"
 
 ACommander::ACommander()
 {
@@ -16,7 +17,6 @@ HRESULT ACommander::Initialize()
 {
 	CActor::Initialize();
 
-	m_tInfo.vPosition = { 680.f, 2600.f, 0.f };
 	m_tInfo.vLook = { 1.f, 0.f, 0.f };
 	m_tInfo.vDir = { 0.f, 0.f, 0.f };
 	ZeroMemory(m_tInfo.matWorld, sizeof(D3DXMATRIX));
@@ -27,8 +27,6 @@ HRESULT ACommander::Initialize()
 	m_pTexMain = TextureMgr->GetTexture(TEXT("commander_commoners"));
 	m_pTexTint = TextureMgr->GetTexture(TEXT("commander_commoners_tint"));
 
-	SetAnimFrame(0.f, 9.f, 1.f);
-
 	m_tFrame.fCenterX = (COMMANDER_CX >> 1);
 	m_tFrame.fCenterY = (COMMANDER_CY * 0.9f);
 
@@ -37,28 +35,24 @@ HRESULT ACommander::Initialize()
 	m_tScene.iScene = 0;
 	m_tScene.fSceneMax = 1.f / (float)m_tScene.iMaxFrame;
 	
-	m_fSpeed = 130.f * fScreenZoom;
+	m_fSpeed = 110.f * fScreenZoom;
 	m_iMaxHp = 10;
 	m_iHp = 10;
-	m_bDead = false;
-	m_bFlipX = false;
 
 	// TODO: Factory에서 정할 수 있는 멤버 변수를 넣는 등 설정.
-	m_pOperator = new CPlayerOperator;
+	m_pOperator = new DPlayerCommand;
 	m_pOperator->SetCommander(this);
 
 	return S_OK;
 }
 
+
 OBJSTATE ACommander::Update(float deltaTime)
 {
-	// 플레이어 작업 우선.
-	m_pOperator->Update();
-	
-	UpdateState(deltaTime);
-
-	// Actor 공통 작업 호출.
 	CActor::Update(deltaTime);
+
+	m_pOperator->Update();
+	UpdateState(deltaTime);
 
 	return STATE_PLAY;
 }
@@ -66,6 +60,7 @@ OBJSTATE ACommander::Update(float deltaTime)
 void ACommander::LateUpdate()
 {
 	CActor::LateUpdate();
+	CheckTileObject();
 	SetAnimState();
 }
 
@@ -168,8 +163,11 @@ void ACommander::Move(float deltaTime)
 	m_tInfo.vDir *= m_fSpeed * deltaTime;
 	m_tInfo.vPosition += m_tInfo.vDir;
 
-	if (true == Offset())
-		ViewMgr->MoveScroll(m_tInfo.vDir);
+	if (true == OffsetX())
+		ViewMgr->MoveScrollX(m_tInfo.vDir.x);
+
+	if (true == OffsetY())
+		ViewMgr->MoveScrollY(m_tInfo.vDir.y);
 }
 
 void ACommander::SetAnimState()
@@ -179,32 +177,33 @@ void ACommander::SetAnimState()
 		switch (m_eCurAnimState)
 		{
 		case ACommander::Idle:
-			SetAnimFrame(0.f, 9.f, 1.f);
+			SetAnimFrame(0.f, 9.f, 1.3f);
 			break;
 		case ACommander::Order:
-			SetAnimFrame(10.f, 19.f, 1.f);
+			SetAnimFrame(10.f, 19.f, 1.3f);
 			break;
 		case ACommander::Build:
 			SetAnimFrame(20.f, 21.f, 5.f);
 			break;
 		case ACommander::Run:
-			SetAnimFrame(22.f, 31.f, 1.f);
+			SetAnimFrame(22.f, 31.f, 1.3f);
 			break;
 		case ACommander::RunOrder:
-			SetAnimFrame(32.f, 41.f, 1.f);
+			SetAnimFrame(32.f, 41.f, 1.3f);
 			break;
 		case ACommander::RunBuild:
 			SetAnimFrame(42.f, 46.f, 3.f);
 			break;
 		case ACommander::ReturnHome:
-			SetAnimFrame(47.f, 51.f, 1.f);
+			SetAnimFrame(47.f, 51.f, 1.3f);
 			break;
 		case ACommander::Dead:
-			SetAnimFrame(57.f, 71.f, 1.f);
+			SetAnimFrame(57.f, 71.f, 1.3f);
 			break;
+		case ACommander::End:
 		default:
 #ifdef _DEBUG
-			assert(!"Commander AnimState Error");
+			assert(!"Commander AnimState Error(defalut or End");
 #endif
 			break;
 		}
@@ -212,7 +211,37 @@ void ACommander::SetAnimState()
 	}
 }
 
-bool ACommander::Offset()
+void ACommander::CheckTileObject()
+{
+	CheckHQ();
+	CheckUnit();
+}
+
+void ACommander::CheckHQ()
+{
+	VECCOLLTILE pVecRange;
+	m_pLevel->GetRange(pVecRange, m_iTileIndexArr, 2);
+
+	for (auto& pTile : pVecRange)
+	{
+		if (pTile->pGameObject == nullptr)
+			continue;
+
+		if (pTile->pGameObject->GetObjectID() == OBJ_HQ)
+		{
+			if (true == m_bBuild && pTile->pGameObject->GetTeamID() == TEAM_NEUTRAL)
+				pTile->pGameObject->Destroy();
+		}
+	}
+}
+
+void ACommander::CheckUnit()
+{
+	VECCOLLTILE pVecRange;
+	m_pLevel->GetRange(pVecRange, m_iTileIndexArr, 5);
+}
+
+bool ACommander::OffsetX()
 {
 	const Vector3& vScroll = ViewMgr->GetScroll();
 
@@ -223,6 +252,16 @@ bool ACommander::Offset()
 
 	if (m_tInfo.vDir.x > 0.f && vPos.x > (WINCX >> 1) - 2.f) return true;
 	if (m_tInfo.vDir.x < 0.f && vPos.x < (WINCX >> 1) + 2.f) return true;
+
+	return false;
+}
+
+bool ACommander::OffsetY()
+{
+	const Vector3& vScroll = ViewMgr->GetScroll();
+
+	const Vector3& vPos = m_tInfo.vPosition + ViewMgr->GetScroll();
+
 	if (m_tInfo.vDir.y > 0.f && vPos.y >(WINCY >> 1) - 2.f) return true;
 	if (m_tInfo.vDir.y < 0.f && vPos.y < (WINCY >> 1) + 2.f) return true;
 

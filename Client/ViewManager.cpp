@@ -11,12 +11,20 @@ ViewManager::~ViewManager()
 {
 }
 
-void ViewManager::MoveScroll(Vector3 m_vMove)
+void ViewManager::MoveScrollX(float fMoveX)
 {
-	m_vScroll -= m_vMove;
+	m_vScroll.x -= fMoveX;
 
 	if (false == IsScreen())
-		m_vScroll += m_vMove;
+		m_vScroll.x += fMoveX;
+}
+
+void ViewManager::MoveScrollY(float fMoveY)
+{
+	m_vScroll.y -= fMoveY;
+
+	if (false == IsScreen())
+		m_vScroll.y += fMoveY;
 }
 
 bool ViewManager::IsScreen()

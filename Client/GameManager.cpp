@@ -4,6 +4,7 @@
 
 CGameManager::CGameManager()
 {
+
 }
 
 
@@ -14,12 +15,13 @@ CGameManager::~CGameManager()
 
 void CGameManager::CreateObject(CGameObject * pObject, OBJID eObjectID)
 {
-	m_ObjectList[eObjectID].push_back(pObject);
+	pObject->SetObjectID(eObjectID);
+	ObjectList[eObjectID].push_back(pObject);
 }
 
 void CGameManager::DestroyObject(int eObjectID)
 {
-	std::for_each(m_ObjectList[eObjectID].begin(), m_ObjectList[eObjectID].end(), SafeDelete<CGameObject*>);
+	std::for_each(ObjectList[eObjectID].begin(), ObjectList[eObjectID].end(), SafeDelete<CGameObject*>);
 }
 
 void CGameManager::Initialize()
@@ -34,7 +36,7 @@ void CGameManager::Update(float deltaTime)
 {
 	for (int i = 0; i < OBJ_END; ++i)
 	{
-		for (auto iter = m_ObjectList[i].begin(); iter != m_ObjectList[i].end(); )
+		for (auto iter = ObjectList[i].begin(); iter != ObjectList[i].end(); )
 		{
 			OBJSTATE eState = (*iter)->Update(deltaTime);
 
@@ -48,7 +50,7 @@ void CGameManager::Update(float deltaTime)
 				break;
 
 			case STATE_DESTROY:
-				iter = m_ObjectList[i].erase(iter);
+				iter = ObjectList[i].erase(iter);
 				break;
 			}
 		}
@@ -59,23 +61,23 @@ void CGameManager::LateUpdate()
 {
 	for (int i = 0; i < OBJ_END; ++i)
 	{
-		for (auto& pObject : m_ObjectList[i])
+		for (auto& pObject : ObjectList[i])
 			pObject->LateUpdate();
 	}
 }
 
 void CGameManager::Render()
 {
-	for(auto& pObject : m_ObjectList[OBJ_LEVEL])
+	for(auto& pObject : ObjectList[OBJ_LEVEL])
 		pObject->Render();
 
 	for (int i = 1; i < OBJ_END; ++i)
 	{
-		for (auto& pObject : m_ObjectList[i])
+		for (auto& pObject : ObjectList[i])
 		{
 			OBJLAYER eLayer = pObject->GetLayer();
 
-			if (eLayer != LAYER_BACK)
+			if (eLayer == LAYER_OBJ)
 			{
 				m_vecRender[eLayer].push_back(pObject);
 				continue;

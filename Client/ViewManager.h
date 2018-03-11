@@ -17,7 +17,8 @@ public:
 	void SetScroll(Vector3 vScroll) { m_vScroll = vScroll; }
 
 public:
-	void MoveScroll(Vector3 m_vMove);
+	void MoveScrollX(float fMoveX);
+	void MoveScrollY(float fMoveY);
 	bool IsScreen();
 	
 private:

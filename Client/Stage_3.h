@@ -16,6 +16,5 @@ public:
 
 private:
 	void LoadDeco();
-	void LoadCollTile();
 };
 

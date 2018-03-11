@@ -9,6 +9,7 @@ CLogo::CLogo()
 
 CLogo::~CLogo()
 {
+	Release();
 }
 
 HRESULT CLogo::Initialize()
@@ -17,6 +18,7 @@ HRESULT CLogo::Initialize()
 
 	TextureLoad(TEXT("../Data/MapTexture.dat"));
 	TextureLoad(TEXT("../Data/ActorTexture.dat"));
+	TextureLoad(TEXT("../Data/StructureTexture.dat"));
 
 	return S_OK;
 }

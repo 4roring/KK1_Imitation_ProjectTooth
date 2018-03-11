@@ -24,12 +24,12 @@ HRESULT CLevel::Initialize()
 			return E_FAIL;
 	}
 
-	if (FAILED(TextureMgr->InsertTexture(TEXT("../Texture/Map/Tile/CollisionTile%d.png"), TEXT("TILE"), TEX_MULTI, TEXT("CollisionTile"), 2)))
-	{
-		MSG_BOX(TEXT("Isometric MultiTexture Load Failed"));
+	//if (FAILED(TextureMgr->InsertTexture(TEXT("../Texture/Map/Tile/CollisionTile%d.png"), TEXT("TILE"), TEX_MULTI, TEXT("CollisionTile"), 2)))
+	//{
+	//	MSG_BOX(TEXT("Isometric MultiTexture Load Failed"));
 
-		return E_FAIL;
-	}
+	//	return E_FAIL;
+	//}
 
 	m_vecCollTile.reserve(COLLTILEX * COLLTILEY);
 
@@ -37,16 +37,17 @@ HRESULT CLevel::Initialize()
 	{
 		for (int x = 0; x < COLLTILEX; ++x)
 		{
-			COLLTILE* pIsoTile = new COLLTILE;
+			COLLTILE* pCollTile = new COLLTILE;
 
 			float fX = x * COLLTILECX + (y & 1) * (COLLTILECX * 0.5f);
 			float fY = y * (COLLTILECY * 0.5f);
 
-			pIsoTile->vPosition = Vector3(fX, fY, 0.f);
-			pIsoTile->byOption = 0;
-			pIsoTile->byDrawID = 0;
+			pCollTile->vPosition = Vector3(fX, fY, 0.f);
+			pCollTile->byOption = 0;
+			pCollTile->byDrawID = 0;
+			pCollTile->pGameObject = nullptr;
 
-			m_vecCollTile.push_back(pIsoTile);
+			m_vecCollTile.push_back(pCollTile);
 		}
 	}
 
@@ -173,7 +174,7 @@ void CLevel::CollTileRender(float& fZoom, Vector3& vScroll, D3DXMATRIX& matScale
 				continue;
 
 			pTexture = TextureMgr->GetInstance()->GetTexture(
-				TEXT("TILE"), TEXT("CollisionTile"), m_vecCollTile[iIndex]->byDrawID);
+				TEXT("Map"), TEXT("Tile"), m_vecCollTile[iIndex]->byDrawID);
 
 			D3DXMatrixTranslation(&matTrans
 				, vTempTilePos.x + vScroll.x
@@ -332,7 +333,6 @@ void CLevel::Picking()
 {
 	if (true == m_bFileMode) return;
 
-	
 	if (GetKey->KeyPress(VK_LBUTTON))
 	{
 		if (m_iPickIndex < 0 || m_iPickIndex >= COLLTILEX * COLLTILEY - 1)

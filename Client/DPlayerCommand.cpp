@@ -1,22 +1,22 @@
 #include "stdafx.h"
-#include "PlayerOperator.h"
+#include "DPlayerCommand.h"
 #include "ACommander.h"
 
-CPlayerOperator::CPlayerOperator()
+DPlayerCommand::DPlayerCommand()
 {
 }
 
 
-CPlayerOperator::~CPlayerOperator()
+DPlayerCommand::~DPlayerCommand()
 {
 }
 
-void CPlayerOperator::Update()
+void DPlayerCommand::Update()
 {
 	Input();
 }
 
-void CPlayerOperator::Input()
+void DPlayerCommand::Input()
 {
 	if (GetKey->KeyPress('A'))
 		m_pACommander->m_tInfo.vDir.x = -1.f;
