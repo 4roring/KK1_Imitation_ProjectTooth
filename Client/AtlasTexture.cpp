@@ -26,6 +26,9 @@ HRESULT CAtlasTexture::InsertTexture(const std::wstring & wstrFilePath, const st
 {
 	TCHAR szPath[MAX_PATH] = L"";
 
+	m_pTexInfo = new TEXINFO;
+	ZeroMemory(m_pTexInfo, sizeof(TEXINFO));
+
 	if (FAILED(D3DXGetImageInfoFromFile(wstrFilePath.c_str(), &m_pTexInfo->tImageInfo)))
 	{
 		MSG_BOX(wstrStateKey.c_str());

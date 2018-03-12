@@ -342,16 +342,16 @@ void CLevel::CreateBuilding()
 	}
 }
 
-void CLevel::CreateFarm(int TileIndex, TEAMID eTeam)
+void CLevel::CreateBuilding(int TileIndex, TEAMID eTeam)
 {
-	CGameObject* pObject = DObjectFactory<BFarm>::CreateFarm(TileIndex, eTeam);
+	CGameObject* pObject = DObjectFactory<BFarm>::CreateBuilding(TileIndex, eTeam);
 	GameMgr->CreateObject(pObject, OBJ_FARM);
 }
 
 void CLevel::CreateNeutralFarm(int TileIndex)
 {
 	for (int i = 0; i < NEIGHBOR_END; ++i)
-		CreateFarm(GetNeighborTileIndex(i, TileIndex, 2), TEAM_NEUTRAL);
+		CreateBuilding(GetNeighborTileIndex(i, TileIndex, 2), TEAM_NEUTRAL);
 }
 
 void CLevel::CreateTeamStartFarm(int TileIndex, TEAMID eTeam)

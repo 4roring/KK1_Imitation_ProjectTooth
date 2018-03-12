@@ -37,9 +37,6 @@
     <Filter Include="97.Managers\99.TextureManager\03.AtlasTexture">
       <UniqueIdentifier>{168cd4ad-b1f0-46f2-a8d1-c0a8307ec349}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.Scene">
-      <UniqueIdentifier>{bdc5136b-7b3e-4c59-97c6-030cf23ae2a3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00.MainGame\GameManager">
       <UniqueIdentifier>{73d2c776-da77-4dd6-8efd-7df2985ee4d6}</UniqueIdentifier>
     </Filter>
@@ -48,21 +45,6 @@
     </Filter>
     <Filter Include="97.Managers\02.TimeManager">
       <UniqueIdentifier>{c55ae58f-1ec3-4c91-8901-fc5f86720996}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Scene\SceneManager">
-      <UniqueIdentifier>{cbeccf1a-b02a-4ff9-afc7-588b9b0a6f09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Scene\00.Logo">
-      <UniqueIdentifier>{23b11975-7361-4de1-af3f-233699a36ff4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Scene\01.Title">
-      <UniqueIdentifier>{72c46f45-4339-4394-b63a-8f8fd49b0bd8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Scene\02.Stage">
-      <UniqueIdentifier>{1de559ee-e45e-4206-a40f-d61e6ec3b593}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Scene\02.Stage\Stage_3">
-      <UniqueIdentifier>{57bd4ea4-9c5c-4fa7-9171-7135e1a1744c}</UniqueIdentifier>
     </Filter>
     <Filter Include="00.MainGame\ViewManager">
       <UniqueIdentifier>{bf72dc4d-9763-4f29-aa0d-927754105261}</UniqueIdentifier>
@@ -111,6 +93,27 @@
     </Filter>
     <Filter Include="02.Actor\00.ACommender\AICommend">
       <UniqueIdentifier>{a636f68c-c3ed-42d3-9dff-3556b565dbeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Scene">
+      <UniqueIdentifier>{bdc5136b-7b3e-4c59-97c6-030cf23ae2a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Scene\SceneManager">
+      <UniqueIdentifier>{cbeccf1a-b02a-4ff9-afc7-588b9b0a6f09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Scene\00.Logo">
+      <UniqueIdentifier>{23b11975-7361-4de1-af3f-233699a36ff4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Scene\01.Title">
+      <UniqueIdentifier>{72c46f45-4339-4394-b63a-8f8fd49b0bd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Scene\02.Stage">
+      <UniqueIdentifier>{1de559ee-e45e-4206-a40f-d61e6ec3b593}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Scene\02.Stage\Stage_3">
+      <UniqueIdentifier>{57bd4ea4-9c5c-4fa7-9171-7135e1a1744c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.UI">
+      <UniqueIdentifier>{864deacf-f656-4130-87fc-b14ddb76bab0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -167,16 +170,16 @@
       <Filter>97.Managers\99.TextureManager\03.AtlasTexture</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>03.Scene\SceneManager</Filter>
+      <Filter>96.Scene\SceneManager</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>03.Scene</Filter>
+      <Filter>96.Scene</Filter>
     </ClInclude>
     <ClInclude Include="Logo.h">
-      <Filter>03.Scene\00.Logo</Filter>
+      <Filter>96.Scene\00.Logo</Filter>
     </ClInclude>
     <ClInclude Include="Stage_3.h">
-      <Filter>03.Scene\02.Stage\Stage_3</Filter>
+      <Filter>96.Scene\02.Stage\Stage_3</Filter>
     </ClInclude>
     <ClInclude Include="ViewManager.h">
       <Filter>00.MainGame\ViewManager</Filter>
@@ -208,6 +211,13 @@
     <ClInclude Include="DObjectFactory.h">
       <Filter>01.GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>04.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="BHQ.h">
+      <Filter>03.Building\BHQ</Filter>
+    </ClInclude>
+    <ClInclude Include="BUnitFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -257,16 +267,16 @@
       <Filter>97.Managers\99.TextureManager\03.AtlasTexture</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>03.Scene\SceneManager</Filter>
+      <Filter>96.Scene\SceneManager</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>03.Scene</Filter>
+      <Filter>96.Scene</Filter>
     </ClCompile>
     <ClCompile Include="Logo.cpp">
-      <Filter>03.Scene\00.Logo</Filter>
+      <Filter>96.Scene\00.Logo</Filter>
     </ClCompile>
     <ClCompile Include="Stage_3.cpp">
-      <Filter>03.Scene\02.Stage\Stage_3</Filter>
+      <Filter>96.Scene\02.Stage\Stage_3</Filter>
     </ClCompile>
     <ClCompile Include="ViewManager.cpp">
       <Filter>00.MainGame\ViewManager</Filter>
@@ -295,6 +305,13 @@
     <ClCompile Include="BFarm.cpp">
       <Filter>03.Building\BFarm</Filter>
     </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>04.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="BHQ.cpp">
+      <Filter>03.Building\BHQ</Filter>
+    </ClCompile>
+    <ClCompile Include="BUnitFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

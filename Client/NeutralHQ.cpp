@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "NeutralHQ.h"
 #include "Level.h"
+#include "BHQ.h"
 
 CNeutralHQ::CNeutralHQ()
 {
@@ -38,6 +39,9 @@ OBJSTATE CNeutralHQ::Update(float deltaTime)
 	if (m_bDestroy)
 	{
 		// TODO: BHQ를 자신의 위치에 생성하고 자신을 파괴
+		CGameObject* pObject = DObjectFactory<BHQ>::CreateBuilding(m_iTileIndexArr[0], m_eTeam);
+		GameMgr->CreateObject(pObject, OBJ_HQ);
+
 		return STATE_DESTROY;
 	}
 

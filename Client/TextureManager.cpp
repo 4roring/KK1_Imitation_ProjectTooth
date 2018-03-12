@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include "SingleTexture.h"
 #include "MultiTexture.h"
+#include "AtlasTexture.h"
 
 
 CTextureManager::CTextureManager()
@@ -37,8 +38,11 @@ HRESULT CTextureManager::InsertTexture(const std::wstring & wstrFilePath, const 
 		case TEX_MULTI:
 			pTexture = new CMultiTexture;
 			break;
+		case TEX_ATLAS:
+			pTexture = new CAtlasTexture;
+			break;
 		default:
-			assert(!"Not Texture Type");
+			assert(!"Insert Texture Failed!! Not Texture Type.");
 			break;
 		}
 

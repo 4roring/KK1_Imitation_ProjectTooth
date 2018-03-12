@@ -32,13 +32,11 @@ protected:
 	ANIMFRAME m_tFrame;
 	ANIMSCENE m_tScene;
 	const TEXINFO* m_pTexTint = nullptr;
+	const D3DCOLOR* m_TeamColor = nullptr;
 
 protected:
 	int m_iTileIndexArr[4];
 	int iImageCX;
 	int iImageCY;
-
-private:
-	const D3DCOLOR* m_TeamColor = nullptr;
 };
 

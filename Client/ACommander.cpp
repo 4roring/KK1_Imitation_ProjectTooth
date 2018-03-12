@@ -15,7 +15,7 @@ ACommander::~ACommander()
 
 HRESULT ACommander::Initialize()
 {
-	CActor::Initialize();
+	if(FAILED(CActor::Initialize())) return E_FAIL;
 
 	m_tInfo.vLook = { 1.f, 0.f, 0.f };
 	m_tInfo.vDir = { 0.f, 0.f, 0.f };
@@ -38,10 +38,10 @@ HRESULT ACommander::Initialize()
 	m_fSpeed = 110.f * fScreenZoom;
 	m_iMaxHp = 10;
 	m_iHp = 10;
-
+	
 	// TODO: Factory에서 정할 수 있는 멤버 변수를 넣는 등 설정.
-	m_pOperator = new DPlayerCommand;
-	m_pOperator->SetCommander(this);
+	m_pCommand = new DPlayerCommand;
+	m_pCommand->SetCommander(this);
 
 	return S_OK;
 }
@@ -51,7 +51,7 @@ OBJSTATE ACommander::Update(float deltaTime)
 {
 	CActor::Update(deltaTime);
 
-	m_pOperator->Update();
+	m_pCommand->Update();
 	UpdateState(deltaTime);
 
 	return STATE_PLAY;
@@ -72,7 +72,7 @@ void ACommander::Render()
 
 void ACommander::Release()
 {
-	SafeDelete(m_pOperator);
+	SafeDelete(m_pCommand);
 }
 
 void ACommander::UpdateState(float deltaTime)
@@ -214,41 +214,89 @@ void ACommander::SetAnimState()
 void ACommander::CheckTileObject()
 {
 	CheckHQ();
-	CheckUnit();
+	CheckFarm();
+	CheckSlotUnit();
+	CheckTileUnit();
 }
 
 void ACommander::CheckHQ()
 {
 	VECCOLLTILE pVecRange;
-	m_pLevel->GetRange(pVecRange, m_iTileIndexArr, 2);
+	m_pLevel->GetRange(pVecRange, m_iTileIndex, 2);
 
 	for (auto& pTile : pVecRange)
 	{
 		if (pTile->pGameObject == nullptr)
 			continue;
 
-		if (pTile->pGameObject->GetObjectID() == OBJ_HQ)
+		if (CheckObjectNetual(pTile->pGameObject, OBJ_HQ))
 		{
 			if (true == m_bBuild && pTile->pGameObject->GetTeamID() == TEAM_NEUTRAL)
+			{
 				pTile->pGameObject->Destroy();
+				pTile->pGameObject->SetTeam(m_eTeam);
+			}
 		}
 	}
 }
 
-void ACommander::CheckUnit()
+void ACommander::CheckFarm()
+{
+	CGameObject* pObject = (*m_pLevel->GetVecCollTile())[m_iTileIndex]->pGameObject;
+
+	if (CheckObjectID(pObject, OBJ_FARM))
+	{
+		if (true == m_bBuild && CheckObjectTeam(pObject, m_eTeam))
+		{
+			pObject->Destroy();
+			m_bBuild = false;
+		}
+	}
+}
+
+void ACommander::CheckSlotUnit()
 {
 	VECCOLLTILE pVecRange;
-	m_pLevel->GetRange(pVecRange, m_iTileIndexArr, 5);
+	
+}
+
+void ACommander::CheckTileUnit()
+{
+	VECCOLLTILE pVecRange;
+	m_pLevel->GetRange(pVecRange, m_iTileIndex, 5);
+}
+
+void ACommander::CreateSlotUnitBuilding()
+{
+
+}
+
+bool ACommander::CheckObjectID(CGameObject * pObject, OBJID eObjectID)
+{
+	if (pObject->GetObjectID() == eObjectID) return true;
+	
+	return false;
+}
+
+bool ACommander::CheckObjectTeam(CGameObject * pObject, TEAMID eTeam)
+{
+	if (pObject->GetTeamID() == eTeam) return true;
+
+	return false;
+}
+
+bool ACommander::CheckObjectNetual(CGameObject * pObject, OBJID eObjectID)
+{
+	if (false == CheckObjectID(pObject, eObjectID)) return false;
+	if (false == CheckObjectTeam(pObject, TEAM_NEUTRAL)) return false;
+
+	return true;
 }
 
 bool ACommander::OffsetX()
 {
 	const Vector3& vScroll = ViewMgr->GetScroll();
-
 	const Vector3& vPos = m_tInfo.vPosition + ViewMgr->GetScroll();
-
-	//if (vPos.x < (WINCX >> 1) && vPos.x >(WINCX >> 1)) return true;
-	//if (vPos.y < (WINCY >> 1) && vPos.y >(WINCY >> 1)) return true;
 
 	if (m_tInfo.vDir.x > 0.f && vPos.x > (WINCX >> 1) - 2.f) return true;
 	if (m_tInfo.vDir.x < 0.f && vPos.x < (WINCX >> 1) + 2.f) return true;
@@ -259,7 +307,6 @@ bool ACommander::OffsetX()
 bool ACommander::OffsetY()
 {
 	const Vector3& vScroll = ViewMgr->GetScroll();
-
 	const Vector3& vPos = m_tInfo.vPosition + ViewMgr->GetScroll();
 
 	if (m_tInfo.vDir.y > 0.f && vPos.y >(WINCY >> 1) - 2.f) return true;

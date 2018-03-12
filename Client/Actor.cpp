@@ -152,7 +152,7 @@ void CActor::CheckCollTile()
 
 	const VECCOLLTILE* pVecCollTile = m_pLevel->GetVecCollTile();
 
-	if (m_iTileIndexArr != m_iTemp)
+	if (m_iTileIndex != m_iTemp)
 	{
 		if ((*pVecCollTile)[m_iTemp]->byOption != 0)
 		{
@@ -160,7 +160,7 @@ void CActor::CheckCollTile()
 			return;
 		}
 
-		CGameObject*& pObject = (*pVecCollTile)[m_iTileIndexArr]->pGameObject;
+		CGameObject*& pObject = (*pVecCollTile)[m_iTileIndex]->pGameObject;
 
 		// 타일이 기억하는 오브젝트와 내가 같을 때만 null로 변경.
 		if(pObject == this)
@@ -169,9 +169,9 @@ void CActor::CheckCollTile()
 		if(nullptr == (*pVecCollTile)[m_iTemp]->pGameObject)
 			(*pVecCollTile)[m_iTemp]->pGameObject = this;
 
-		m_iTileIndexArr = m_iTemp;
+		m_iTileIndex = m_iTemp;
 	}
 
-	//if (nullptr == (*pVecCollTile)[m_iTileIndexArr]->pGameObject)
-	//	(*pVecCollTile)[m_iTileIndexArr]->pGameObject = this;
+	//if (nullptr == (*pVecCollTile)[m_iTileIndex]->pGameObject)
+	//	(*pVecCollTile)[m_iTileIndex]->pGameObject = this;
 }

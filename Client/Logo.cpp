@@ -19,6 +19,7 @@ HRESULT CLogo::Initialize()
 	TextureLoad(TEXT("../Data/MapTexture.dat"));
 	TextureLoad(TEXT("../Data/ActorTexture.dat"));
 	TextureLoad(TEXT("../Data/StructureTexture.dat"));
+	TextureLoad(TEXT("../Data/AtlasTexture.dat"));
 
 	return S_OK;
 }

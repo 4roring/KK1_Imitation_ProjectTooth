@@ -36,7 +36,7 @@ public: // Tile Picking
 public:
 	void LoadCollTile();
 	void CreateBuilding();
-	void CreateFarm(int TileIndex, TEAMID eTeam);
+	void CreateBuilding(int TileIndex, TEAMID eTeam);
 	void CreateNeutralFarm(int TileIndex);
 	void CreateTeamStartFarm(int TileIndex, TEAMID eTeam);
 

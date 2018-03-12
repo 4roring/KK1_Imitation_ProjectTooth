@@ -3,6 +3,7 @@
 #include "ACommander.h"
 #include "Level.h"
 #include "Deco.h"
+#include "UI.h"
 
 CStage_3::CStage_3()
 {
@@ -19,6 +20,7 @@ HRESULT CStage_3::Initialize()
 	Vector3 vPos = Vector3(680.f, 2600.f, 0.f);
 	GameMgr->CreateObject(DObjectFactory<ACommander>::Create(vPos, TEAM_RED), OBJ_PLAYER);
 	GameMgr->CreateObject(DObjectFactory<CLevel>::Create(), OBJ_LEVEL);
+	GameMgr->CreateObject(DObjectFactory<CUI>::Create(), OBJ_UI);
 
 	LoadDeco();
 

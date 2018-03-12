@@ -42,7 +42,7 @@ protected:
 	const TEXINFO* m_pTexTint = nullptr;
 
 protected:
-	int m_iTileIndexArr = 0;
+	int m_iTileIndex = 0;
 
 private:
 	RECT m_tRect;

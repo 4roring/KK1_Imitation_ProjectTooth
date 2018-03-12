@@ -30,7 +30,7 @@ HRESULT BFarm::Initialize()
 	m_tScene.fSceneMax = 1.f / (float)m_tScene.iMaxFrame;
 
 	m_iMaxHp = 10;
-	m_iHp = 10;
+	m_iHp = m_iMaxHp;
 
 	return S_OK;
 }
@@ -53,7 +53,6 @@ OBJSTATE BFarm::Update(float deltaTime)
 	}
 
 	CBuilding::Update(deltaTime);
-
 	UpdateState(deltaTime);
 
 	return STATE_PLAY;
@@ -145,7 +144,7 @@ void BFarm::SetAnimState()
 			SetAnimFrame(12.f, 28.f, 1.f);
 			break;
 		case BFarm::OnStream:
-			SetAnimFrame(2.f, 7.f, 1.f);
+			SetAnimFrame(2.f, 7.f, 1.3f);
 			break;
 		case BFarm::Farm:
 			SetAnimFrame(0.f, 0.f, 0.f);

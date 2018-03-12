@@ -152,6 +152,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BFarm.h" />
+    <ClInclude Include="BHQ.h" />
+    <ClInclude Include="BUnitFactory.h" />
     <ClInclude Include="DObjectFactory.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="ACommander.h" />
@@ -175,6 +177,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="UI.h" />
     <ClInclude Include="ViewManager.h" />
     <ClInclude Include="SingleTexture.h" />
     <ClInclude Include="Stage_3.h" />
@@ -189,7 +192,9 @@
     <ClCompile Include="ACommander.cpp" />
     <ClCompile Include="AtlasTexture.cpp" />
     <ClCompile Include="BFarm.cpp" />
+    <ClCompile Include="BHQ.cpp" />
     <ClCompile Include="Building.cpp" />
+    <ClCompile Include="BUnitFactory.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="DBridge.cpp" />
     <ClCompile Include="Deco.cpp" />
@@ -207,6 +212,7 @@
     <ClCompile Include="NeutralHQ.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="ViewManager.cpp" />
     <ClCompile Include="SingleTexture.cpp" />
     <ClCompile Include="Stage_3.cpp" />

@@ -9,7 +9,7 @@ public:
 	ACommander();
 	virtual ~ACommander();
 
-	// CActor을(를) 통해 상속됨
+public:
 	virtual HRESULT Initialize() override;
 	virtual OBJSTATE Update(float deltaTime) override;
 	virtual void LateUpdate() override;
@@ -25,16 +25,26 @@ private:
 	void UpdateState(float deltaTime);
 	void Move(float deltaTime);
 	void SetAnimState();
+
+public:
 	void CheckTileObject();
 	void CheckHQ();
-	void CheckUnit();
+	void CheckFarm();
+	void CheckSlotUnit();
+	void CheckTileUnit();
+	void CreateSlotUnitBuilding();
+
+public:
+	bool CheckObjectID(CGameObject* pObject, OBJID eObjectID);
+	bool CheckObjectTeam(CGameObject* pObject, TEAMID eTeam);
+	bool CheckObjectNetual(CGameObject* pObject, OBJID eObjectID);
 
 private:
 	bool OffsetX();
 	bool OffsetY();
 
 private:
-	DCommand* m_pOperator;
+	DCommand* m_pCommand;
 	friend class DPlayerCommand;
 
 private:
@@ -42,5 +52,7 @@ private:
 	float m_fOrder;
 	bool m_bBuild;
 	int m_iGroup;
+	int m_iSelectSlot;
+	UNITID m_eUnit[SLOT_MAX];
 };
 
