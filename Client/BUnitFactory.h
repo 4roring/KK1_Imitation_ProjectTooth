@@ -18,9 +18,22 @@ public:
 	void SetUnitID(UNITID eUnitID) { m_eUnitID = eUnitID; }
 
 private:
-	HRESULT SetTexture();
+	void AnimUpdate();
+
+private:
+	HRESULT SetUnit();
+	void SetFactory();
+	void CreateUnit(float deltaTime);
 
 private:
 	UNITID m_eUnitID;
+	bool m_bBuildEnd = false;
+	int m_iTear = 0;
+	float m_fProductionTime = 0.f;
+
+private:
+	int m_iUnitCountMax = 0;
+	int m_iUnitCount = 0;
 };
+
 

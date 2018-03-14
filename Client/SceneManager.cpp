@@ -11,6 +11,7 @@ CSceneManager::CSceneManager()
 
 CSceneManager::~CSceneManager()
 {
+	Release();
 }
 
 HRESULT CSceneManager::SceneChange(SCENEID eSceneID)

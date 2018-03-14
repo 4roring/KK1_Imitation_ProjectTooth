@@ -3,7 +3,7 @@
 class CGameObject;
 class CActor;
 class CBuilding;
-class CUnitFactory;
+class BUnitFactory;
 
 template <typename T>
 class DObjectFactory
@@ -64,7 +64,7 @@ public:
 
 	static CGameObject* CreateUnitFactory(int iStart, UNITID eUnitID, TEAMID eTeam)
 	{
-		CUnitFactory* pObject = new T;
+		BUnitFactory* pObject = new T;
 		pObject->SetTileIndexArray(iStart);
 		pObject->SetUnitID(eUnitID);
 		pObject->SetTeam(eTeam);

@@ -12,6 +12,7 @@ CStage_3::CStage_3()
 
 CStage_3::~CStage_3()
 {
+	Release();
 }
 
 HRESULT CStage_3::Initialize()

@@ -115,6 +115,30 @@
     <Filter Include="04.UI">
       <UniqueIdentifier>{864deacf-f656-4130-87fc-b14ddb76bab0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="98.DesignPattern\State">
+      <UniqueIdentifier>{526c6cff-0540-4d15-a506-80f53ed3b872}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\01.AUnit\DUnitState">
+      <UniqueIdentifier>{a462aa6a-d5a6-430d-ac4a-e06c1728c58f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\01.AUnit\DUnitState\DUnit_1Tear">
+      <UniqueIdentifier>{15ccd762-7afe-48e2-8d53-2b416a2fbd67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\01.AUnit\DUnitState\DUnit_2Tear">
+      <UniqueIdentifier>{f2c3972b-1ebb-4786-9002-f3ecde9614e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\01.AUnit\DUnitState\DUnit_3Tear">
+      <UniqueIdentifier>{d1bb1bc8-f231-4cca-8769-d0bf7e65152a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\01.AUnit\DUnitState\DUnit_Fly">
+      <UniqueIdentifier>{88e4bdc5-4526-496b-9f73-fc3a53ba0d4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\01.AUnit\DUnitState\DUnit_Building">
+      <UniqueIdentifier>{b486054a-5e22-4dbf-9e89-231f7e09c30c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\01.AUnit\DUnitState\DUnit_Pig">
+      <UniqueIdentifier>{b6729cc1-d2d2-451a-bd3f-b9a4173db500}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -217,7 +241,21 @@
     <ClInclude Include="BHQ.h">
       <Filter>03.Building\BHQ</Filter>
     </ClInclude>
-    <ClInclude Include="BUnitFactory.h" />
+    <ClInclude Include="BUnitFactory.h">
+      <Filter>03.Building\BUnitFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="AUnit.h">
+      <Filter>02.Actor\01.AUnit</Filter>
+    </ClInclude>
+    <ClInclude Include="DState.h">
+      <Filter>98.DesignPattern\State</Filter>
+    </ClInclude>
+    <ClInclude Include="DUnitState.h">
+      <Filter>02.Actor\01.AUnit\DUnitState</Filter>
+    </ClInclude>
+    <ClInclude Include="DUnit_1Tear.h">
+      <Filter>02.Actor\01.AUnit\DUnitState\DUnit_1Tear</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -311,7 +349,21 @@
     <ClCompile Include="BHQ.cpp">
       <Filter>03.Building\BHQ</Filter>
     </ClCompile>
-    <ClCompile Include="BUnitFactory.cpp" />
+    <ClCompile Include="BUnitFactory.cpp">
+      <Filter>03.Building\BUnitFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="AUnit.cpp">
+      <Filter>02.Actor\01.AUnit</Filter>
+    </ClCompile>
+    <ClCompile Include="DState.cpp">
+      <Filter>98.DesignPattern\State</Filter>
+    </ClCompile>
+    <ClCompile Include="DUnit_1Tear.cpp">
+      <Filter>02.Actor\01.AUnit\DUnitState\DUnit_1Tear</Filter>
+    </ClCompile>
+    <ClCompile Include="DUnitState.cpp">
+      <Filter>02.Actor\01.AUnit\DUnitState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

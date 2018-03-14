@@ -5,8 +5,9 @@ class CTextureManager
 	friend CSingleton;
 
 private:
-	CTextureManager();
-	~CTextureManager();
+	explicit CTextureManager();
+	virtual ~CTextureManager();
+	CTextureManager(const CTextureManager&) = delete;
 
 public:
 	const TEXINFO* GetTexture(const std::wstring& wstrObjKey

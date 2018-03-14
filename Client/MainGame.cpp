@@ -44,7 +44,7 @@ void CMainGame::Release()
 	SceneMgr->DestroyInstance();
 	GameMgr->DestroyInstance();
 	TextureMgr->DestroyInstance();
-	Device->DestroyInstance();
 	GetKey->DestroyInstance();
 	Time->DestroyInstance();
+	Device->DestroyInstance();
 }

@@ -43,12 +43,12 @@ OBJSTATE BFarm::Update(float deltaTime)
 
 		for (int iTileNum : m_iTileIndexArr)
 		{
-			(*m_pLevel->GetVecCollTile())[iTileNum]->pGameObject = this;
-			(*m_pLevel->GetVecCollTile())[iTileNum]->byDrawID = 0;
-			(*m_pLevel->GetVecCollTile())[iTileNum]->byOption = 0;
+			m_pLevel->SetTileObject(iTileNum, this);
+			m_pLevel->GetCollTile(iTileNum)->byDrawID = 0;
+			m_pLevel->GetCollTile(iTileNum)->byOption = 0;
 		}
 
-		Vector3 vPos = (*m_pLevel->GetVecCollTile())[m_iTileIndexArr[0]]->vPosition;
+		Vector3 vPos = m_pLevel->GetCollTile(m_iTileIndexArr[0])->vPosition;
 		m_tInfo.vPosition = Vector3(vPos.x, vPos.y - COLLTILECY, 0.f);
 	}
 
@@ -140,22 +140,18 @@ void BFarm::SetAnimState()
 	{
 		switch (m_eCurState)
 		{
-		case BFarm::Grass:
-			SetAnimFrame(12.f, 28.f, 1.f);
+		case BFarm::Grass: SetAnimFrame(12.f, 28.f, 1.f);
 			break;
-		case BFarm::OnStream:
-			SetAnimFrame(2.f, 7.f, 1.3f);
+		case BFarm::OnStream: SetAnimFrame(2.f, 7.f, 1.3f);
 			break;
-		case BFarm::Farm:
-			SetAnimFrame(0.f, 0.f, 0.f);
+		case BFarm::Farm: SetAnimFrame(0.f, 0.f, 0.f);
 			break;
-		case BFarm::FarmEnd:
-			SetAnimFrame(11.f, 11.f, 0.f);
+		case BFarm::FarmEnd: SetAnimFrame(11.f, 11.f, 0.f);
 			break;
 		case BFarm::End:
 		default:
 #ifdef _DEBUG
-			assert(!"Farm AnimState Error(defalut or End");
+			assert(!"Farm AnimState Error(defalut or End)");
 #endif
 			break;
 		}

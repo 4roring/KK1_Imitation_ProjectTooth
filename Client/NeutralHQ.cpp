@@ -30,9 +30,9 @@ OBJSTATE CNeutralHQ::Update(float deltaTime)
 
 		for (int iTileNum : m_iTileIndexArr)
 		{
-			(*m_pLevel->GetVecCollTile())[iTileNum]->pGameObject = this;
-			(*m_pLevel->GetVecCollTile())[iTileNum]->byDrawID = 1;
-			(*m_pLevel->GetVecCollTile())[iTileNum]->byOption = 1;
+			m_pLevel->SetTileObject(iTileNum, this);
+			m_pLevel->GetCollTile(iTileNum)->byDrawID = 1;
+			m_pLevel->GetCollTile(iTileNum)->byOption = 1;
 		}
 	}
 

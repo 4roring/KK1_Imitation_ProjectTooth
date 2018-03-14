@@ -39,4 +39,18 @@ void DPlayerCommand::Input()
 
 	if (GetKey->KeyDown(VK_SPACE))
 		m_pACommander->m_bBuild = true;
+
+	if (GetKey->KeyDown('Q'))
+	{
+		if (--m_pACommander->m_iSelectSlot < 0)
+			m_pACommander->m_iSelectSlot = SLOT_MAX - 1;
+	}
+
+	if (GetKey->KeyDown('E'))
+	{
+		if (++m_pACommander->m_iSelectSlot >= SLOT_MAX)
+			m_pACommander->m_iSelectSlot = 0;
+	}
+
+		
 }

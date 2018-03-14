@@ -26,7 +26,7 @@ public:
 
 public: // Tile Picking
 	int GetTileIndex(Vector3 vPos);
-//	void GetRange(VECCOLLTILE& rVecRange, int iStart); // 마름모꼴 타일 사거리 1
+	void GetRange(VECCOLLTILE& rVecRange, int iStart); // 마름모꼴 타일 사거리 1
 	void GetRange(VECCOLLTILE& rVecRange, int iStart, int iRange);
 	// 원하는 방향의 인접 타일의 번호를 가져온다.
 	int GetNeighborTileIndex(int iNeighbor, int iStart);
@@ -40,9 +40,12 @@ public:
 	void CreateNeutralFarm(int TileIndex);
 	void CreateTeamStartFarm(int TileIndex, TEAMID eTeam);
 
+public:
+	COLLTILE* GetCollTile(int iIndex) const { return m_vecCollTile[iIndex]; }
+	CGameObject* GetTileObject(int iIndex) { return m_vecCollTile[iIndex]->pGameObject; }
 
 public:
-	const VECCOLLTILE* GetVecCollTile() const { return &m_vecCollTile; }
+	void SetTileObject(int iIndex, CGameObject* pObject) { m_vecCollTile[iIndex]->pGameObject = pObject; }
 
 private:
 	VECCOLLTILE m_vecCollTile;

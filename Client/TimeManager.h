@@ -6,9 +6,9 @@ class CTimeManager :
 	friend CSingleton;
 
 private:
-	CTimeManager();
+	explicit CTimeManager();
 	virtual ~CTimeManager();
-
+	CTimeManager(const CTimeManager&) = delete;
 public:
 	const float& GetDeltaTime() { return m_fTime; }
 	void InitTime();

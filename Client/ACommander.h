@@ -26,13 +26,16 @@ private:
 	void Move(float deltaTime);
 	void SetAnimState();
 
-public:
+public: // 건물 생산과 관련된 함수들
 	void CheckTileObject();
 	void CheckHQ();
 	void CheckFarm();
 	void CheckSlotUnit();
+	bool CheckTile4x4(VECCOLLTILE& vecRange, int iDir);
+	void CreateSlotUnitBuilding(int iStart);
+
+public:
 	void CheckTileUnit();
-	void CreateSlotUnitBuilding();
 
 public:
 	bool CheckObjectID(CGameObject* pObject, OBJID eObjectID);
@@ -54,5 +57,11 @@ private:
 	int m_iGroup;
 	int m_iSelectSlot;
 	UNITID m_eUnit[SLOT_MAX];
+
+#ifdef _DEBUG
+private:
+	LPD3DXFONT m_pFont;
+	void DrawStateString();
+#endif
 };
 

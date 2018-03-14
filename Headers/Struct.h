@@ -25,9 +25,10 @@ typedef struct tagAnimFrame
 
 typedef struct tagAnimScene
 {
-	float fSceneMax;
-	int iMaxFrame;
-	int iScene, iFrame;
+	float fSceneMax;	// 1 / MaxFrame
+	int iMaxFrame;		// Scene 당 MaxFrame
+	int iScene;			// 현재 Scene 번호
+	int iFrame;			// 현재 Frame 번호
 }ANIMSCENE;
 
 typedef struct tagCollisionTile
@@ -43,8 +44,19 @@ typedef struct tagDecoration
 	D3DXVECTOR3 vPosition;
 	std::wstring wstrObjKey;
 	std::wstring wstrStateKey;
-	int iCount;
+
 }DECO;
+
+typedef struct tagUnitInfo
+{
+	int iMaxHp;
+	int iHp;
+	int iAtk;
+	float fAtkTime;
+	int iCount;
+	int iSight;
+	int iRange;
+}UNITINFO;
 
 // 툴에서 저장 전용
 typedef struct tagTexturePath

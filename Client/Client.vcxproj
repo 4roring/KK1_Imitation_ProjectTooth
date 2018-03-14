@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AUnit.h" />
     <ClInclude Include="BFarm.h" />
     <ClInclude Include="BHQ.h" />
     <ClInclude Include="BUnitFactory.h" />
@@ -163,6 +164,9 @@
     <ClInclude Include="DBridge.h" />
     <ClInclude Include="Deco.h" />
     <ClInclude Include="Device.h" />
+    <ClInclude Include="DState.h" />
+    <ClInclude Include="DUnitState.h" />
+    <ClInclude Include="DUnit_1Tear.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HQGround.h" />
@@ -191,6 +195,7 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="ACommander.cpp" />
     <ClCompile Include="AtlasTexture.cpp" />
+    <ClCompile Include="AUnit.cpp" />
     <ClCompile Include="BFarm.cpp" />
     <ClCompile Include="BHQ.cpp" />
     <ClCompile Include="Building.cpp" />
@@ -199,6 +204,9 @@
     <ClCompile Include="DBridge.cpp" />
     <ClCompile Include="Deco.cpp" />
     <ClCompile Include="Device.cpp" />
+    <ClCompile Include="DState.cpp" />
+    <ClCompile Include="DUnitState.cpp" />
+    <ClCompile Include="DUnit_1Tear.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HQGround.cpp" />

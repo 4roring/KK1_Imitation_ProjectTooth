@@ -150,28 +150,24 @@ void CActor::CheckCollTile()
 
 	int m_iTemp = m_pLevel->GetTileIndex(m_tInfo.vPosition);
 
-	const VECCOLLTILE* pVecCollTile = m_pLevel->GetVecCollTile();
-
 	if (m_iTileIndex != m_iTemp)
 	{
-		if ((*pVecCollTile)[m_iTemp]->byOption != 0)
+		if (m_pLevel->GetCollTile(m_iTemp)->byOption != 0)
 		{
 			m_tInfo.vPosition -= m_tInfo.vDir;
 			return;
 		}
 
-		CGameObject*& pObject = (*pVecCollTile)[m_iTileIndex]->pGameObject;
-
 		// 타일이 기억하는 오브젝트와 내가 같을 때만 null로 변경.
-		if(pObject == this)
-			pObject = nullptr;
+		if(m_pLevel->GetTileObject(m_iTileIndex) == this)
+			m_pLevel->SetTileObject(m_iTileIndex, nullptr);
 
-		if(nullptr == (*pVecCollTile)[m_iTemp]->pGameObject)
-			(*pVecCollTile)[m_iTemp]->pGameObject = this;
+		if(nullptr == m_pLevel->GetTileObject(m_iTemp))
+			m_pLevel->SetTileObject(m_iTemp, this);
 
 		m_iTileIndex = m_iTemp;
 	}
 
-	//if (nullptr == (*pVecCollTile)[m_iTileIndex]->pGameObject)
-	//	(*pVecCollTile)[m_iTileIndex]->pGameObject = this;
+	if (nullptr == m_pLevel->GetTileObject(m_iTileIndex))
+		m_pLevel->SetTileObject(m_iTileIndex, this);
 }

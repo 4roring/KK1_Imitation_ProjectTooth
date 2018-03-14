@@ -17,12 +17,9 @@ HRESULT BHQ::Initialize()
 	CBuilding::Initialize();
 
 	m_eLayer = LAYER_OBJ;
-
-	m_pTexMain = TextureMgr->GetTexture(TEXT("windmill_base"));
-	m_pTexTint = TextureMgr->GetTexture(TEXT("windmill_base_tint"));
-
-	m_pWindmillTexMain = TextureMgr->GetTexture(TEXT("windmill_topper"));
-	m_pWindmillTexTint = TextureMgr->GetTexture(TEXT("windmill_topper_tint"));
+	
+	if (FAILED(SetTexture()))
+		return E_FAIL;
 
 	iImageCX = WINDMILL_CX;
 	iImageCY = WINDMILL_CY;
@@ -54,12 +51,12 @@ OBJSTATE BHQ::Update(float deltaTime)
 
 		for (int iTileNum : m_iTileIndexArr)
 		{
-			(*m_pLevel->GetVecCollTile())[iTileNum]->pGameObject = this;
-			(*m_pLevel->GetVecCollTile())[iTileNum]->byDrawID = 1;
-			(*m_pLevel->GetVecCollTile())[iTileNum]->byOption = 1;
+			m_pLevel->GetCollTile(iTileNum)->pGameObject = this;
+			m_pLevel->GetCollTile(iTileNum)->byDrawID = 1;
+			m_pLevel->GetCollTile(iTileNum)->byOption = 1;
 		}
 
-		Vector3 vPos = (*m_pLevel->GetVecCollTile())[m_iTileIndexArr[0]]->vPosition;
+		Vector3 vPos = m_pLevel->GetCollTile(m_iTileIndexArr[0])->vPosition;
 		m_tInfo.vPosition = Vector3(vPos.x, vPos.y, 0.f);
 	}
 	CBuilding::Update(deltaTime);
@@ -113,7 +110,7 @@ void BHQ::UpdateState(float deltaTime)
 			for (int i = 0; i < 8; ++i)
 			{
 				int iFramIndex = m_pLevel->GetNeighborTileIndex(i, m_iTileIndexArr[0], 2);
-				(*m_pLevel->GetVecCollTile())[iFramIndex]->pGameObject->SetTeam(m_eTeam);
+				m_pLevel->GetTileObject(iFramIndex)->SetTeam(m_eTeam);
 			}
 		}
 		if (m_bDestroy)
@@ -237,4 +234,19 @@ void BHQ::WindmillRender()
 		, &m_tWindmillRect
 		, &Vector3(m_tFrame.fCenterX, m_tFrame.fCenterY, 0.f)
 		, nullptr, *m_TeamColor);
+}
+
+HRESULT BHQ::SetTexture()
+{
+	m_pTexMain = TextureMgr->GetTexture(TEXT("windmill_base"));
+	m_pTexTint = TextureMgr->GetTexture(TEXT("windmill_base_tint"));
+	if (nullptr == m_pTexMain || nullptr == m_pTexTint)
+		return E_FAIL;
+
+	m_pWindmillTexMain = TextureMgr->GetTexture(TEXT("windmill_topper"));
+	m_pWindmillTexTint = TextureMgr->GetTexture(TEXT("windmill_topper_tint"));
+	if (nullptr == m_pWindmillTexMain || nullptr == m_pWindmillTexTint)
+		return E_FAIL;
+
+	return S_OK;
 }

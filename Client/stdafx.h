@@ -27,14 +27,14 @@
 #include <d3dx9.h>
 #include <d3d9.h>
 
-
+#ifdef _DEBUG
+#include <vld.h>
 #include <assert.h>
-
+#endif
 
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
 #include "Include.h"
 #include "DObjectFactory.h"
-
 
 // Managers
 #include "GameManager.h"

@@ -7,8 +7,9 @@ class CSceneManager :
 	friend CSingleton;
 
 private:
-	CSceneManager();
+	explicit CSceneManager();
 	virtual ~CSceneManager();
+	CSceneManager(const CSceneManager&) = delete;
 
 public:
 	HRESULT SceneChange(SCENEID eSceneID);

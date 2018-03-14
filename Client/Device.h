@@ -5,9 +5,9 @@ class CDevice
 	friend CSingleton;
 
 private:
-	CDevice();
-	~CDevice();
-
+	explicit CDevice();
+	virtual ~CDevice();
+	CDevice(const CDevice&) = delete;
 public:
 	HRESULT InitDevice();
 

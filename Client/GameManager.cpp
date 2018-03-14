@@ -50,6 +50,7 @@ void CGameManager::Update(float deltaTime)
 				break;
 
 			case STATE_DESTROY:
+				SafeDelete(*iter);
 				iter = ObjectList[i].erase(iter);
 				break;
 			}

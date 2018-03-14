@@ -26,7 +26,7 @@ class CSingleton
 protected:
 	explicit CSingleton() {}
 	virtual ~CSingleton() {}
-
+	CSingleton(const CSingleton&) = delete;
 public:
 	static T* GetInstance()
 	{

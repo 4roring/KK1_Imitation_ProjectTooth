@@ -6,9 +6,9 @@ class CGameManager :
 	friend CSingleton;
 
 private :
-	CGameManager();
+	explicit CGameManager();
 	virtual ~CGameManager();
-
+	CGameManager(const CGameManager&) = delete;
 public:
 	const OBJLIST& GetObjectList(OBJID eObjID) { return ObjectList[eObjID]; }
 	const D3DCOLOR* GetTeamColor(TEAMID eTeamID) { return &m_TeamColor[eTeamID]; }

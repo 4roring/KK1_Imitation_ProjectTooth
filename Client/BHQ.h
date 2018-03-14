@@ -33,6 +33,9 @@ private:
 	void WindmillRender();
 
 private:
+	HRESULT SetTexture();
+
+private:
 	RECT m_tWindmillRect;
 	ANIMFRAME m_tWindmillFrame;
 	ANIMSCENE m_tWindmillScene;

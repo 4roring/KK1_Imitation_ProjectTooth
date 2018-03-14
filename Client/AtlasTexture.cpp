@@ -9,6 +9,7 @@ CAtlasTexture::CAtlasTexture()
 
 CAtlasTexture::~CAtlasTexture()
 {
+	Release();
 }
 
 const TEXINFO * CAtlasTexture::GetTexture(const std::wstring & wstrStateKey, const int & iCount)

@@ -182,6 +182,17 @@ int CLevel::GetTileIndex(Vector3 vPos)
 	return iPickIdx;
 }
 
+void CLevel::GetRange(VECCOLLTILE & rVecRange, int iStart)
+{
+	rVecRange.clear();
+
+	for (int i = 0; i < NEIGHBOR_END; ++i)
+	{
+		int iTemp = GetNeighborTileIndex(i, iStart);
+		rVecRange.push_back(m_vecCollTile[iTemp]);
+	}
+}
+
 void CLevel::GetRange(VECCOLLTILE & rVecRange, int iStart, int iRange)
 {
 	// TODO: iRange에 따른 체크할 타일들을 저장!
@@ -190,13 +201,15 @@ void CLevel::GetRange(VECCOLLTILE & rVecRange, int iStart, int iRange)
 	// 체크를 시작하는 타일
 	int iRangeStart = iStart;
 
-	for (int i = 0; i < iRange; ++i)
-	{
-		//int iNum = ((iRangeStart / COLLTILEX) & 1) ? 0 : 1;
-		//iRangeStart -= (COLLTILEX + iNum);
-		iRangeStart = GetNeighborTileIndex(NEIGHBOR_LEFTUP, iRangeStart);
-	}
-		
+	//for (int i = 0; i < iRange; ++i)
+	//{
+	//	//int iNum = ((iRangeStart / COLLTILEX) & 1) ? 0 : 1;
+	//	//iRangeStart -= (COLLTILEX + iNum);
+	//	iRangeStart = GetNeighborTileIndex(NEIGHBOR_LEFTUP, iRangeStart);
+	//}
+	
+	iRangeStart = GetNeighborTileIndex(NEIGHBOR_LEFTUP, iRangeStart, iRange);
+
 	for (int y = 0; y < iRange * 2 + 1; ++y)
 	{
 		for (int x = 0; x < iRange + 1; ++x)
@@ -332,7 +345,6 @@ void CLevel::CreateBuilding()
 			break;
 
 		case 3: // Red팀 HQ 생성
-
 			CreateTeamStartFarm(i, TEAM_RED);
 			break;
 
@@ -356,4 +368,6 @@ void CLevel::CreateNeutralFarm(int TileIndex)
 
 void CLevel::CreateTeamStartFarm(int TileIndex, TEAMID eTeam)
 {
+	for (int i = 0; i < NEIGHBOR_END; ++i)
+		CreateBuilding(GetNeighborTileIndex(i, TileIndex, 2), eTeam);
 }

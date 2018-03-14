@@ -1,5 +1,5 @@
 #pragma once
-class CActor;
+class AUnit;
 class DBridge
 {
 public:
@@ -12,5 +12,11 @@ public:
 	virtual void LateUpdate() PURE;
 	virtual void Render() PURE;
 	virtual void Release() PURE;
+
+public:
+
+
+protected:
+
 };
 
