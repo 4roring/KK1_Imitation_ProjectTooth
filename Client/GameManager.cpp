@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GameManager.h"
 #include "GameObject.h"
+#include "DSubject.h"
 
 CGameManager::CGameManager()
 {
@@ -30,6 +31,9 @@ void CGameManager::Initialize()
 	m_TeamColor[TEAM_GREEN] = D3DCOLOR_ARGB(255, 0, 255, 0);
 	m_TeamColor[TEAM_BLUE] = D3DCOLOR_ARGB(255, 0, 0, 255);
 	m_TeamColor[TEAM_YELLO] = D3DCOLOR_ARGB(255, 255, 255, 0);
+	m_TeamColor[TEAM_NEUTRAL] = D3DCOLOR_ARGB(255, 255, 255, 255);
+
+	m_pSubject = new DSubject;
 }
 
 void CGameManager::Update(float deltaTime)

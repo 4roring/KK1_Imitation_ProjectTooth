@@ -18,11 +18,11 @@ HRESULT BFarm::Initialize()
 
 	m_pTexMain = TextureMgr->GetTexture(TEXT("farmland"));
 
-	iImageCX = FARM_CX;
-	iImageCY = FARM_CY;
+	m_iImageCX = FARM_CX;
+	m_iImageCY = FARM_CY;
 
-	m_tFrame.fCenterX = (float)(iImageCX >> 1);
-	m_tFrame.fCenterY = (float)(iImageCY >> 1);
+	m_tFrame.fCenterX = (float)(m_iImageCX >> 1);
+	m_tFrame.fCenterY = (float)(m_iImageCY >> 1);
 
 	m_tScene.iFrame = 0;
 	m_tScene.iMaxFrame = 8;
@@ -52,7 +52,7 @@ OBJSTATE BFarm::Update(float deltaTime)
 		m_tInfo.vPosition = Vector3(vPos.x, vPos.y - COLLTILECY, 0.f);
 	}
 
-	CBuilding::Update(deltaTime);
+	BBuilding::Update(deltaTime);
 	UpdateState(deltaTime);
 
 	return STATE_PLAY;
@@ -60,7 +60,7 @@ OBJSTATE BFarm::Update(float deltaTime)
 
 void BFarm::LateUpdate()
 {
-	CBuilding::LateUpdate();
+	BBuilding::LateUpdate();
 	SetAnimState();
 }
 

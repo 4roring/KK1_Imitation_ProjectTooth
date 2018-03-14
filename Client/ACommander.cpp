@@ -16,7 +16,7 @@ ACommander::~ACommander()
 
 HRESULT ACommander::Initialize()
 {
-	if(FAILED(CActor::Initialize())) return E_FAIL;
+	if(FAILED(AActor::Initialize())) return E_FAIL;
 
 	m_tInfo.vLook = { 1.f, 0.f, 0.f };
 	m_tInfo.vDir = { 0.f, 0.f, 0.f };
@@ -28,8 +28,11 @@ HRESULT ACommander::Initialize()
 	m_pTexMain = TextureMgr->GetTexture(TEXT("commander_commoners"));
 	m_pTexTint = TextureMgr->GetTexture(TEXT("commander_commoners_tint"));
 
-	m_tFrame.fCenterX = (COMMANDER_CX >> 1);
-	m_tFrame.fCenterY = (COMMANDER_CY * 0.9f);
+	m_iImageX = COMMANDER_CX;
+	m_iImageY = COMMANDER_CY;
+
+	m_tFrame.fCenterX = float(m_iImageX >> 1);
+	m_tFrame.fCenterY = float(m_iImageY * 0.9f);
 
 	m_tScene.iFrame = 0;
 	m_tScene.iMaxFrame = 8;
@@ -58,7 +61,7 @@ HRESULT ACommander::Initialize()
 
 OBJSTATE ACommander::Update(float deltaTime)
 {
-	CActor::Update(deltaTime);
+	AActor::Update(deltaTime);
 
 	m_pCommand->Update();
 	UpdateState(deltaTime);
@@ -68,7 +71,7 @@ OBJSTATE ACommander::Update(float deltaTime)
 
 void ACommander::LateUpdate()
 {
-	CActor::LateUpdate();
+	AActor::LateUpdate();
 	CheckTileObject();
 	SetAnimState();
 }
@@ -89,9 +92,7 @@ void ACommander::Release()
 }
 
 void ACommander::UpdateState(float deltaTime)
-{
-	UpdateFlipX();
-		
+{	
 	switch (m_eCurAnimState)
 	{
 	case ACommander::Idle:
@@ -269,13 +270,13 @@ void ACommander::CheckSlotUnit()
 		m_pLevel->GetRange(VecRange, m_iTileIndex);
 		
 		if (true == CheckTile4x4(VecRange, 0))
-			CreateSlotUnitBuilding(m_pLevel->GetNeighborTileIndex(NEIGHBOR_LEFTDOWN, m_iTileIndex));
+			CreateSlotUnitFactory(m_pLevel->GetNeighborTileIndex(NEIGHBOR_LEFTDOWN, m_iTileIndex));
 		else if(true == CheckTile4x4(VecRange, 1))
-			CreateSlotUnitBuilding(m_iTileIndex);
+			CreateSlotUnitFactory(m_iTileIndex);
 		else if (true == CheckTile4x4(VecRange, 2))
-			CreateSlotUnitBuilding(m_pLevel->GetNeighborTileIndex(NEIGHBOR_RIGHTDOWN, m_iTileIndex));
+			CreateSlotUnitFactory(m_pLevel->GetNeighborTileIndex(NEIGHBOR_RIGHTDOWN, m_iTileIndex));
 		else if (true == CheckTile4x4(VecRange, 3))
-			CreateSlotUnitBuilding(m_pLevel->GetNeighborTileIndex(NEIGHBOR_DOWN, m_iTileIndex));
+			CreateSlotUnitFactory(m_pLevel->GetNeighborTileIndex(NEIGHBOR_DOWN, m_iTileIndex));
 	
 		m_bBuild = false;
 	}
@@ -288,24 +289,24 @@ bool ACommander::CheckTile4x4(VECCOLLTILE & vecRange, int iDir)
 	{
 	case 0:
 		for (int i = 0; i <= 2; ++i)
-			if (nullptr != vecRange[i]->pGameObject || vecRange[i]->byOption == 1)
+			if (false == CheckTileEmpty(vecRange[i]))
 				return false;
 		break;
 	case 1:
 		for (int i = 2; i <= 4; ++i)
-			if (nullptr != vecRange[i]->pGameObject || vecRange[i]->byOption == 1)
+			if (false == CheckTileEmpty(vecRange[i]))
 				return false;
 		break;
 	case 2:
 		for (int i = 4; i <= 6; ++i)
-			if (nullptr != vecRange[i]->pGameObject || vecRange[i]->byOption == 1)
+			if (false == CheckTileEmpty(vecRange[i]))
 				return false;
 		break;
 	case 3:
 		for (int i = 6; i < 8; ++i)
-			if (nullptr != vecRange[i]->pGameObject || vecRange[i]->byOption == 1)
+			if (false == CheckTileEmpty(vecRange[i]))
 				return false;
-		if (vecRange[0]->pGameObject || vecRange[0]->byOption == 1)
+		if (false == CheckTileEmpty(vecRange[0]))
 			return false;
 		break;
 	default:
@@ -314,7 +315,7 @@ bool ACommander::CheckTile4x4(VECCOLLTILE & vecRange, int iDir)
 	return true;
 }
 
-void ACommander::CreateSlotUnitBuilding(int iStart)
+void ACommander::CreateSlotUnitFactory(int iStart)
 {
 	CGameObject* pObject = DObjectFactory<BUnitFactory>::CreateUnitFactory(iStart, m_eUnit[m_iSelectSlot], m_eTeam);
 
@@ -325,6 +326,14 @@ void ACommander::CheckTileUnit()
 {
 	VECCOLLTILE VecRange;
 	m_pLevel->GetRange(VecRange, m_iTileIndex, 5);
+}
+
+bool ACommander::CheckTileEmpty(COLLTILE * pTile)
+{
+	if (nullptr != pTile->pGameObject) return false;
+	if (pTile->byOption != 0) return false;
+
+	return true;
 }
 
 bool ACommander::CheckObjectID(CGameObject * pObject, OBJID eObjectID)

@@ -1,8 +1,9 @@
 #pragma once
 
 class CGameObject;
-class CActor;
-class CBuilding;
+class AActor;
+class AUnit;
+class BBuilding;
 class BUnitFactory;
 
 template <typename T>
@@ -50,7 +51,7 @@ public:
 
 	static CGameObject* CreateBuilding(int iStart, TEAMID eTeam)
 	{
-		CBuilding* pObject = new T;
+		BBuilding* pObject = new T;
 		pObject->SetTileIndexArray(iStart);
 		pObject->SetTeam(eTeam);
 		if (FAILED(pObject->Initialize()))
@@ -76,6 +77,23 @@ public:
 
 		return pObject;
 	}
+
+	static CGameObject* CreateUnit(int iStart, UNITID eUnitID, TEAMID eTeam)
+	{
+		AUnit* pObject = new T;
+		
+		pObject->SetUnitID(eUnitID);
+		pObject->SetTeam(eTeam);
+		pObject->SetTileIndex(iStart);
+		if (FAILED(pObject->Initialize()))
+		{
+			MSG_BOX(TEXT("Create Unit Error!!!"));
+			return nullptr;
+		}
+
+		return pObject;
+	}
+
 
 	static CGameObject* CreateDeco(const std::wstring& wstrObjKey, const std::wstring& wstrStateKey, int iCount, const Vector3& vPos)
 	{

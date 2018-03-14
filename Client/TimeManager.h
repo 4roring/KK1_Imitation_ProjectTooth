@@ -3,12 +3,13 @@
 class CTimeManager :
 	public CSingleton<CTimeManager>
 {
-	friend CSingleton;
-
 private:
+	friend CSingleton;
 	explicit CTimeManager();
 	virtual ~CTimeManager();
 	CTimeManager(const CTimeManager&) = delete;
+	CTimeManager& operator=(CTimeManager&) = delete;
+
 public:
 	const float& GetDeltaTime() { return m_fTime; }
 	void InitTime();

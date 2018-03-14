@@ -26,8 +26,10 @@ public:
 
 public: // Tile Picking
 	int GetTileIndex(Vector3 vPos);
+
 	void GetRange(VECCOLLTILE& rVecRange, int iStart); // 마름모꼴 타일 사거리 1
 	void GetRange(VECCOLLTILE& rVecRange, int iStart, int iRange);
+	
 	// 원하는 방향의 인접 타일의 번호를 가져온다.
 	int GetNeighborTileIndex(int iNeighbor, int iStart);
 	// 원하는 방향의 인접 타일의 번호를 원하는 깊이만큼 들어가서 가져온다.

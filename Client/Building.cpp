@@ -2,16 +2,16 @@
 #include "Building.h"
 #include "Level.h"
 
-CBuilding::CBuilding()
+BBuilding::BBuilding()
 {
 }
 
 
-CBuilding::~CBuilding()
+BBuilding::~BBuilding()
 {
 }
 
-HRESULT CBuilding::Initialize()
+HRESULT BBuilding::Initialize()
 {
 	m_eLayer = LAYER_OBJ;
 	m_TeamColor = GameMgr->GetTeamColor(m_eTeam);
@@ -19,19 +19,19 @@ HRESULT CBuilding::Initialize()
 	return S_OK;
 }
 
-OBJSTATE CBuilding::Update(float deltaTime)
+OBJSTATE BBuilding::Update(float deltaTime)
 {
 	FrameMove(deltaTime);
 
 	return STATE_PLAY;
 }
 
-void CBuilding::LateUpdate()
+void BBuilding::LateUpdate()
 {
 	UpdateRect();
 }
 
-void CBuilding::Render()
+void BBuilding::Render()
 {
 	Vector3 vScroll = ViewMgr->GetScroll();
 
@@ -58,7 +58,7 @@ void CBuilding::Render()
 		, nullptr, *m_TeamColor);
 }
 
-void CBuilding::FrameMove(float deltaTime)
+void BBuilding::FrameMove(float deltaTime)
 {
 	m_tFrame.fFrame += m_tFrame.fCount * deltaTime;
 	if (m_tFrame.fFrame > m_tFrame.fMax)
@@ -68,7 +68,7 @@ void CBuilding::FrameMove(float deltaTime)
 	m_tScene.iFrame = int(m_tFrame.fFrame - m_tScene.iMaxFrame * m_tScene.iScene);
 }
 
-void CBuilding::SetAnimFrame(float fFrameMin, float fFrameMax, float fFrameSpeed)
+void BBuilding::SetAnimFrame(float fFrameMin, float fFrameMax, float fFrameSpeed)
 {
 	m_tFrame.fMin = fFrameMin;
 	m_tFrame.fFrame = fFrameMin;
@@ -76,17 +76,17 @@ void CBuilding::SetAnimFrame(float fFrameMin, float fFrameMax, float fFrameSpeed
 	m_tFrame.fMax = fFrameMax;
 }
 
-void CBuilding::UpdateRect()
+void BBuilding::UpdateRect()
 {
-	int iSceneLeft = m_tScene.iFrame * iImageCX;
-	int iSceneTop = m_tScene.iScene * iImageCY;
-	int iSceneRight = m_tScene.iFrame * iImageCX + iImageCX;
-	int iSceneBottom = m_tScene.iScene * iImageCY + iImageCY;
+	int iSceneLeft = m_tScene.iFrame * m_iImageCX;
+	int iSceneTop = m_tScene.iScene * m_iImageCY;
+	int iSceneRight = m_tScene.iFrame * m_iImageCX + m_iImageCX;
+	int iSceneBottom = m_tScene.iScene * m_iImageCY + m_iImageCY;
 
 	m_tRect = { iSceneLeft, iSceneTop, iSceneRight, iSceneBottom };
 }
 
-void CBuilding::SetTileIndexArray(int iStart)
+void BBuilding::SetTileIndexArray(int iStart)
 {
 	m_iTileIndexArr[0] = iStart;
 	m_iTileIndexArr[1] = m_pLevel->GetNeighborTileIndex(NEIGHBOR_LEFTUP, iStart);

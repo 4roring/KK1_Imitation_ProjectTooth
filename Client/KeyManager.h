@@ -5,11 +5,12 @@
 class CKeyManager :
 	public CSingleton<CKeyManager>
 {
-	friend CSingleton;
-
 private:
-	CKeyManager();
+	friend CSingleton;
+	explicit CKeyManager();
 	virtual ~CKeyManager();
+	CKeyManager(const CKeyManager&) = delete;
+	CKeyManager& operator=(CKeyManager&) = delete;
 
 public:
 	bool KeyPress(int iKey)

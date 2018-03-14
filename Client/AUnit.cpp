@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "AUnit.h"
 #include "DUnit_1Tear.h"
+#include "BUnitFactory.h"
+#include "Level.h"
 
 AUnit::AUnit()
 {
@@ -14,6 +16,8 @@ AUnit::~AUnit()
 
 HRESULT AUnit::Initialize()
 {
+	AActor::Initialize();
+
 	switch (m_eUnitID)
 	{
 		// 1Æ¼¾î
@@ -56,24 +60,45 @@ HRESULT AUnit::Initialize()
 		break;
 	}
 
+	if (nullptr == m_pUnitState)
+		return E_FAIL;
+
+	m_pUnitState->SetUnit(this);
+	m_pUnitState->Initialize();
+
 	return S_OK;
 }
 
 OBJSTATE AUnit::Update(float deltaTime)
 {
-	
+	if (nullptr == m_pLevel)
+	{
+		m_pLevel = dynamic_cast<CLevel*>(GameMgr->GetObjectList(OBJ_LEVEL).back());
+		Vector3 vPos = m_pLevel->GetCollTile(m_iTileIndex)->vPosition;
+		m_tInfo.vPosition = vPos;
+	}
 
+	if (true == m_bDead)
+	{
+		m_pFactory->UnitCountSub();
+		return STATE_DESTROY;
+	}
+
+	AActor::Update(deltaTime);
+	m_pUnitState->Update(deltaTime);
 	return STATE_PLAY;
 }
 
 void AUnit::LateUpdate()
 {
-	
+	AActor::LateUpdate();
+	m_pUnitState->LateUpdate();
 }
 
 void AUnit::Render()
 {
-	
+	RenderGroundChar();
+	RenderShadow(60);
 }
 
 void AUnit::Release()

@@ -2,16 +2,16 @@
 #include "Actor.h"
 #include "Level.h"
 
-CActor::CActor()
+AActor::AActor()
 {
 }
 
 
-CActor::~CActor()
+AActor::~AActor()
 {
 }
 
-HRESULT CActor::Initialize()
+HRESULT AActor::Initialize()
 {
 	m_eLayer = LAYER_OBJ;
 	m_TeamColor = GameMgr->GetTeamColor(m_eTeam);
@@ -19,14 +19,14 @@ HRESULT CActor::Initialize()
 	return S_OK;
 }
 
-OBJSTATE CActor::Update(float deltaTime)
+OBJSTATE AActor::Update(float deltaTime)
 {
 	FrameMove(deltaTime);
-
+	UpdateFlipX();
 	return STATE_PLAY;
 }
 
-void CActor::LateUpdate()
+void AActor::LateUpdate()
 {
 	// GetTileIndex를 실행하여 현재타일과 이전타일이 다를 경우
 	// 갈 수 있는 공간인지 우선 체크하고
@@ -35,13 +35,7 @@ void CActor::LateUpdate()
 	CheckCollTile();
 }
 
-void CActor::SetTeamID(TEAMID eTeam)
-{
-	m_eTeam = eTeam;
-	m_TeamColor = GameMgr->GetTeamColor(m_eTeam);
-}
-
-void CActor::FrameMove(float deltaTime)
+void AActor::FrameMove(float deltaTime)
 {
 	m_tFrame.fFrame += m_tFrame.fCount * deltaTime;
 	if (m_tFrame.fFrame > m_tFrame.fMax)
@@ -51,7 +45,7 @@ void CActor::FrameMove(float deltaTime)
 	m_tScene.iFrame = int(m_tFrame.fFrame - m_tScene.iMaxFrame * m_tScene.iScene);
 }
 
-void CActor::SetAnimFrame(float fFrameMin, float fFrameMax, float fFrameSpeed)
+void AActor::SetAnimFrame(float fFrameMin, float fFrameMax, float fFrameSpeed)
 {
 	m_tFrame.fMin = fFrameMin;
 	m_tFrame.fFrame = fFrameMin;
@@ -59,17 +53,17 @@ void CActor::SetAnimFrame(float fFrameMin, float fFrameMax, float fFrameSpeed)
 	m_tFrame.fMax = fFrameMax;
 }
 
-void CActor::UpdateRect()
+void AActor::UpdateRect()
 {
-	int iSceneLeft = m_tScene.iFrame * COMMANDER_CX;
-	int iSceneTop = m_tScene.iScene * COMMANDER_CY;
-	int iSceneRight = m_tScene.iFrame * COMMANDER_CX + COMMANDER_CX;
-	int iSceneBottom = m_tScene.iScene * COMMANDER_CY + COMMANDER_CY;
+	int iSceneLeft = m_tScene.iFrame * m_iImageX;
+	int iSceneTop = m_tScene.iScene * m_iImageY;
+	int iSceneRight = m_tScene.iFrame * m_iImageX + m_iImageX;
+	int iSceneBottom = m_tScene.iScene * m_iImageY + m_iImageY;
 
 	m_tRect = { iSceneLeft, iSceneTop, iSceneRight, iSceneBottom };
 }
 
-void CActor::RenderShadow(BYTE Alpha)
+void AActor::RenderShadow(BYTE Alpha)
 {
 	D3DXMATRIX matShadow, matRotZ;
 	D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(-40.f));
@@ -96,12 +90,12 @@ void CActor::RenderShadow(BYTE Alpha)
 		, nullptr, D3DCOLOR_ARGB(Alpha, 0, 0, 0));
 }
 
-void CActor::RenderFlyChar()
+void AActor::RenderFlyChar()
 {
 
 }
 
-void CActor::RenderGroundChar()
+void AActor::RenderGroundChar()
 {
 	Vector3 vScroll = ViewMgr->GetScroll();
 
@@ -131,7 +125,7 @@ void CActor::RenderGroundChar()
 		, nullptr, *m_TeamColor);
 }
 
-void CActor::UpdateFlipX()
+void AActor::UpdateFlipX()
 {
 	if (m_tInfo.vDir.x > 0.f)
 		m_bFlipX = false;
@@ -143,7 +137,7 @@ void CActor::UpdateFlipX()
 		m_bFlipX = true;
 }
 
-void CActor::CheckCollTile()
+void AActor::CheckCollTile()
 {
 	if(nullptr == m_pLevel)
 		m_pLevel = dynamic_cast<CLevel*>(GameMgr->GetObjectList(OBJ_LEVEL).back());

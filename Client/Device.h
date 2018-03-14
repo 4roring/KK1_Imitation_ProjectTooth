@@ -2,12 +2,12 @@
 class CDevice
 	: public CSingleton<CDevice>
 {
-	friend CSingleton;
-
 private:
+	friend CSingleton;
 	explicit CDevice();
 	virtual ~CDevice();
 	CDevice(const CDevice&) = delete;
+	CDevice& operator=(CDevice&) = delete;
 public:
 	HRESULT InitDevice();
 

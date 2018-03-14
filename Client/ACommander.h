@@ -3,7 +3,7 @@
 
 class DCommand;
 class ACommander :
-	public CActor
+	public AActor
 {
 public:
 	ACommander();
@@ -32,10 +32,11 @@ public: // 건물 생산과 관련된 함수들
 	void CheckFarm();
 	void CheckSlotUnit();
 	bool CheckTile4x4(VECCOLLTILE& vecRange, int iDir);
-	void CreateSlotUnitBuilding(int iStart);
+	void CreateSlotUnitFactory(int iStart);
 
 public:
 	void CheckTileUnit();
+	bool CheckTileEmpty(COLLTILE* pTile);
 
 public:
 	bool CheckObjectID(CGameObject* pObject, OBJID eObjectID);

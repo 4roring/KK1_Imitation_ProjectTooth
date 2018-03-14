@@ -1,11 +1,11 @@
 #pragma once
 #include "GameObject.h"
-class CActor :
+class AActor :
 	public CGameObject
 {
 public:
-	CActor();
-	virtual ~CActor();
+	AActor();
+	virtual ~AActor();
 
 	// CGameObject을(를) 통해 상속됨
 	virtual HRESULT Initialize() override;
@@ -15,7 +15,10 @@ public:
 	virtual void Release() PURE;
 
 public:
-	void SetTeamID(TEAMID eTeam);
+	int GetTileIndex() { return m_iTileIndex; }
+
+public:
+	void SetTileIndex(int iTileIndex) { m_iTileIndex = iTileIndex; }
 
 protected:
 	void FrameMove(float deltaTime);
@@ -35,6 +38,8 @@ protected:
 	int m_iHp = 0;
 	bool m_bFlipX = false;
 	bool m_bDead = false;
+	int m_iImageX = 0;
+	int m_iImageY = 0;
 
 protected:
 	ANIMFRAME m_tFrame;

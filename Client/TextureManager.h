@@ -2,12 +2,12 @@
 class CTextureManager
 	: public CSingleton<CTextureManager>
 {
-	friend CSingleton;
-
 private:
+	friend CSingleton;
 	explicit CTextureManager();
 	virtual ~CTextureManager();
 	CTextureManager(const CTextureManager&) = delete;
+	CTextureManager& operator=(CTextureManager&) = delete;
 
 public:
 	const TEXINFO* GetTexture(const std::wstring& wstrObjKey

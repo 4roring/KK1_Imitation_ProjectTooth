@@ -303,7 +303,6 @@ void CLevel::LoadCollTile()
 		GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
 	DWORD dwByte = 0;
-
 	while (true)
 	{
 		COLLTILE* pCollTile = new COLLTILE;
@@ -317,7 +316,6 @@ void CLevel::LoadCollTile()
 
 		pCollTile->vPosition *= fScreenZoom;
 		pCollTile->pGameObject = nullptr;
-
 		m_vecCollTile.push_back(pCollTile);
 	}
 	

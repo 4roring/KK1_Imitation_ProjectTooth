@@ -14,18 +14,18 @@ BHQ::~BHQ()
 
 HRESULT BHQ::Initialize()
 {
-	CBuilding::Initialize();
+	BBuilding::Initialize();
 
 	m_eLayer = LAYER_OBJ;
 	
 	if (FAILED(SetTexture()))
 		return E_FAIL;
 
-	iImageCX = WINDMILL_CX;
-	iImageCY = WINDMILL_CY;
+	m_iImageCX = WINDMILL_CX;
+	m_iImageCY = WINDMILL_CY;
 
-	m_tFrame.fCenterX = (float)(iImageCX >> 1);
-	m_tFrame.fCenterY = (float)iImageCY * 0.9f;
+	m_tFrame.fCenterX = (float)(m_iImageCX >> 1);
+	m_tFrame.fCenterY = (float)m_iImageCY * 0.9f;
 
 	m_tScene.iFrame = 0;
 	m_tScene.iMaxFrame = 16;
@@ -59,21 +59,21 @@ OBJSTATE BHQ::Update(float deltaTime)
 		Vector3 vPos = m_pLevel->GetCollTile(m_iTileIndexArr[0])->vPosition;
 		m_tInfo.vPosition = Vector3(vPos.x, vPos.y, 0.f);
 	}
-	CBuilding::Update(deltaTime);
+	BBuilding::Update(deltaTime);
 	UpdateState(deltaTime);
 	return STATE_PLAY;
 }
 
 void BHQ::LateUpdate()
 {
-	CBuilding::LateUpdate();
+	BBuilding::LateUpdate();
 	UpdateWindmillRect();
 	SetAnimState();
 }
 
 void BHQ::Render()
 {
-	CBuilding::Render();
+	BBuilding::Render();
 	WindmillRender();
 }
 
@@ -215,10 +215,10 @@ void BHQ::SetWindmillAnimFrame(float fFrameMin, float fFrameMax, float fFrameSpe
 
 void BHQ::UpdateWindmillRect()
 {
-	int iSceneLeft = m_tWindmillScene.iFrame * iImageCX;
-	int iSceneTop = m_tWindmillScene.iScene * iImageCY;
-	int iSceneRight = m_tWindmillScene.iFrame * iImageCX + iImageCX;
-	int iSceneBottom = m_tWindmillScene.iScene * iImageCY + iImageCY;
+	int iSceneLeft = m_tWindmillScene.iFrame * m_iImageCX;
+	int iSceneTop = m_tWindmillScene.iScene * m_iImageCY;
+	int iSceneRight = m_tWindmillScene.iFrame * m_iImageCX + m_iImageCX;
+	int iSceneBottom = m_tWindmillScene.iScene * m_iImageCY + m_iImageCY;
 
 	m_tWindmillRect = { iSceneLeft, iSceneTop, iSceneRight, iSceneBottom };
 }

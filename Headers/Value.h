@@ -10,7 +10,7 @@ const int WINDMILL_CY = 140;
 const int UNITFACTORY_CX[3] = { 40, 54, 70 };
 const int UNITFACTORY_CY[3] = { 40, 54, 70 };
 const int UNITFACTORY_MAXHP[3] = { 50, 75, 100 };
-const float PRODUCTIONTIME[3] = { 10.f, 10.f, 10.f };
+const float PRODUCTIONTIME[3] = { 5.f, 10.f, 10.f };
 
 const float COLLTILECX = 42.f;
 const float COLLTILECY = 28.f;

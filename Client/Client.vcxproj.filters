@@ -139,6 +139,9 @@
     <Filter Include="02.Actor\01.AUnit\DUnitState\DUnit_Pig">
       <UniqueIdentifier>{b6729cc1-d2d2-451a-bd3f-b9a4173db500}</UniqueIdentifier>
     </Filter>
+    <Filter Include="98.DesignPattern\Observer\Subject">
+      <UniqueIdentifier>{abdad91b-8e10-47d8-9aa4-07988c83c442}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -256,6 +259,10 @@
     <ClInclude Include="DUnit_1Tear.h">
       <Filter>02.Actor\01.AUnit\DUnitState\DUnit_1Tear</Filter>
     </ClInclude>
+    <ClInclude Include="DObserver.h">
+      <Filter>98.DesignPattern\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="DSubject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -364,6 +371,10 @@
     <ClCompile Include="DUnitState.cpp">
       <Filter>02.Actor\01.AUnit\DUnitState</Filter>
     </ClCompile>
+    <ClCompile Include="DObserver.cpp">
+      <Filter>98.DesignPattern\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="DSubject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

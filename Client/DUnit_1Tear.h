@@ -13,12 +13,13 @@ public:
 	virtual void LateUpdate() override;
 
 private:
-	enum ANIMSTATE { Idle, Move, Attack };
-	ANIMSTATE m_eCurState;
-	ANIMSTATE m_ePreState;
+	enum ANIMSTATE { Idle, Move, Attack, End };
+	ANIMSTATE m_eCurState = ANIMSTATE::Idle;
+	ANIMSTATE m_ePreState = ANIMSTATE::End;
 
 private:
 	void UpdateState(float deltaTime);
 	void SetAnimState();
+
 };
 

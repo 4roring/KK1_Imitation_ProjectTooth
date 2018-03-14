@@ -3,12 +3,13 @@
 class ViewManager :
 	public CSingleton<ViewManager>
 {
-	friend CSingleton;
-
 private:
+	friend CSingleton;
 	explicit ViewManager();
 	virtual ~ViewManager();
 	ViewManager(const ViewManager&) = delete;
+	ViewManager& operator=(ViewManager&) = delete;
+
 public:
 	const Vector3& GetScroll() const { return m_vScroll; }
 

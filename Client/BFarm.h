@@ -1,7 +1,7 @@
 #pragma once
 #include "Building.h"
 class BFarm :
-	public CBuilding
+	public BBuilding
 {
 public:
 	BFarm();

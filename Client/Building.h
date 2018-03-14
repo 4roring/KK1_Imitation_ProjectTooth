@@ -1,11 +1,11 @@
 #pragma once
 #include "GameObject.h"
-class CBuilding :
+class BBuilding :
 	public CGameObject
 {
 public:
-	CBuilding();
-	virtual ~CBuilding();
+	BBuilding();
+	virtual ~BBuilding();
 
 	// CGameObject을(를) 통해 상속됨
 	virtual HRESULT Initialize() override;
@@ -36,7 +36,7 @@ protected:
 
 protected:
 	int m_iTileIndexArr[4];
-	int iImageCX;
-	int iImageCY;
+	int m_iImageCX;
+	int m_iImageCY;
 };
 

@@ -44,7 +44,7 @@ typedef struct tagDecoration
 	D3DXVECTOR3 vPosition;
 	std::wstring wstrObjKey;
 	std::wstring wstrStateKey;
-
+	int iCount;
 }DECO;
 
 typedef struct tagUnitInfo

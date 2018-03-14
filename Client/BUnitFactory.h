@@ -1,7 +1,7 @@
 #pragma once
 #include "Building.h"
 class BUnitFactory :
-	public CBuilding
+	public BBuilding
 {
 public:
 	BUnitFactory();
@@ -16,6 +16,7 @@ public:
 
 public:
 	void SetUnitID(UNITID eUnitID) { m_eUnitID = eUnitID; }
+	void UnitCountSub() { --m_iUnitCount; }
 
 private:
 	void AnimUpdate();

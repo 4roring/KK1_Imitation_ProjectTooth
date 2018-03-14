@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "BUnitFactory.h"
 #include "Level.h"
+#include "AUnit.h"
 
 BUnitFactory::BUnitFactory()
 {
@@ -14,7 +15,7 @@ BUnitFactory::~BUnitFactory()
 
 HRESULT BUnitFactory::Initialize()
 {
-	if (FAILED(CBuilding::Initialize())) return E_FAIL;
+	if (FAILED(BBuilding::Initialize())) return E_FAIL;
 	if (FAILED(SetUnit())) return E_FAIL;
 
 	return S_OK;
@@ -35,7 +36,7 @@ OBJSTATE BUnitFactory::Update(float deltaTime)
 
 	if (false == m_bBuildEnd)
 	{
-		CBuilding::Update(deltaTime);
+		BBuilding::Update(deltaTime);
 		AnimUpdate();
 		m_fBuildTime -= deltaTime;
 	}
@@ -48,12 +49,12 @@ OBJSTATE BUnitFactory::Update(float deltaTime)
 
 void BUnitFactory::LateUpdate()
 {
-	CBuilding::LateUpdate();
+	BBuilding::LateUpdate();
 }
 
 void BUnitFactory::Render()
 {
-	CBuilding::Render();
+	BBuilding::Render();
 }
 
 void BUnitFactory::Release()
@@ -109,6 +110,7 @@ HRESULT BUnitFactory::SetUnit()
 		m_fBuildTime = PRODUCTIONTIME[m_iTear];
 		m_fProductionTime = PRODUCTIONTIME[m_iTear];
 		m_iMaxHp = UNITFACTORY_MAXHP[m_iTear];
+		m_iUnitCountMax = 3;
 		break;
 
 		// 두더지 건물은 따로 만들어야할뜻.
@@ -132,6 +134,7 @@ HRESULT BUnitFactory::SetUnit()
 		m_fBuildTime = PRODUCTIONTIME[m_iTear];
 		m_fProductionTime = PRODUCTIONTIME[m_iTear];
 		m_iMaxHp = UNITFACTORY_MAXHP[m_iTear];
+		m_iUnitCountMax = 2;
 		break;
 
 	case UNIT_BADGER:
@@ -145,6 +148,7 @@ HRESULT BUnitFactory::SetUnit()
 		m_fBuildTime = PRODUCTIONTIME[m_iTear];
 		m_fProductionTime = PRODUCTIONTIME[m_iTear];
 		m_iMaxHp = UNITFACTORY_MAXHP[m_iTear];
+		m_iUnitCountMax = 1;
 		break;
 
 	default:
@@ -162,11 +166,11 @@ HRESULT BUnitFactory::SetUnit()
 
 void BUnitFactory::SetFactory()
 {
-	iImageCX = UNITFACTORY_CX[m_iTear];
-	iImageCY = UNITFACTORY_CY[m_iTear];
+	m_iImageCX = UNITFACTORY_CX[m_iTear];
+	m_iImageCY = UNITFACTORY_CY[m_iTear];
 
-	m_tFrame.fCenterX = (float)(iImageCX >> 1);
-	m_tFrame.fCenterY = (float)(iImageCY >> 1);
+	m_tFrame.fCenterX = (float)(m_iImageCX >> 1);
+	m_tFrame.fCenterY = (float)(m_iImageCY >> 1);
 
 	m_tScene.iFrame = 0;
 	m_tScene.iMaxFrame = 8;
@@ -186,10 +190,14 @@ void BUnitFactory::SetFactory()
 
 void BUnitFactory::CreateUnit(float deltaTime)
 {
-	m_fBuildTime += deltaTime;
+	if(m_iUnitCount < m_iUnitCountMax)
+		m_fBuildTime += deltaTime;
 	if (m_fBuildTime >= m_fProductionTime)
 	{
 		// 유닛 생성!
+		CGameObject* pObject = DObjectFactory<AUnit>::CreateUnit(m_iTileIndexArr[0], m_eUnitID, m_eTeam);
+		GameMgr->CreateObject(pObject, OBJ_UNIT);
+
 		++m_iUnitCount;
 		m_fBuildTime = 0.f;
 	}

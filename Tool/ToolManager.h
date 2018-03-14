@@ -5,9 +5,12 @@ class CMainFrame;
 class CToolManager :
 	public CSingleton<CToolManager>
 {
-public:
+private:
+	friend CSingleton;
 	CToolManager();
 	virtual ~CToolManager();
+	CToolManager(const CToolManager&) = delete;
+	CToolManager& operator=(CToolManager&) = delete;
 
 public:
 	HRESULT Initialize();
