@@ -2,6 +2,7 @@
 #include "GameManager.h"
 #include "GameObject.h"
 #include "DSubject.h"
+#include "AStar.h"
 
 CGameManager::CGameManager()
 {
@@ -33,7 +34,10 @@ void CGameManager::Initialize()
 	m_TeamColor[TEAM_YELLO] = D3DCOLOR_ARGB(255, 255, 255, 0);
 	m_TeamColor[TEAM_NEUTRAL] = D3DCOLOR_ARGB(255, 255, 255, 255);
 
-	m_pSubject = new DSubject;
+	for (int i = 0; i < TEAM_NEUTRAL;++i)
+		m_pSubject[i] = new DSubject;
+
+	m_pAStar = new CAStar;
 }
 
 void CGameManager::Update(float deltaTime)
@@ -79,18 +83,20 @@ void CGameManager::Render()
 		{
 			OBJLAYER eLayer = pObject->GetLayer();
 
-			if (eLayer == LAYER_OBJ)
+			switch (eLayer)
 			{
+			case LAYER_OBJ:
 				m_vecRender[eLayer].push_back(pObject);
 				continue;
-			}
-
-			if (eLayer == LAYER_UI)
-			{
+			case LAYER_EFFECT:
 				m_vecRender[eLayer].push_back(pObject);
 				continue;
+			case LAYER_UI:
+				m_vecRender[eLayer].push_back(pObject);
+				continue;
+			default:
+				break;
 			}
-
 			pObject->Render();
 		}
 	}
@@ -104,6 +110,9 @@ void CGameManager::Render()
 	for (auto& pObject : m_vecRender[LAYER_OBJ])
 		pObject->Render();
 
+	for (auto& pObject : m_vecRender[LAYER_EFFECT])
+		pObject->Render();
+
 	for (auto& pObject : m_vecRender[LAYER_UI])
 		pObject->Render();
 
@@ -115,4 +124,9 @@ void CGameManager::Release()
 {
 	for (int i = 0; i < OBJ_END; ++i)
 		DestroyObject(i);
+
+	for (auto& pSubject : m_pSubject)
+		SafeDelete(pSubject);
+
+	SafeDelete(m_pAStar);
 }

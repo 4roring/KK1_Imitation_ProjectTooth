@@ -28,10 +28,10 @@ void DSubject::UnSubscribe(DObserver * pObserver)
 	m_Observerlist.erase(iter);
 }
 
-void DSubject::Notify(bool bOrder, UNITID eUnitID, const COLLTILE* pTarget)
+void DSubject::Notify(float fOrder, UNITID eUnitID, VECCOLLTILE vecPath)
 {
 	for (auto& pObserver : m_Observerlist)
-		pObserver->UpdateOrder(bOrder, eUnitID, pTarget);
+		pObserver->UpdateOrder(fOrder, eUnitID, vecPath);
 }
 
 void DSubject::Release()

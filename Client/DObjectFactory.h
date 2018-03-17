@@ -5,6 +5,9 @@ class AActor;
 class AUnit;
 class BBuilding;
 class BUnitFactory;
+class CEffect;
+class DEffectBridge;
+class DBulletEffectBridge;
 
 template <typename T>
 class DObjectFactory
@@ -78,13 +81,14 @@ public:
 		return pObject;
 	}
 
-	static CGameObject* CreateUnit(int iStart, UNITID eUnitID, TEAMID eTeam)
+	static CGameObject* CreateUnit(int iStart, UNITID eUnitID, TEAMID eTeam, BUnitFactory* pFactory)
 	{
 		AUnit* pObject = new T;
 		
 		pObject->SetUnitID(eUnitID);
 		pObject->SetTeam(eTeam);
 		pObject->SetTileIndex(iStart);
+		pObject->SetFactory(pFactory);
 		if (FAILED(pObject->Initialize()))
 		{
 			MSG_BOX(TEXT("Create Unit Error!!!"));
@@ -107,5 +111,22 @@ public:
 		}
 
 		return pObject;
+	}
+
+	static CGameObject* CreateBullet(COLLTILE* pTarget, BULLETID eBulletID, const Vector3& vPos)
+	{
+		CEffect* pEffect = new CEffect;
+		DEffectBridge* pBulletEffect = new DBulletEffectBridge;
+		pBulletEffect->SetBulletID(eBulletID);
+		pBulletEffect->SetTarget(pTarget);
+		pEffect->SetEffectBridge(pBulletEffect);
+		pEffect->SetPos(vPos);
+		if (FAILED(pEffect->Initialize()))
+		{
+			MSG_BOX(TEXT("Create Bullet Effect Error!!!"));
+			return nullptr;
+		}
+		
+		return pEffect;
 	}
 };

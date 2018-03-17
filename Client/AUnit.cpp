@@ -97,8 +97,8 @@ void AUnit::LateUpdate()
 
 void AUnit::Render()
 {
-	RenderGroundChar();
 	RenderShadow(60);
+	RenderGroundChar();
 }
 
 void AUnit::Release()

@@ -10,7 +10,7 @@ public:
 public:
 	void Subscribe(DObserver* pObserver);
 	void UnSubscribe(DObserver* pObserver);
-	void Notify(bool bOrder, UNITID eUnitID, const COLLTILE* pTile);
+	void Notify(float fOrder, UNITID eUnitID, VECCOLLTILE vecPath);
 	void Release();
 
 private:

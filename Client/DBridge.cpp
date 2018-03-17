@@ -4,6 +4,7 @@
 
 DBridge::DBridge()
 {
+	m_pSprite = Device->GetSprite();
 }
 
 

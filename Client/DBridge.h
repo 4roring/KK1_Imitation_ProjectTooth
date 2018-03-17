@@ -1,5 +1,6 @@
 #pragma once
-class AUnit;
+
+class CGameObject;
 class DBridge
 {
 public:
@@ -13,10 +14,7 @@ public:
 	virtual void Render() PURE;
 	virtual void Release() PURE;
 
-public:
-
-
 protected:
-
+	LPD3DXSPRITE m_pSprite;
 };
 

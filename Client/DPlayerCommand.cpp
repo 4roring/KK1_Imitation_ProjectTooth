@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "DPlayerCommand.h"
 #include "ACommander.h"
+#include "DSubject.h"
 
 DPlayerCommand::DPlayerCommand()
 {
@@ -34,8 +35,16 @@ void DPlayerCommand::Input()
 
 	if (GetKey->KeyPress(VK_LBUTTON))
 		m_pACommander->m_fOrder += Time->GetDeltaTime();
+	else if (GetKey->KeyPress(VK_RBUTTON))
+	{
+		m_pACommander->m_fOrder += Time->GetDeltaTime();
+		m_pACommander->m_bAllOrder = true;
+	}
 	else
+	{
 		m_pACommander->m_fOrder = 0.f;
+		m_pACommander->m_bAllOrder = false;
+	}
 
 	if (GetKey->KeyDown(VK_SPACE))
 		m_pACommander->m_bBuild = true;

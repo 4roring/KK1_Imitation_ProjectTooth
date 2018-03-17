@@ -88,12 +88,6 @@
     <Filter Include="98.DesignPattern\Command">
       <UniqueIdentifier>{a8fa55e1-45e4-4547-a4af-bc69f7cf6bb3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Actor\00.ACommender\PlayerCommend">
-      <UniqueIdentifier>{6c5a21ef-cf5f-40b2-b6d7-e0759d113905}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Actor\00.ACommender\AICommend">
-      <UniqueIdentifier>{a636f68c-c3ed-42d3-9dff-3556b565dbeb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="96.Scene">
       <UniqueIdentifier>{bdc5136b-7b3e-4c59-97c6-030cf23ae2a3}</UniqueIdentifier>
     </Filter>
@@ -141,6 +135,30 @@
     </Filter>
     <Filter Include="98.DesignPattern\Observer\Subject">
       <UniqueIdentifier>{abdad91b-8e10-47d8-9aa4-07988c83c442}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\99.Astar">
+      <UniqueIdentifier>{73f94063-2042-46e6-86ed-2867689cf44d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\00.ACommender\PlayerCommand">
+      <UniqueIdentifier>{6c5a21ef-cf5f-40b2-b6d7-e0759d113905}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\00.ACommender\AICommand">
+      <UniqueIdentifier>{a636f68c-c3ed-42d3-9dff-3556b565dbeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\04.Effect">
+      <UniqueIdentifier>{27537f6f-3ee8-41ed-90d7-00e45437b27f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\04.Effect\TimerEffectBridge">
+      <UniqueIdentifier>{59723600-1980-437d-af1d-e61f842cfd06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\04.Effect\BulletEffectBridge">
+      <UniqueIdentifier>{206b5cd2-94dd-43b2-9f79-33abd1196b89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\04.Effect\OneShotEffectBridge">
+      <UniqueIdentifier>{8b65e1a1-af08-4707-98d0-3f3e7866d3ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\04.Effect\EffectBridge">
+      <UniqueIdentifier>{56d1088f-4b2b-46c2-b302-55fd0b0a4971}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -218,7 +236,7 @@
       <Filter>98.DesignPattern\Command</Filter>
     </ClInclude>
     <ClInclude Include="DPlayerCommand.h">
-      <Filter>02.Actor\00.ACommender\PlayerCommend</Filter>
+      <Filter>02.Actor\00.ACommender\PlayerCommand</Filter>
     </ClInclude>
     <ClInclude Include="DBridge.h">
       <Filter>98.DesignPattern\Bridge</Filter>
@@ -262,7 +280,25 @@
     <ClInclude Include="DObserver.h">
       <Filter>98.DesignPattern\Observer</Filter>
     </ClInclude>
-    <ClInclude Include="DSubject.h" />
+    <ClInclude Include="DSubject.h">
+      <Filter>98.DesignPattern\Observer\Subject</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar.h">
+      <Filter>02.Actor\99.Astar</Filter>
+    </ClInclude>
+    <ClInclude Include="DAICommand.h">
+      <Filter>02.Actor\00.ACommender\AICommand</Filter>
+    </ClInclude>
+    <ClInclude Include="DBulletEffectBridge.h">
+      <Filter>01.GameObject\04.Effect\BulletEffectBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="DOneShotEffectBridge.h">
+      <Filter>01.GameObject\04.Effect\OneShotEffectBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>01.GameObject\04.Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="DEffectBridge.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -333,7 +369,7 @@
       <Filter>98.DesignPattern\Command</Filter>
     </ClCompile>
     <ClCompile Include="DPlayerCommand.cpp">
-      <Filter>02.Actor\00.ACommender\PlayerCommend</Filter>
+      <Filter>02.Actor\00.ACommender\PlayerCommand</Filter>
     </ClCompile>
     <ClCompile Include="DBridge.cpp">
       <Filter>98.DesignPattern\Bridge</Filter>
@@ -374,7 +410,25 @@
     <ClCompile Include="DObserver.cpp">
       <Filter>98.DesignPattern\Observer</Filter>
     </ClCompile>
-    <ClCompile Include="DSubject.cpp" />
+    <ClCompile Include="DSubject.cpp">
+      <Filter>98.DesignPattern\Observer\Subject</Filter>
+    </ClCompile>
+    <ClCompile Include="AStar.cpp">
+      <Filter>02.Actor\99.Astar</Filter>
+    </ClCompile>
+    <ClCompile Include="DAICommand.cpp">
+      <Filter>02.Actor\00.ACommender\AICommand</Filter>
+    </ClCompile>
+    <ClCompile Include="DBulletEffectBridge.cpp">
+      <Filter>01.GameObject\04.Effect\BulletEffectBridge</Filter>
+    </ClCompile>
+    <ClCompile Include="DOneShotEffectBridge.cpp">
+      <Filter>01.GameObject\04.Effect\OneShotEffectBridge</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>01.GameObject\04.Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="DEffectBridge.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

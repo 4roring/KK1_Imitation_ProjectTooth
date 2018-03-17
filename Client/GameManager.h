@@ -1,6 +1,7 @@
 #pragma once
 #include "Function.h"
 
+class CAStar;
 class DSubject;
 class CGameManager :
 	public CSingleton<CGameManager>
@@ -15,7 +16,8 @@ private :
 public:
 	const OBJLIST& GetObjectList(OBJID eObjID) { return ObjectList[eObjID]; }
 	const D3DCOLOR* GetTeamColor(TEAMID eTeamID) { return &m_TeamColor[eTeamID]; }
-	const DSubject* GetSubject() { return m_pSubject; }
+	DSubject* GetSubject(TEAMID eTeam) const { return m_pSubject[eTeam]; }
+	CAStar* GetAStar() const { return m_pAStar; }
 
 public:
 	void CreateObject(CGameObject* pObject, OBJID eID);
@@ -36,6 +38,7 @@ private:
 	VECRENDER m_vecRender[LAYER_END];
 
 private:
-	DSubject* m_pSubject;
+	DSubject* m_pSubject[TEAM_NEUTRAL];
+	CAStar* m_pAStar;
 };
 

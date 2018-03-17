@@ -20,6 +20,6 @@ private:
 private:
 	void UpdateState(float deltaTime);
 	void SetAnimState();
-
+	HRESULT SetUnitState();
 };
 

@@ -19,6 +19,7 @@
 #include <list>
 #include <map>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 #include <algorithm>
 #include <cmath>
@@ -26,6 +27,10 @@
 #include <fstream>
 #include <d3dx9.h>
 #include <d3d9.h>
+#include <memory>
+#include <thread>
+#include <mutex>
+#include <random>
 
 #ifdef _DEBUG
 #include <vld.h>

@@ -6,15 +6,16 @@ public:
 	virtual ~DObserver();
 
 public:
-	void UpdateOrder(bool bOrder, UNITID eUnitID, const COLLTILE* pTarget);
+	void UpdateOrder(float bOrder, UNITID eUnitID, VECCOLLTILE vecPath);
 
 public:
-	bool GetOrder() { return m_bOrder; }
-	UNITID GetOrderID() { return m_eUnitID; }
+	float GetOrder() const { return m_fOrder; }
+	UNITID GetOrderID() const { return m_eUnitID; }
+	const VECCOLLTILE& GetVecPath() const { return m_vecPath; }
 
 private:
-	bool m_bOrder = false;
+	float m_fOrder = false;
 	UNITID m_eUnitID = UNIT_ALL;
-	const COLLTILE* m_pTarget = nullptr;
+	VECCOLLTILE m_vecPath;
 };
 

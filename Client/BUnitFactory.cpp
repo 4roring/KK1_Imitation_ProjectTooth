@@ -38,7 +38,7 @@ OBJSTATE BUnitFactory::Update(float deltaTime)
 	{
 		BBuilding::Update(deltaTime);
 		AnimUpdate();
-		m_fBuildTime -= deltaTime;
+		m_fBuildTime += deltaTime;
 	}
 	else if(m_iUnitCount < m_iUnitCountMax)   
 		CreateUnit(deltaTime);
@@ -66,19 +66,19 @@ void BUnitFactory::AnimUpdate()
 	switch (m_iTear)
 	{
 	case 0:
-		if (m_fBuildTime > 2.f && m_tFrame.fFrame > 3.5f)
+		if (m_fBuildTime < m_fProductionTime - 2.f && m_tFrame.fFrame > 3.5f)
 			m_tFrame.fFrame = 3.f;
 		else if (m_tFrame.fFrame >= m_tFrame.fMax - 0.5f)
 			m_tFrame.fFrame = m_tFrame.fMax - 0.5f;
 		break;
 	case 1:
-		if (m_fBuildTime > 3.f && m_tFrame.fFrame > 3.5f)
+		if (m_fBuildTime < m_fProductionTime - 3.f && m_tFrame.fFrame > 3.5f)
 			m_tFrame.fFrame = 3.f;
 		else if (m_tFrame.fFrame >= m_tFrame.fMax - 0.5f)
 			m_tFrame.fFrame = m_tFrame.fMax - 0.5f;
 		break;
 	case 2:
-		if (m_fBuildTime > 4.f && m_tFrame.fFrame > 3.5f)
+		if (m_fBuildTime < m_fProductionTime - 4.f && m_tFrame.fFrame > 3.5f)
 			m_tFrame.fFrame = 3.f;
 		else if (m_tFrame.fFrame >= m_tFrame.fMax - 0.5f)
 			m_tFrame.fFrame = m_tFrame.fMax - 0.5f;
@@ -89,7 +89,7 @@ void BUnitFactory::AnimUpdate()
 #endif
 	}
 
-	if (m_fBuildTime < 0.f)
+	if (m_fBuildTime >= m_fProductionTime)
 	{
 		m_bBuildEnd = true;
 		m_fBuildTime = 0.f;
@@ -107,7 +107,6 @@ HRESULT BUnitFactory::SetUnit()
 		m_pTexMain = TextureMgr->GetTexture(TEXT("structure_warrens1"));
 		m_pTexTint = TextureMgr->GetTexture(TEXT("structure_warrens1_tint"));
 		m_iTear = 0;
-		m_fBuildTime = PRODUCTIONTIME[m_iTear];
 		m_fProductionTime = PRODUCTIONTIME[m_iTear];
 		m_iMaxHp = UNITFACTORY_MAXHP[m_iTear];
 		m_iUnitCountMax = 3;
@@ -131,7 +130,6 @@ HRESULT BUnitFactory::SetUnit()
 		m_pTexMain = TextureMgr->GetTexture(TEXT("structure_warrens2"));
 		m_pTexTint = TextureMgr->GetTexture(TEXT("structure_warrens2_tint"));
 		m_iTear = 1;
-		m_fBuildTime = PRODUCTIONTIME[m_iTear];
 		m_fProductionTime = PRODUCTIONTIME[m_iTear];
 		m_iMaxHp = UNITFACTORY_MAXHP[m_iTear];
 		m_iUnitCountMax = 2;
@@ -145,7 +143,6 @@ HRESULT BUnitFactory::SetUnit()
 		m_pTexMain = TextureMgr->GetTexture(TEXT("structure_warrens3"));
 		m_pTexTint = TextureMgr->GetTexture(TEXT("structure_warrens3_tint"));
 		m_iTear = 2;
-		m_fBuildTime = PRODUCTIONTIME[m_iTear];
 		m_fProductionTime = PRODUCTIONTIME[m_iTear];
 		m_iMaxHp = UNITFACTORY_MAXHP[m_iTear];
 		m_iUnitCountMax = 1;
@@ -195,7 +192,7 @@ void BUnitFactory::CreateUnit(float deltaTime)
 	if (m_fBuildTime >= m_fProductionTime)
 	{
 		// À¯´Ö »ý¼º!
-		CGameObject* pObject = DObjectFactory<AUnit>::CreateUnit(m_iTileIndexArr[0], m_eUnitID, m_eTeam);
+		CGameObject* pObject = DObjectFactory<AUnit>::CreateUnit(m_iTileIndexArr[0], m_eUnitID, m_eTeam, this);
 		GameMgr->CreateObject(pObject, OBJ_UNIT);
 
 		++m_iUnitCount;

@@ -151,10 +151,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AStar.h" />
     <ClInclude Include="AUnit.h" />
     <ClInclude Include="BFarm.h" />
     <ClInclude Include="BHQ.h" />
     <ClInclude Include="BUnitFactory.h" />
+    <ClInclude Include="DAICommand.h" />
+    <ClInclude Include="DBulletEffectBridge.h" />
+    <ClInclude Include="DEffectBridge.h" />
     <ClInclude Include="DObjectFactory.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="ACommander.h" />
@@ -165,10 +169,12 @@
     <ClInclude Include="Deco.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="DObserver.h" />
+    <ClInclude Include="DOneShotEffectBridge.h" />
     <ClInclude Include="DState.h" />
     <ClInclude Include="DSubject.h" />
     <ClInclude Include="DUnitState.h" />
     <ClInclude Include="DUnit_1Tear.h" />
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HQGround.h" />
@@ -196,6 +202,7 @@
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="ACommander.cpp" />
+    <ClCompile Include="AStar.cpp" />
     <ClCompile Include="AtlasTexture.cpp" />
     <ClCompile Include="AUnit.cpp" />
     <ClCompile Include="BFarm.cpp" />
@@ -203,14 +210,19 @@
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="BUnitFactory.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="DAICommand.cpp" />
     <ClCompile Include="DBridge.cpp" />
+    <ClCompile Include="DBulletEffectBridge.cpp" />
     <ClCompile Include="Deco.cpp" />
+    <ClCompile Include="DEffectBridge.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="DObserver.cpp" />
+    <ClCompile Include="DOneShotEffectBridge.cpp" />
     <ClCompile Include="DState.cpp" />
     <ClCompile Include="DSubject.cpp" />
     <ClCompile Include="DUnitState.cpp" />
     <ClCompile Include="DUnit_1Tear.cpp" />
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HQGround.cpp" />

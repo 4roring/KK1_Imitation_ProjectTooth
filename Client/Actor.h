@@ -14,11 +14,6 @@ public:
 	virtual void Render() PURE;
 	virtual void Release() PURE;
 
-public:
-	int GetTileIndex() { return m_iTileIndex; }
-
-public:
-	void SetTileIndex(int iTileIndex) { m_iTileIndex = iTileIndex; }
 
 protected:
 	void FrameMove(float deltaTime);
@@ -28,6 +23,7 @@ protected:
 	void RenderFlyChar();
 	void RenderGroundChar();
 	void UpdateFlipX();
+	bool CheckEnemy(int iRange);
 
 private:
 	void CheckCollTile();
@@ -47,7 +43,7 @@ protected:
 	const TEXINFO* m_pTexTint = nullptr;
 
 protected:
-	int m_iTileIndex = 0;
+	COLLTILE* m_pTarget = nullptr;
 
 private:
 	RECT m_tRect;

@@ -20,6 +20,8 @@ HRESULT CStage_3::Initialize()
 	GameMgr->Initialize();
 	Vector3 vPos = Vector3(680.f, 2600.f, 0.f);
 	GameMgr->CreateObject(DObjectFactory<ACommander>::Create(vPos, TEAM_RED), OBJ_PLAYER);
+	vPos = Vector3(2525.f, 3170.f, 0.f);
+	GameMgr->CreateObject(DObjectFactory<ACommander>::Create(vPos, TEAM_BLUE), OBJ_AI);
 	GameMgr->CreateObject(DObjectFactory<CLevel>::Create(), OBJ_LEVEL);
 	GameMgr->CreateObject(DObjectFactory<CUI>::Create(), OBJ_UI);
 

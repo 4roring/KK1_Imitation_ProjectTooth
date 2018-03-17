@@ -11,9 +11,10 @@ DObserver::~DObserver()
 {
 }
 
-void DObserver::UpdateOrder(bool bOrder, UNITID eUnitID, const COLLTILE* pTarget)
+void DObserver::UpdateOrder(float bOrder, UNITID eUnitID, VECCOLLTILE vecPath)
 {
-	m_bOrder = bOrder;
+	m_fOrder = bOrder;
 	m_eUnitID = eUnitID;
-	m_pTarget = pTarget;
+	m_vecPath.clear();
+	m_vecPath.assign(vecPath.begin(), vecPath.end());
 }

@@ -2,6 +2,11 @@
 #include "DUnitState.h"
 #include "AUnit.h"
 #include "Level.h"
+#include "DObserver.h"
+#include "DSubject.h"
+#include "AStar.h"
+#include "Effect.h"
+#include "DBulletEffectBridge.h"
 
 DUnitState::DUnitState()
 {
@@ -10,6 +15,12 @@ DUnitState::DUnitState()
 
 DUnitState::~DUnitState()
 {
+}
+
+void DUnitState::Release()
+{
+	GameMgr->GetSubject(m_pUnit->m_eTeam)->Subscribe(m_pObserver);
+	SafeDelete(m_pObserver);
 }
 
 void DUnitState::SetUnitInfo(UNITINFO& rUnitInfo, int iMaxHp, int iAtk, float fAtkTime, int iRange, int iSight)
@@ -22,12 +33,6 @@ void DUnitState::SetUnitInfo(UNITINFO& rUnitInfo, int iMaxHp, int iAtk, float fA
 	rUnitInfo.iSight = iSight;
 }
 
-void DUnitState::SetPath(decltype(m_vecPath)& vecPath)
-{
-	m_vecPath.clear();
-	m_vecPath.assign(vecPath.begin(), vecPath.end());
-}
-
 void DUnitState::MovePath(float deltaTime)
 {
 	INFO& rInfo = m_pUnit->m_tInfo;
@@ -36,10 +41,10 @@ void DUnitState::MovePath(float deltaTime)
 	vTarget = m_vecPath.back()->vPosition - rInfo.vPosition;
 	D3DXVec3Normalize(&rInfo.vDir, &vTarget);
 
+	rInfo.vDir *= m_pUnit->m_fSpeed * deltaTime;
+	rInfo.vPosition += rInfo.vDir;
 
-	rInfo.vPosition += rInfo.vDir * m_pUnit->m_fSpeed * deltaTime;
-
-	if (D3DXVec3Length(&vTarget) < 2.f)
+	if (D3DXVec3Length(&vTarget) < 5.f)
 		m_vecPath.pop_back();
 }
 
@@ -59,6 +64,56 @@ bool DUnitState::CheckTileEmpty()
 		return true;
 
 	return false;
+}
+
+bool DUnitState::IsOrder()
+{
+	if (m_pObserver->GetOrder() == 0.f) return false;
+	if (m_pUnit->m_eUnitID == m_pObserver->GetOrderID())
+	{
+		m_vecPath.clear();
+		return true;
+	}
+	else if (m_pObserver->GetOrderID() == UNIT_ALL)
+	{
+		m_vecPath.clear();
+		return true;
+	}
+
+	return false;
+}
+
+bool DUnitState::CheckAroundBlockTile()
+{
+	VECCOLLTILE vecCollTile;
+	int iStart = m_pUnit->m_iTileIndex;
+	m_pUnit->m_pLevel->GetRange(vecCollTile, iStart);
+
+	for (auto& pTile : vecCollTile)
+		if (pTile->byOption == 1)
+			return true;
+
+	return false;
+}
+
+bool DUnitState::CheckSight()
+{
+	if (m_pObserver->GetOrder() > 1.f) return false;
+
+	return (m_pUnit->CheckEnemy(m_pUnit->m_tUnitInfo.iSight));
+}
+
+bool DUnitState::CheckRange()
+{
+	if (m_pObserver->GetOrder() > 1.f) return false;
+
+	return (m_pUnit->CheckEnemy(m_pUnit->m_tUnitInfo.iRange));
+}
+
+void DUnitState::ShotBullet(BULLETID eBulletID)
+{
+	CGameObject* pEffect = pEffect = DObjectFactory<CEffect>::CreateBullet(m_pUnit->m_pTarget, eBulletID, m_pUnit->m_tInfo.vPosition);
+	GameMgr->CreateObject(pEffect, OBJ_EFFECT);
 }
 
 COLLTILE* DUnitState::GetAroundEmptyTile()
@@ -81,6 +136,16 @@ COLLTILE* DUnitState::GetAroundEmptyTile()
 		++iRange;
 	}
 
-	return vecCollTile.front();
+	std::random_shuffle(vecCollTile.begin(), vecCollTile.end());
+
+	return vecCollTile.back();
 }
+
+void DUnitState::GetPath(const VECCOLLTILE vecPath)
+{
+	m_vecPath.clear();
+	m_vecPath.assign(vecPath.begin(), vecPath.end());
+}
+
+
 

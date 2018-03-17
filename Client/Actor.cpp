@@ -137,6 +137,27 @@ void AActor::UpdateFlipX()
 		m_bFlipX = true;
 }
 
+bool AActor::CheckEnemy(int iRange)
+{
+	VECCOLLTILE VecRange;
+	m_pLevel->GetRange(VecRange, m_iTileIndex, iRange);
+	
+	m_pTarget = nullptr;
+
+	for (auto& pTile : VecRange)
+	{
+		CGameObject* pObject = pTile->pGameObject;
+		if (nullptr != pObject && pObject->GetTeamID() != m_eTeam
+			&& pObject->GetTeamID() != TEAM_NEUTRAL)
+		{
+			m_pTarget = pTile;
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void AActor::CheckCollTile()
 {
 	if(nullptr == m_pLevel)
@@ -148,7 +169,8 @@ void AActor::CheckCollTile()
 	{
 		if (m_pLevel->GetCollTile(m_iTemp)->byOption != 0)
 		{
-			m_tInfo.vPosition -= m_tInfo.vDir;
+			if(m_eObjectID == OBJ_PLAYER)
+				m_tInfo.vPosition -= m_tInfo.vDir;
 			return;
 		}
 

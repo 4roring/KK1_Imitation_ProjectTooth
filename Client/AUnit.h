@@ -1,8 +1,8 @@
 #pragma once
 #include "Actor.h"
 
-class DUnitState;
 class BUnitFactory;
+class DUnitState;
 class AUnit :
 	public AActor
 {
@@ -18,8 +18,12 @@ public:
 	virtual void Release() override;
 
 public:
+	UNITID GetUnitID() { return m_eUnitID; }
+
+public:
 	void SetUnitID(UNITID eUnitID) { m_eUnitID = eUnitID; }
 	void SetFactory(BUnitFactory* pFactory) { m_pFactory = pFactory; }
+
 
 private:
 	UNITID m_eUnitID;
@@ -32,6 +36,7 @@ private:
 private:
 	BUnitFactory* m_pFactory = nullptr;
 
-	// TODO: 플레이어의 선택 넘버 또는 마우스 입력을 감지하는 옵저버 추가.
+	
+
 };
 

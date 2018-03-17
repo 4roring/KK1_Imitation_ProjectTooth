@@ -58,6 +58,13 @@ typedef struct tagUnitInfo
 	int iRange;
 }UNITINFO;
 
+typedef struct tagAstarNode
+{
+	int iIndex;
+	float fCost;
+	tagAstarNode* pParent;
+}ASTARNODE;
+
 // 툴에서 저장 전용
 typedef struct tagTexturePath
 {

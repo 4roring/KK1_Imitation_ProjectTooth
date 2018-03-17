@@ -3,6 +3,10 @@
 #include "DPlayerCommand.h"
 #include "Level.h"
 #include "BUnitFactory.h"
+#include "DSubject.h"
+#include "DAICommand.h"
+#include "AStar.h"
+#include "AUnit.h"
 
 ACommander::ACommander()
 {
@@ -22,11 +26,29 @@ HRESULT ACommander::Initialize()
 	m_tInfo.vDir = { 0.f, 0.f, 0.f };
 	D3DXMatrixIdentity(&m_tInfo.matWorld);
 
-	Vector3 vInitScroll((WINCX >> 1) - m_tInfo.vPosition.x, (WINCY >> 1) - m_tInfo.vPosition.y, 0.f);
-	ViewMgr->SetScroll(vInitScroll);
-
-	m_pTexMain = TextureMgr->GetTexture(TEXT("commander_commoners"));
-	m_pTexTint = TextureMgr->GetTexture(TEXT("commander_commoners_tint"));
+	switch (m_eTeam)
+	{
+	case TEAM_RED:
+		m_pTexMain = TextureMgr->GetTexture(TEXT("commander_commoners"));
+		m_pTexTint = TextureMgr->GetTexture(TEXT("commander_commoners_tint"));
+		break;
+	case TEAM_BLUE:
+		m_pTexMain = TextureMgr->GetTexture(TEXT("commander_capitalists"));
+		m_pTexTint = TextureMgr->GetTexture(TEXT("commander_capitalists_tint"));
+		break;
+	case TEAM_GREEN:
+		m_pTexMain = TextureMgr->GetTexture(TEXT("commander_commoners"));
+		m_pTexTint = TextureMgr->GetTexture(TEXT("commander_commoners_tint"));
+		break;
+	case TEAM_YELLO:
+		m_pTexMain = TextureMgr->GetTexture(TEXT("commander_military"));
+		m_pTexTint = TextureMgr->GetTexture(TEXT("commander_military_tint"));
+		break;
+	case TEAM_NEUTRAL:
+	case TEAM_END:
+	default:
+		break;
+	}
 
 	m_iImageX = COMMANDER_CX;
 	m_iImageY = COMMANDER_CY;
@@ -43,11 +65,8 @@ HRESULT ACommander::Initialize()
 	m_iMaxHp = 10;
 	m_iHp = 10;
 	
-	m_pCommand = new DPlayerCommand;
-	m_pCommand->SetCommander(this);
-
 	m_eUnit[0] = UNIT_SQUIRREL;
-	m_eUnit[1] = UNIT_PIGEON;
+	m_eUnit[1] = UNIT_LIZARD;
 	m_eUnit[2] = UNIT_FERRET;
 	m_eUnit[3] = UNIT_FALCON;
 	m_eUnit[4] = UNIT_BADGER;
@@ -61,6 +80,24 @@ HRESULT ACommander::Initialize()
 
 OBJSTATE ACommander::Update(float deltaTime)
 {
+	if (nullptr == m_pCommand)
+	{
+		if (m_eObjectID == OBJ_PLAYER)
+		{
+			Vector3 vInitScroll((WINCX >> 1) - m_tInfo.vPosition.x, (WINCY >> 1) - m_tInfo.vPosition.y, 0.f);
+			ViewMgr->SetScroll(vInitScroll);
+
+			m_pCommand = new DPlayerCommand;
+			m_pCommand->SetCommander(this);
+		}
+		else if (m_eObjectID == OBJ_AI)
+		{
+			// AI Command »ý¼º
+			m_pCommand = new DAICommand;
+			m_pCommand->SetCommander(this);
+		}
+	}
+
 	AActor::Update(deltaTime);
 
 	m_pCommand->Update();
@@ -82,7 +119,8 @@ void ACommander::Render()
 	RenderGroundChar();
 
 #ifdef _DEBUG
-	DrawStateString();
+	if(m_eObjectID == OBJ_PLAYER)
+		DrawStateString();
 #endif
 }
 
@@ -112,6 +150,8 @@ void ACommander::UpdateState(float deltaTime)
 			m_eCurAnimState = ACommander::Dead;
 		break;
 	case ACommander::Order:
+		OrderToUnit();
+
 		if (m_tInfo.vDir.x != 0.f || m_tInfo.vDir.y != 0.f)
 			m_eCurAnimState = ACommander::RunOrder;
 		
@@ -138,7 +178,7 @@ void ACommander::UpdateState(float deltaTime)
 		break;
 	case ACommander::RunOrder:
 		Move(deltaTime);
-
+		OrderToUnit();
 		if(m_fOrder == 0.f)
 			m_eCurAnimState = ACommander::Run;
 
@@ -217,12 +257,38 @@ void ACommander::SetAnimState()
 	}
 }
 
+void ACommander::OrderToUnit()
+{
+	const OBJLIST& objUnitList = GameMgr->GetObjectList(OBJ_UNIT);
+	auto iter = std::find_if(objUnitList.begin(), objUnitList.end(),
+		[&](auto& pUnit)
+	{
+		if(true == m_bAllOrder)
+			return (pUnit->GetTeamID() == m_eTeam);
+
+		return (pUnit->GetTeamID() == m_eTeam
+			&& static_cast<AUnit*>(pUnit)->GetUnitID() == m_eUnit[m_iSelectSlot]);
+	});
+
+	if (iter == objUnitList.end()) return;
+
+	if(nullptr != m_pTarget && m_fOrder < 1.f)
+		GameMgr->GetAStar()->AStarStart((*iter)->GetTileIndex(), m_pTarget, m_vecPath);
+	else
+		GameMgr->GetAStar()->AStarStart((*iter)->GetTileIndex(), m_pLevel->GetCollTile(m_iTileIndex), m_vecPath);
+
+	if (true == m_bAllOrder)
+		GameMgr->GetSubject(m_eTeam)->Notify(m_fOrder, UNIT_ALL, m_vecPath);
+	else
+		GameMgr->GetSubject(m_eTeam)->Notify(m_fOrder, m_eUnit[m_iSelectSlot], m_vecPath);
+}
+
 void ACommander::CheckTileObject()
 {
 	CheckHQ();
 	CheckFarm();
 	CheckSlotUnit();
-	CheckTileUnit();
+	CheckEnemy(7);
 }
 
 void ACommander::CheckHQ()
@@ -320,12 +386,6 @@ void ACommander::CreateSlotUnitFactory(int iStart)
 	CGameObject* pObject = DObjectFactory<BUnitFactory>::CreateUnitFactory(iStart, m_eUnit[m_iSelectSlot], m_eTeam);
 
 	GameMgr->CreateObject(pObject, OBJ_UNITFACTORY);
-}
-
-void ACommander::CheckTileUnit()
-{
-	VECCOLLTILE VecRange;
-	m_pLevel->GetRange(VecRange, m_iTileIndex, 5);
 }
 
 bool ACommander::CheckTileEmpty(COLLTILE * pTile)

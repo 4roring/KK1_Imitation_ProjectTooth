@@ -163,7 +163,7 @@ int CLevel::GetTileIndex(Vector3 vPos)
 		{ vTemp.x , vTemp.y + CY * 0.5f, 0.f }
 	};
 
-	float fGradient = (CY * 0.5f) / (CX * 0.5f);
+	float fGradient = 1;
 
 	float fB[4];
 

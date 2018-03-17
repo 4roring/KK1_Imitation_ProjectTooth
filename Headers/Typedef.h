@@ -13,6 +13,8 @@ typedef std::unordered_map<std::wstring, LPRECT> ATLASTEXMAP;
 typedef std::vector<COLLTILE*> VECCOLLTILE;
 typedef std::vector<CGameObject*> VECRENDER;
 
+typedef std::list<ASTARNODE*> ASTARNODELIST;
+
 // ÅøÀü¿ë
 typedef std::list<TEXPATH*> TEXPATHLIST;
 typedef std::vector<DECO*> VECDECO;

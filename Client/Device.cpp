@@ -30,6 +30,8 @@ HRESULT CDevice::InitDevice()
 	else
 		vp = D3DCREATE_SOFTWARE_VERTEXPROCESSING;
 
+	vp |= D3DCREATE_MULTITHREADED;
+
 	D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(D3DPRESENT_PARAMETERS));
 	SetParameters(d3dpp);

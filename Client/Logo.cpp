@@ -20,6 +20,7 @@ HRESULT CLogo::Initialize()
 	TextureLoad(TEXT("../Data/ActorTexture.dat"));
 	TextureLoad(TEXT("../Data/StructureTexture.dat"));
 	TextureLoad(TEXT("../Data/AtlasTexture.dat"));
+	TextureLoad(TEXT("../Data/BulletTexture.dat"));
 
 	return S_OK;
 }
