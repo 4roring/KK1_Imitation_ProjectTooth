@@ -34,6 +34,24 @@ void DSubject::Notify(float fOrder, UNITID eUnitID, VECCOLLTILE vecPath)
 		pObserver->UpdateOrder(fOrder, eUnitID, vecPath);
 }
 
+void DSubject::Notify(UNITID eUnitID, int iSlot)
+{
+	for (auto& pObserver : m_Observerlist)
+		pObserver->UpdateUnitSlot(eUnitID, iSlot);
+}
+
+void DSubject::NotifySlotNum(int iSlot)
+{
+	for (auto& pObserver : m_Observerlist)
+		pObserver->UpdateSelectSlot(iSlot);
+}
+
+void DSubject::Notify(int iFood)
+{
+	for (auto& pObserver : m_Observerlist)
+		pObserver->UpdateFood(iFood);
+}
+
 void DSubject::Release()
 {
 	m_Observerlist.clear();

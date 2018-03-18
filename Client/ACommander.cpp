@@ -20,8 +20,73 @@ ACommander::~ACommander()
 
 HRESULT ACommander::Initialize()
 {
-	if(FAILED(AActor::Initialize())) return E_FAIL;
+	if (FAILED(AActor::Initialize())) return E_FAIL;
 
+	InitCommander();
+
+	m_fSpeed = 110.f * fScreenZoom;
+	m_iMaxHp = 10;
+	m_iHp = 10;
+
+	m_eUnit[0] = UNIT_SQUIRREL;
+	m_eUnit[1] = UNIT_LIZARD;
+	m_eUnit[2] = UNIT_FERRET;
+	m_eUnit[3] = UNIT_FALCON;
+	m_eUnit[4] = UNIT_BADGER;
+	m_eUnit[5] = UNIT_FOX;
+
+	m_pFont = Device->GetFont();
+
+	return S_OK;
+}
+
+
+OBJSTATE ACommander::Update(float deltaTime)
+{
+	if (nullptr == m_pCommand)
+		SetCommand();
+
+	AActor::Update(deltaTime);
+
+	m_pCommand->Update();
+	UpdateState(deltaTime);
+
+	return STATE_PLAY;
+}
+
+void ACommander::LateUpdate()
+{
+	AActor::LateUpdate();
+	CheckTileObject();
+	SetAnimState();
+
+	if(m_eTeam == TEAM_RED)
+		GameMgr->GetSubject(m_eTeam)->Notify(m_iFood);
+}
+
+void ACommander::Render()
+{
+	RenderShadow(80);
+	RenderGroundChar();
+
+#ifdef _DEBUG
+	if(m_eObjectID == OBJ_PLAYER)
+		DrawStateString();
+#endif
+}
+
+void ACommander::Release()
+{
+	SafeDelete(m_pCommand);
+}
+
+void ACommander::AddFood(int iFood)
+{
+	m_iFood += iFood;
+}
+
+void ACommander::InitCommander()
+{
 	m_tInfo.vLook = { 1.f, 0.f, 0.f };
 	m_tInfo.vDir = { 0.f, 0.f, 0.f };
 	D3DXMatrixIdentity(&m_tInfo.matWorld);
@@ -60,73 +125,30 @@ HRESULT ACommander::Initialize()
 	m_tScene.iMaxFrame = 8;
 	m_tScene.iScene = 0;
 	m_tScene.fSceneMax = 1.f / (float)m_tScene.iMaxFrame;
-	
-	m_fSpeed = 110.f * fScreenZoom;
-	m_iMaxHp = 10;
-	m_iHp = 10;
-	
-	m_eUnit[0] = UNIT_SQUIRREL;
-	m_eUnit[1] = UNIT_LIZARD;
-	m_eUnit[2] = UNIT_FERRET;
-	m_eUnit[3] = UNIT_FALCON;
-	m_eUnit[4] = UNIT_BADGER;
-	m_eUnit[5] = UNIT_FOX;
-
-	m_pFont = Device->GetFont();
-
-	return S_OK;
 }
 
-
-OBJSTATE ACommander::Update(float deltaTime)
+void ACommander::SetCommand()
 {
-	if (nullptr == m_pCommand)
+	if (m_eTeam == TEAM_RED)
 	{
-		if (m_eObjectID == OBJ_PLAYER)
-		{
-			Vector3 vInitScroll((WINCX >> 1) - m_tInfo.vPosition.x, (WINCY >> 1) - m_tInfo.vPosition.y, 0.f);
-			ViewMgr->SetScroll(vInitScroll);
-
-			m_pCommand = new DPlayerCommand;
-			m_pCommand->SetCommander(this);
-		}
-		else if (m_eObjectID == OBJ_AI)
-		{
-			// AI Command 생성
-			m_pCommand = new DAICommand;
-			m_pCommand->SetCommander(this);
-		}
+		for (int i = 0; i<SLOT_MAX; ++i)
+			GameMgr->GetSubject(m_eTeam)->Notify(m_eUnit[i], i);
 	}
 
-	AActor::Update(deltaTime);
+	if (m_eObjectID == OBJ_PLAYER)
+	{
+		Vector3 vInitScroll((WINCX >> 1) - m_tInfo.vPosition.x, (WINCY >> 1) - m_tInfo.vPosition.y, 0.f);
+		ViewMgr->SetScroll(vInitScroll);
 
-	m_pCommand->Update();
-	UpdateState(deltaTime);
-
-	return STATE_PLAY;
-}
-
-void ACommander::LateUpdate()
-{
-	AActor::LateUpdate();
-	CheckTileObject();
-	SetAnimState();
-}
-
-void ACommander::Render()
-{
-	RenderShadow(80);
-	RenderGroundChar();
-
-#ifdef _DEBUG
-	if(m_eObjectID == OBJ_PLAYER)
-		DrawStateString();
-#endif
-}
-
-void ACommander::Release()
-{
-	SafeDelete(m_pCommand);
+		m_pCommand = new DPlayerCommand;
+		m_pCommand->SetCommander(this);
+	}
+	else if (m_eObjectID == OBJ_AI)
+	{
+		// AI Command 생성
+		m_pCommand = new DAICommand;
+		m_pCommand->SetCommander(this);
+	}
 }
 
 void ACommander::UpdateState(float deltaTime)
@@ -303,10 +325,11 @@ void ACommander::CheckHQ()
 
 		if (CheckObjectNetual(pTile->pGameObject, OBJ_HQ))
 		{
-			if (true == m_bBuild && pTile->pGameObject->GetTeamID() == TEAM_NEUTRAL)
+			if (true == m_bBuild && pTile->pGameObject->GetTeamID() == TEAM_NEUTRAL && m_iFood >= 60)
 			{
 				pTile->pGameObject->Destroy();
 				pTile->pGameObject->SetTeam(m_eTeam);
+				m_iFood -= 60;
 			}
 		}
 	}
@@ -318,7 +341,7 @@ void ACommander::CheckFarm()
 
 	if (CheckObjectID(pObject, OBJ_FARM))
 	{
-		if (true == m_bBuild && CheckObjectTeam(pObject, m_eTeam))
+		if (true == m_bBuild && CheckObjectTeam(pObject, m_eTeam) && false == m_bFarmReserve)
 		{
 			pObject->Destroy();
 			m_bBuild = false;
@@ -383,9 +406,71 @@ bool ACommander::CheckTile4x4(VECCOLLTILE & vecRange, int iDir)
 
 void ACommander::CreateSlotUnitFactory(int iStart)
 {
+	if (false == CheckUnitFactoryPay())
+	{
+		// TODO: 빨간 UI 넣어주고
+		return;
+	}
+	
 	CGameObject* pObject = DObjectFactory<BUnitFactory>::CreateUnitFactory(iStart, m_eUnit[m_iSelectSlot], m_eTeam);
 
 	GameMgr->CreateObject(pObject, OBJ_UNITFACTORY);
+}
+
+bool ACommander::CheckUnitFactoryPay()
+{
+	switch (m_eUnit[m_iSelectSlot])
+	{
+		// 60 Food
+	case UNIT_SQUIRREL:
+	case UNIT_LIZARD:
+	case UNIT_TOAD:
+	case UNIT_PIGEON:
+	case UNIT_MOLE:
+		if (m_iFood >= 60)
+		{
+			m_iFood -= 60;
+			return true;
+		}
+		break;
+
+		// 120 Food
+	case UNIT_FERRET:
+	case UNIT_CHAMELEON:
+	case UNIT_SKUNK:
+	case UNIT_FALCON:
+	case UNIT_SNAKE:
+		if (m_iFood >= 120) 
+		{
+			m_iFood -= 120;
+			return true;
+		}
+		break;
+
+		// 180 Food
+	case UNIT_BADGER:
+	case UNIT_BOAR:
+	case UNIT_FOX:
+	case UNIT_WOLF:
+	case UNIT_OWL:
+		if (m_iFood >= 180) 
+		{
+			m_iFood -= 180;
+			return true;
+		}
+		break;
+
+		// 유닛 생성에서는 Failed
+	case UNIT_BARBEDWIRE:
+	case UNIT_LANDMINE:
+	case UNIT_BALLON:
+	case UNIT_TURRET:
+	case UNIT_ARTILLERY:
+		return false;
+	default:
+		return false;
+	}
+	return false;
 }
 
 bool ACommander::CheckTileEmpty(COLLTILE * pTile)

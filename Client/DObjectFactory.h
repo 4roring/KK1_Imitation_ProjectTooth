@@ -68,7 +68,7 @@ public:
 
 	static CGameObject* CreateUnitFactory(int iStart, UNITID eUnitID, TEAMID eTeam)
 	{
-		BUnitFactory* pObject = new T;
+		BUnitFactory* pObject = new BUnitFactory;
 		pObject->SetTileIndexArray(iStart);
 		pObject->SetUnitID(eUnitID);
 		pObject->SetTeam(eTeam);
@@ -97,7 +97,6 @@ public:
 
 		return pObject;
 	}
-
 
 	static CGameObject* CreateDeco(const std::wstring& wstrObjKey, const std::wstring& wstrStateKey, int iCount, const Vector3& vPos)
 	{

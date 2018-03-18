@@ -1,5 +1,6 @@
 #pragma once
 #include "Building.h"
+class ACommander;
 class BFarm :
 	public BBuilding
 {
@@ -14,6 +15,11 @@ public:
 	virtual void Render() override;
 	virtual void Release() override;
 
+public:
+	void SetLevel();
+	void SetCrop();
+	void CreateFinished();
+
 private:
 	enum FARMSTATE { Grass, OnStream, Farm, FarmEnd, End };
 	FARMSTATE m_eCurState = FARMSTATE::Grass;
@@ -22,5 +28,12 @@ private:
 private:
 	void UpdateState(float deltaTime);
 	void SetAnimState();
+
+private:
+	ACommander* m_pCommander = nullptr;
+	float m_fFoodUpTime = 0.f;
+	int m_iFood = 0;
+	CGameObject* m_pCrop[9] = {};
+	CGameObject* m_pPig = nullptr;
 };
 

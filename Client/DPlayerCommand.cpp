@@ -2,6 +2,7 @@
 #include "DPlayerCommand.h"
 #include "ACommander.h"
 #include "DSubject.h"
+#include "DSubject.h"
 
 DPlayerCommand::DPlayerCommand()
 {
@@ -53,13 +54,15 @@ void DPlayerCommand::Input()
 	{
 		if (--m_pACommander->m_iSelectSlot < 0)
 			m_pACommander->m_iSelectSlot = SLOT_MAX - 1;
+
+		GameMgr->GetSubject(m_pACommander->m_eTeam)->NotifySlotNum(m_pACommander->m_iSelectSlot);
 	}
 
 	if (GetKey->KeyDown('E'))
 	{
 		if (++m_pACommander->m_iSelectSlot >= SLOT_MAX)
 			m_pACommander->m_iSelectSlot = 0;
-	}
 
-		
+		GameMgr->GetSubject(m_pACommander->m_eTeam)->NotifySlotNum(m_pACommander->m_iSelectSlot);
+	}	
 }

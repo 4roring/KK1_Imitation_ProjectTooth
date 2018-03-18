@@ -27,8 +27,7 @@ HRESULT CLogo::Initialize()
 
 void CLogo::Update()
 {
-	if (GetKey->KeyDown(VK_RETURN))
-		SceneMgr->SceneChange(SCENE_STAGE_3);
+
 }
 
 void CLogo::LateUpdate()
@@ -44,6 +43,9 @@ void CLogo::Render()
 
 	m_pSprite->SetTransform(&matIdentity);
 	m_pSprite->Draw(pTexInfo->pTexture, nullptr, nullptr, nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
+
+	if (GetAsyncKeyState(VK_RETURN) & 0x8000)
+		SceneMgr->SceneChange(SCENE_STAGE_3);
 }
 
 void CLogo::Release()

@@ -69,6 +69,7 @@ bool DUnitState::CheckTileEmpty()
 bool DUnitState::IsOrder()
 {
 	if (m_pObserver->GetOrder() == 0.f) return false;
+
 	if (m_pUnit->m_eUnitID == m_pObserver->GetOrderID())
 	{
 		m_vecPath.clear();

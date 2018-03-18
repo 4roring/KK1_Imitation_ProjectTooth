@@ -3,6 +3,7 @@
 #include "NeutralHQ.h"
 #include "HQGround.h"
 #include "BFarm.h"
+#include "BHQ.h"
 
 CLevel::CLevel()
 {
@@ -343,29 +344,53 @@ void CLevel::CreateBuilding()
 			break;
 
 		case 3: // Red得 HQ 持失
-			CreateTeamStartFarm(i, TEAM_RED);
+			GroundPos = Vector3(m_vecCollTile[i]->vPosition.x, m_vecCollTile[i]->vPosition.y - COLLTILECY, 0.f);
+			GameMgr->CreateObject(DObjectFactory<CHQGround>::Create(GroundPos), OBJ_BACK);
+			CreateTeamHQ(GetTileIndex(m_vecCollTile[i]->vPosition), TEAM_RED);
 			break;
 
 		case 4: // Blue得 HQ 持失
+			GroundPos = Vector3(m_vecCollTile[i]->vPosition.x, m_vecCollTile[i]->vPosition.y - COLLTILECY, 0.f);
+			GameMgr->CreateObject(DObjectFactory<CHQGround>::Create(GroundPos), OBJ_BACK);
+			CreateTeamHQ(GetTileIndex(m_vecCollTile[i]->vPosition), TEAM_BLUE);
 			break;
 		}
 	}
 }
 
-void CLevel::CreateBuilding(int TileIndex, TEAMID eTeam)
+void CLevel::CreateFarm(int iTileIndex, TEAMID eTeam)
 {
-	CGameObject* pObject = DObjectFactory<BFarm>::CreateBuilding(TileIndex, eTeam);
+	CGameObject* pObject = DObjectFactory<BFarm>::CreateBuilding(iTileIndex, eTeam);
 	GameMgr->CreateObject(pObject, OBJ_FARM);
 }
 
-void CLevel::CreateNeutralFarm(int TileIndex)
+void CLevel::CreateFinishedFarm(int iTileIndex, TEAMID eTeam)
 {
-	for (int i = 0; i < NEIGHBOR_END; ++i)
-		CreateBuilding(GetNeighborTileIndex(i, TileIndex, 2), TEAM_NEUTRAL);
+	CGameObject* pObject = DObjectFactory<BFarm>::CreateBuilding(iTileIndex, eTeam);
+	dynamic_cast<BFarm*>(pObject)->CreateFinished();
+	GameMgr->CreateObject(pObject, OBJ_FARM);
 }
 
-void CLevel::CreateTeamStartFarm(int TileIndex, TEAMID eTeam)
+void CLevel::CreateNeutralFarm(int iTileIndex)
 {
 	for (int i = 0; i < NEIGHBOR_END; ++i)
-		CreateBuilding(GetNeighborTileIndex(i, TileIndex, 2), eTeam);
+		CreateFarm(GetNeighborTileIndex(i, iTileIndex, 2), TEAM_NEUTRAL);
+}
+
+void CLevel::CreateTeamStartFarm(int iTileIndex, TEAMID eTeam)
+{
+	for(int i=0; i<= NEIGHBOR_UP; ++i)
+		CreateFinishedFarm(GetNeighborTileIndex(i, iTileIndex, 2), eTeam);
+
+	for (int i = NEIGHBOR_UP + 1; i < NEIGHBOR_END; ++i)
+		CreateFarm(GetNeighborTileIndex(i, iTileIndex, 2), eTeam);
+}
+
+void CLevel::CreateTeamHQ(int iTileIndex, TEAMID eTeam)
+{
+	CGameObject* pObject = DObjectFactory<BHQ>::CreateBuilding(iTileIndex, eTeam);
+	dynamic_cast<BHQ*>(pObject)->SetHQState(1);
+	GameMgr->CreateObject(pObject, OBJ_HQ);
+
+	CreateTeamStartFarm(iTileIndex, eTeam);
 }

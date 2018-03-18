@@ -151,11 +151,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="APig.h" />
     <ClInclude Include="AStar.h" />
     <ClInclude Include="AUnit.h" />
     <ClInclude Include="BFarm.h" />
     <ClInclude Include="BHQ.h" />
     <ClInclude Include="BUnitFactory.h" />
+    <ClInclude Include="Crop.h" />
     <ClInclude Include="DAICommand.h" />
     <ClInclude Include="DBulletEffectBridge.h" />
     <ClInclude Include="DEffectBridge.h" />
@@ -189,7 +191,9 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="UI.h" />
+    <ClInclude Include="FoodUI.h" />
+    <ClInclude Include="UnitUI.h" />
+    <ClInclude Include="UUI.h" />
     <ClInclude Include="ViewManager.h" />
     <ClInclude Include="SingleTexture.h" />
     <ClInclude Include="Stage_3.h" />
@@ -202,6 +206,7 @@
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="ACommander.cpp" />
+    <ClCompile Include="APig.cpp" />
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="AtlasTexture.cpp" />
     <ClCompile Include="AUnit.cpp" />
@@ -210,6 +215,7 @@
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="BUnitFactory.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="Crop.cpp" />
     <ClCompile Include="DAICommand.cpp" />
     <ClCompile Include="DBridge.cpp" />
     <ClCompile Include="DBulletEffectBridge.cpp" />
@@ -236,7 +242,9 @@
     <ClCompile Include="NeutralHQ.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="UI.cpp" />
+    <ClCompile Include="FoodUI.cpp" />
+    <ClCompile Include="UnitUI.cpp" />
+    <ClCompile Include="UUI.cpp" />
     <ClCompile Include="ViewManager.cpp" />
     <ClCompile Include="SingleTexture.cpp" />
     <ClCompile Include="Stage_3.cpp" />

@@ -38,9 +38,11 @@ public: // Tile Picking
 public:
 	void LoadCollTile();
 	void CreateBuilding();
-	void CreateBuilding(int TileIndex, TEAMID eTeam);
-	void CreateNeutralFarm(int TileIndex);
-	void CreateTeamStartFarm(int TileIndex, TEAMID eTeam);
+	void CreateFarm(int iTileIndex, TEAMID eTeam);
+	void CreateFinishedFarm(int iTileIndex, TEAMID eTeam);
+	void CreateNeutralFarm(int iTileIndex);
+	void CreateTeamStartFarm(int iTileIndex, TEAMID eTeam);
+	void CreateTeamHQ(int iTileIndex, TEAMID eTeam);
 
 public:
 	COLLTILE* GetCollTile(int iIndex) const { return m_vecCollTile[iIndex]; }

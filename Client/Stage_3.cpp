@@ -3,7 +3,8 @@
 #include "ACommander.h"
 #include "Level.h"
 #include "Deco.h"
-#include "UI.h"
+#include "FoodUI.h"
+#include "UnitUI.h"
 
 CStage_3::CStage_3()
 {
@@ -23,8 +24,8 @@ HRESULT CStage_3::Initialize()
 	vPos = Vector3(2525.f, 3170.f, 0.f);
 	GameMgr->CreateObject(DObjectFactory<ACommander>::Create(vPos, TEAM_BLUE), OBJ_AI);
 	GameMgr->CreateObject(DObjectFactory<CLevel>::Create(), OBJ_LEVEL);
-	GameMgr->CreateObject(DObjectFactory<CUI>::Create(), OBJ_UI);
-
+	GameMgr->CreateObject(DObjectFactory<UFoodUI>::Create(), OBJ_UI);
+	GameMgr->CreateObject(DObjectFactory<CUnitUI>::Create(), OBJ_UI);
 	LoadDeco();
 
 	return S_OK;

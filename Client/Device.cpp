@@ -55,6 +55,12 @@ HRESULT CDevice::InitDevice()
 		return E_FAIL;
 	}
 
+	if (FAILED(FoodFontInit()))
+	{
+		MSG_BOX(TEXT("Create FoodFont Failed"));
+		return E_FAIL;
+	}
+
 	return S_OK;
 }
 
@@ -113,6 +119,25 @@ HRESULT CDevice::FontInit()
 	lstrcpy(tFontInfo.FaceName, TEXT("°íµñ"));
 
 	if (FAILED(D3DXCreateFontIndirect(m_pDevice, &tFontInfo, &m_pFont)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CDevice::FoodFontInit()
+{
+	AddFontResourceEx(L"../Font/FFFFORWA.TTF", FR_PRIVATE, 0);
+
+	D3DXFONT_DESC tFontInfo;
+	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESC));
+
+	tFontInfo.Width = 24;
+	tFontInfo.Height = 40;
+	tFontInfo.Weight = FW_NORMAL;
+	tFontInfo.CharSet = DEFAULT_CHARSET;
+	lstrcpy(tFontInfo.FaceName, TEXT("FFF Forward"));
+
+	if (FAILED(D3DXCreateFontIndirect(m_pDevice, &tFontInfo, &m_pFoodFont)))
 		return E_FAIL;
 
 	return S_OK;

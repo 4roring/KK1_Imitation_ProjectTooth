@@ -20,7 +20,7 @@ public:
 	int GetTileIndex() { return m_iTileIndex; }
 
 public:
-	void SetPos(Vector3 vPos) { m_tInfo.vPosition = vPos; }
+	void SetPos(const Vector3& vPos) { m_tInfo.vPosition = vPos; }
 	void SetTexMain(const TEXINFO* pTexInfo) { m_pTexMain = pTexInfo; }
 	void SetObjectID(OBJID eObjectID) { m_eObjectID = eObjectID; }
 	void SetTeam(TEAMID eTeam) { m_eTeam = eTeam; }

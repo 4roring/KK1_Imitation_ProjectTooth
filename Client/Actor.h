@@ -7,7 +7,7 @@ public:
 	AActor();
 	virtual ~AActor();
 
-	// CGameObject을(를) 통해 상속됨
+public:
 	virtual HRESULT Initialize() override;
 	virtual OBJSTATE Update(float deltaTime) override;
 	virtual void LateUpdate() override;

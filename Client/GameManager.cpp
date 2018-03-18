@@ -15,15 +15,38 @@ CGameManager::~CGameManager()
 	Release();
 }
 
+CGameObject * CGameManager::GetTeamCommander(TEAMID eTeam) const
+{
+	if (eTeam == TEAM_RED)
+		return m_ObjectList[OBJ_PLAYER].back();
+
+	auto iter = find_if(m_ObjectList[OBJ_AI].begin(), m_ObjectList[OBJ_AI].end(),
+		[&eTeam](auto& pObject)
+	{
+		return (pObject->GetTeamID() == eTeam);
+	});
+
+	return *iter;
+}
+
+int CGameManager::GetRandom(int iMin, int iMax)
+{
+	std::random_device rd;
+	std::mt19937 mt(rd());
+	std::uniform_int_distribution<int> range(iMin, iMax);
+
+	return range(mt);
+}
+
 void CGameManager::CreateObject(CGameObject * pObject, OBJID eObjectID)
 {
 	pObject->SetObjectID(eObjectID);
-	ObjectList[eObjectID].push_back(pObject);
+	m_ObjectList[eObjectID].push_back(pObject);
 }
 
 void CGameManager::DestroyObject(int eObjectID)
 {
-	std::for_each(ObjectList[eObjectID].begin(), ObjectList[eObjectID].end(), SafeDelete<CGameObject*>);
+	std::for_each(m_ObjectList[eObjectID].begin(), m_ObjectList[eObjectID].end(), SafeDelete<CGameObject*>);
 }
 
 void CGameManager::Initialize()
@@ -44,7 +67,7 @@ void CGameManager::Update(float deltaTime)
 {
 	for (int i = 0; i < OBJ_END; ++i)
 	{
-		for (auto iter = ObjectList[i].begin(); iter != ObjectList[i].end(); )
+		for (auto iter = m_ObjectList[i].begin(); iter != m_ObjectList[i].end(); )
 		{
 			OBJSTATE eState = (*iter)->Update(deltaTime);
 
@@ -59,7 +82,7 @@ void CGameManager::Update(float deltaTime)
 
 			case STATE_DESTROY:
 				SafeDelete(*iter);
-				iter = ObjectList[i].erase(iter);
+				iter = m_ObjectList[i].erase(iter);
 				break;
 			}
 		}
@@ -70,7 +93,7 @@ void CGameManager::LateUpdate()
 {
 	for (int i = 0; i < OBJ_END; ++i)
 	{
-		for (auto& pObject : ObjectList[i])
+		for (auto& pObject : m_ObjectList[i])
 			pObject->LateUpdate();
 	}
 }
@@ -79,7 +102,7 @@ void CGameManager::Render()
 {
 	for (int i = 0; i < OBJ_END; ++i)
 	{
-		for (auto& pObject : ObjectList[i])
+		for (auto& pObject : m_ObjectList[i])
 		{
 			OBJLAYER eLayer = pObject->GetLayer();
 

@@ -66,10 +66,6 @@ void DUnit_1Tear::UpdateState(float deltaTime)
 			GameMgr->GetAStar()->AStarStart(m_pUnit->m_iTileIndex, m_vecPath.front(), m_vecPath);*/
 		MovePath(deltaTime);
 
-		// 자신의 시야에 적이 있거나 타겟이 잡히면 타겟을 향해 이동
-		if (true == CheckSight())
-			GameMgr->GetAStar()->AStarStart(m_pUnit->m_iTileIndex, m_pUnit->m_pTarget, m_vecPath);
-
 		// 자신의 공격 범위에 적이 있으면 공격
 		if (true == CheckRange())
 		{
@@ -77,7 +73,12 @@ void DUnit_1Tear::UpdateState(float deltaTime)
 				m_vecPath.push_back(GetAroundEmptyTile());
 			else
 				m_eCurState = DUnit_1Tear::Attack;
+			break;
 		}
+
+		// 자신의 시야에 적이 있거나 타겟이 잡히면 타겟을 향해 이동
+		if (true == CheckSight())
+			GameMgr->GetAStar()->AStarStart(m_pUnit->m_iTileIndex, m_pUnit->m_pTarget, m_vecPath);
 
 		if (true == m_vecPath.empty())
 			m_eCurState = Idle;

@@ -17,7 +17,7 @@ const TEXINFO * CAtlasTexture::GetTexture(const std::wstring & wstrStateKey, con
 	if (iter == m_mapAtlasTex.end())
 		return nullptr;
 
-	m_pTexInfo->tRect = iter->second;
+	m_pTexInfo->pRect = iter->second;
 
 	return m_pTexInfo;
 }

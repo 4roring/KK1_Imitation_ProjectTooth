@@ -106,9 +106,6 @@
     <Filter Include="96.Scene\02.Stage\Stage_3">
       <UniqueIdentifier>{57bd4ea4-9c5c-4fa7-9171-7135e1a1744c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.UI">
-      <UniqueIdentifier>{864deacf-f656-4130-87fc-b14ddb76bab0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="98.DesignPattern\State">
       <UniqueIdentifier>{526c6cff-0540-4d15-a506-80f53ed3b872}</UniqueIdentifier>
     </Filter>
@@ -145,20 +142,35 @@
     <Filter Include="02.Actor\00.ACommender\AICommand">
       <UniqueIdentifier>{a636f68c-c3ed-42d3-9dff-3556b565dbeb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.GameObject\04.Effect">
+    <Filter Include="04.Effect">
       <UniqueIdentifier>{27537f6f-3ee8-41ed-90d7-00e45437b27f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.GameObject\04.Effect\TimerEffectBridge">
+    <Filter Include="04.Effect\TimerEffectBridge">
       <UniqueIdentifier>{59723600-1980-437d-af1d-e61f842cfd06}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.GameObject\04.Effect\BulletEffectBridge">
+    <Filter Include="04.Effect\BulletEffectBridge">
       <UniqueIdentifier>{206b5cd2-94dd-43b2-9f79-33abd1196b89}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.GameObject\04.Effect\OneShotEffectBridge">
+    <Filter Include="04.Effect\OneShotEffectBridge">
       <UniqueIdentifier>{8b65e1a1-af08-4707-98d0-3f3e7866d3ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.GameObject\04.Effect\EffectBridge">
+    <Filter Include="04.Effect\EffectBridge">
       <UniqueIdentifier>{56d1088f-4b2b-46c2-b302-55fd0b0a4971}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.UI">
+      <UniqueIdentifier>{864deacf-f656-4130-87fc-b14ddb76bab0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.UI\FoodUI">
+      <UniqueIdentifier>{940c7d86-f104-44f3-b335-9fb5acad4954}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.UI\UnitUI">
+      <UniqueIdentifier>{d77abb10-fb35-4551-8535-234e1514589f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\02.Pig">
+      <UniqueIdentifier>{bcff1ea2-81e6-4f4e-8b93-1dd9ff7437c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Building\BFarm\Crop">
+      <UniqueIdentifier>{e1646583-7d5c-4b24-a8d3-eaa867e0207b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -256,9 +268,6 @@
     <ClInclude Include="DObjectFactory.h">
       <Filter>01.GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="UI.h">
-      <Filter>04.UI</Filter>
-    </ClInclude>
     <ClInclude Include="BHQ.h">
       <Filter>03.Building\BHQ</Filter>
     </ClInclude>
@@ -290,15 +299,30 @@
       <Filter>02.Actor\00.ACommender\AICommand</Filter>
     </ClInclude>
     <ClInclude Include="DBulletEffectBridge.h">
-      <Filter>01.GameObject\04.Effect\BulletEffectBridge</Filter>
+      <Filter>04.Effect\BulletEffectBridge</Filter>
     </ClInclude>
     <ClInclude Include="DOneShotEffectBridge.h">
-      <Filter>01.GameObject\04.Effect\OneShotEffectBridge</Filter>
+      <Filter>04.Effect\OneShotEffectBridge</Filter>
     </ClInclude>
     <ClInclude Include="Effect.h">
-      <Filter>01.GameObject\04.Effect</Filter>
+      <Filter>04.Effect</Filter>
     </ClInclude>
-    <ClInclude Include="DEffectBridge.h" />
+    <ClInclude Include="FoodUI.h">
+      <Filter>05.UI\FoodUI</Filter>
+    </ClInclude>
+    <ClInclude Include="DEffectBridge.h">
+      <Filter>04.Effect\EffectBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="UUI.h">
+      <Filter>05.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitUI.h">
+      <Filter>05.UI\UnitUI</Filter>
+    </ClInclude>
+    <ClInclude Include="APig.h">
+      <Filter>02.Actor\02.Pig</Filter>
+    </ClInclude>
+    <ClInclude Include="Crop.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -386,9 +410,6 @@
     <ClCompile Include="BFarm.cpp">
       <Filter>03.Building\BFarm</Filter>
     </ClCompile>
-    <ClCompile Include="UI.cpp">
-      <Filter>04.UI</Filter>
-    </ClCompile>
     <ClCompile Include="BHQ.cpp">
       <Filter>03.Building\BHQ</Filter>
     </ClCompile>
@@ -420,15 +441,30 @@
       <Filter>02.Actor\00.ACommender\AICommand</Filter>
     </ClCompile>
     <ClCompile Include="DBulletEffectBridge.cpp">
-      <Filter>01.GameObject\04.Effect\BulletEffectBridge</Filter>
+      <Filter>04.Effect\BulletEffectBridge</Filter>
     </ClCompile>
     <ClCompile Include="DOneShotEffectBridge.cpp">
-      <Filter>01.GameObject\04.Effect\OneShotEffectBridge</Filter>
+      <Filter>04.Effect\OneShotEffectBridge</Filter>
     </ClCompile>
     <ClCompile Include="Effect.cpp">
-      <Filter>01.GameObject\04.Effect</Filter>
+      <Filter>04.Effect</Filter>
     </ClCompile>
-    <ClCompile Include="DEffectBridge.cpp" />
+    <ClCompile Include="FoodUI.cpp">
+      <Filter>05.UI\FoodUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DEffectBridge.cpp">
+      <Filter>04.Effect\EffectBridge</Filter>
+    </ClCompile>
+    <ClCompile Include="UUI.cpp">
+      <Filter>05.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitUI.cpp">
+      <Filter>05.UI\UnitUI</Filter>
+    </ClCompile>
+    <ClCompile Include="APig.cpp">
+      <Filter>02.Actor\02.Pig</Filter>
+    </ClCompile>
+    <ClCompile Include="Crop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

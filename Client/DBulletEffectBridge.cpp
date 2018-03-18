@@ -21,7 +21,10 @@ HRESULT DBulletEffectBridge::Initialize()
 	if (nullptr == m_pTarget)
 		return E_FAIL;
 
-	Vector3 vDir = m_pTarget->vPosition - m_pEffect->m_tInfo.vPosition;
+	Vector3 vDir;
+	
+	vDir = m_pTarget->vPosition - m_pEffect->m_tInfo.vPosition;
+	
 	D3DXVec3Normalize(&vDir, &vDir);
 	D3DXVec3Normalize(&m_pEffect->m_tInfo.vLook, &m_pEffect->m_tInfo.vLook);
 

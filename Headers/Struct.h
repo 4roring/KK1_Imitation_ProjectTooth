@@ -14,7 +14,7 @@ typedef struct tagTexture
 {
 	LPDIRECT3DTEXTURE9 pTexture;
 	D3DXIMAGE_INFO tImageInfo;
-	LPRECT tRect;
+	LPRECT pRect;
 }TEXINFO;
 
 typedef struct tagAnimFrame

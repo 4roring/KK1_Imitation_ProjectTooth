@@ -14,10 +14,12 @@ private :
 	CGameManager& operator=(CGameManager&) = delete;
 
 public:
-	const OBJLIST& GetObjectList(OBJID eObjID) { return ObjectList[eObjID]; }
-	const D3DCOLOR* GetTeamColor(TEAMID eTeamID) { return &m_TeamColor[eTeamID]; }
+	CGameObject* GetTeamCommander(TEAMID eTeam) const;
+	const OBJLIST& GetObjectList(OBJID eObjID) const { return m_ObjectList[eObjID]; }
+	const D3DCOLOR* GetTeamColor(TEAMID eTeamID) const { return &m_TeamColor[eTeamID]; }
 	DSubject* GetSubject(TEAMID eTeam) const { return m_pSubject[eTeam]; }
 	CAStar* GetAStar() const { return m_pAStar; }
+	int GetRandom(int iMin, int iMax);
 
 public:
 	void CreateObject(CGameObject* pObject, OBJID eID);
@@ -33,7 +35,7 @@ public:
 	void Release();
 
 private:
-	OBJLIST ObjectList[OBJ_END];
+	OBJLIST m_ObjectList[OBJ_END];
 	D3DCOLOR m_TeamColor[TEAM_END];
 	VECRENDER m_vecRender[LAYER_END];
 
