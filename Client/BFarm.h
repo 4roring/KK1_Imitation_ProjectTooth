@@ -19,6 +19,8 @@ public:
 	void SetLevel();
 	void SetCrop();
 	void CreateFinished();
+	void DestroyCropRandom();
+	void DestroyPig();
 
 private:
 	enum FARMSTATE { Grass, OnStream, Farm, FarmEnd, End };

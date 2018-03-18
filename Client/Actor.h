@@ -14,7 +14,6 @@ public:
 	virtual void Render() PURE;
 	virtual void Release() PURE;
 
-
 protected:
 	void FrameMove(float deltaTime);
 	void UpdateRect();
@@ -34,8 +33,8 @@ protected:
 	int m_iHp = 0;
 	bool m_bFlipX = false;
 	bool m_bDead = false;
-	int m_iImageX = 0;
-	int m_iImageY = 0;
+	int m_iImageCX = 0;
+	int m_iImageCY = 0;
 
 protected:
 	ANIMFRAME m_tFrame;

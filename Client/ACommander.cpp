@@ -115,11 +115,11 @@ void ACommander::InitCommander()
 		break;
 	}
 
-	m_iImageX = COMMANDER_CX;
-	m_iImageY = COMMANDER_CY;
+	m_iImageCX = COMMANDER_CX;
+	m_iImageCY = COMMANDER_CY;
 
-	m_tFrame.fCenterX = float(m_iImageX >> 1);
-	m_tFrame.fCenterY = float(m_iImageY * 0.9f);
+	m_tFrame.fCenterX = float(m_iImageCX >> 1);
+	m_tFrame.fCenterY = float(m_iImageCY * 0.9f);
 
 	m_tScene.iFrame = 0;
 	m_tScene.iMaxFrame = 8;

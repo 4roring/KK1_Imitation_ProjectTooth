@@ -92,7 +92,7 @@ void DUnit_1Tear::UpdateState(float deltaTime)
 		{
 			// 다람쥐는 초당 1공격
 		case UNIT_SQUIRREL:
-			if (m_fAttackDelay >= 1.f)
+			if (m_fAttackDelay >= m_pUnit->m_tUnitInfo.fAtkTime)
 			{
 				ShotBullet(BULLET_PISTOL);
 				m_fAttackDelay = 0.f;
@@ -103,7 +103,7 @@ void DUnit_1Tear::UpdateState(float deltaTime)
 			break;
 			// TODO: 도마뱀과 두더지는 0.25의 대기 후 공격
 		case UNIT_LIZARD:
-			if (m_fAttackDelay >= 0.75f)
+			if (m_fAttackDelay >= m_pUnit->m_tUnitInfo.fAtkTime)
 			{
 				if(m_pUnit->m_tFrame.fFrame >= m_pUnit->m_tFrame.fMax - 0.5f)
 				ShotBullet(BULLET_SPEAR);
@@ -207,8 +207,8 @@ HRESULT DUnit_1Tear::SetUnitState()
 		m_pUnit->m_pTexTint = TextureMgr->GetTexture(TEXT("squirrel_tint"));
 		SetUnitInfo(m_pUnit->m_tUnitInfo, 8, 2, 1.f, 4, 4);
 
-		m_pUnit->m_iImageX = 26;
-		m_pUnit->m_iImageY = 26;
+		m_pUnit->m_iImageCX = 26;
+		m_pUnit->m_iImageCY = 26;
 
 		m_pUnit->m_fSpeed = 100.f;
 
@@ -219,15 +219,15 @@ HRESULT DUnit_1Tear::SetUnitState()
 		
 		SetUnitInfo(m_pUnit->m_tUnitInfo, 9, 3, 1.f, 2, 4);
 
-		m_pUnit->m_iImageX = 32;
-		m_pUnit->m_iImageY = 32;
+		m_pUnit->m_iImageCX = 32;
+		m_pUnit->m_iImageCY = 32;
 
 		m_pUnit->m_fSpeed = 140.f;
 
 		break;
 	case UNIT_TOAD:
-		m_pUnit->m_pTexMain = TextureMgr->GetTexture(TEXT(""));
-		m_pUnit->m_pTexTint = TextureMgr->GetTexture(TEXT(""));
+		m_pUnit->m_pTexMain = TextureMgr->GetTexture(TEXT("toad"));
+		m_pUnit->m_pTexTint = TextureMgr->GetTexture(TEXT("toad_tint"));
 		break;
 	case UNIT_MOLE:
 		m_pUnit->m_pTexMain = TextureMgr->GetTexture(TEXT("mole"));
@@ -238,8 +238,8 @@ HRESULT DUnit_1Tear::SetUnitState()
 		return E_FAIL;
 	}
 
-	m_pUnit->m_tFrame.fCenterX = float(m_pUnit->m_iImageX >> 1);
-	m_pUnit->m_tFrame.fCenterY = float(m_pUnit->m_iImageY * 0.9f);
+	m_pUnit->m_tFrame.fCenterX = float(m_pUnit->m_iImageCX >> 1);
+	m_pUnit->m_tFrame.fCenterY = float(m_pUnit->m_iImageCY * 0.9f);
 
 	m_pUnit->m_tScene.iFrame = 0;
 	m_pUnit->m_tScene.iMaxFrame = 8;

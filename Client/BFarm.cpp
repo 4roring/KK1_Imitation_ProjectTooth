@@ -3,6 +3,7 @@
 #include "Level.h"
 #include "ACommander.h"
 #include "Crop.h"
+#include "APig.h"
 
 BFarm::BFarm()
 {
@@ -60,8 +61,7 @@ void BFarm::LateUpdate()
 
 	if (m_iHp <= 0)
 	{
-		// TODO: 돼지 쥬금
-		
+		DestroyPig();
 	}
 }
 
@@ -133,19 +133,25 @@ void BFarm::UpdateState(float deltaTime)
 		}
 		break;
 	case BFarm::Farm:
-		m_fFoodUpTime += deltaTime;
-		if (m_fFoodUpTime >= 1.f)
+		if (nullptr != m_pPig)
 		{
-			m_pCommander->AddFood(1);
-			--m_iFood;
-			m_fFoodUpTime = 0.f;
-		}
+			m_fFoodUpTime += deltaTime;
+			if (m_fFoodUpTime >= 1.f)
+			{
+				m_pCommander->AddFood(1);
+				--m_iFood;
+				m_fFoodUpTime = 0.f;
 
+				if (m_iFood % 34 == 0)
+					DestroyCropRandom();
+			}
+		}
+		
 		if(m_iFood <= 0)
 			m_eCurState = BFarm::FarmEnd;
 		break;
 	case BFarm::FarmEnd:
-		// 물은 물이요 산은 산이도다.
+		DestroyPig();
 		break;
 	case BFarm::End:
 	default:
@@ -200,77 +206,23 @@ void BFarm::SetLevel()
 
 void BFarm::SetCrop()
 {
-	// 중간
-	float fX = m_tInfo.vPosition.x;
-	float fY = m_tInfo.vPosition.y - 15.f;
-	Vector3 vPos = Vector3(fX, fY, 0.f);
-	CGameObject* pCrop = DObjectFactory<CCrop>::Create(vPos);
-	GameMgr->CreateObject(pCrop, OBJ_FARM);
-	m_pCrop[0] = pCrop;
+	for (int i = 0; i < 9; ++i)
+	{
+		const int idxX = i % 3;
+		const int idxY = i / 3;
+		constexpr int iCenterX = 1;
+		constexpr int iCenterY = 1;
+		constexpr float fMagicSize = 0.3333f;
+		
+		float fDistanceX = ((idxX - iCenterX) * fMagicSize - (idxY - iCenterY) * fMagicSize) * m_iImageCX;
+		const float fDistanceY = ((idxX - iCenterX) * fMagicSize + (idxY - iCenterY) * fMagicSize) * m_iImageCY;
+	
+		Vector3 vPos(m_tInfo.vPosition.x + fDistanceX, m_tInfo.vPosition.y -15.f + fDistanceY, 0);
 
-	// 상
-	fX = m_tInfo.vPosition.x;
-	fY = m_tInfo.vPosition.y - 15.f - float(m_iImageCY * 0.6666f);
-	vPos = Vector3(fX, fY, 0.f);
-	pCrop = DObjectFactory<CCrop>::Create(vPos);
-	GameMgr->CreateObject(pCrop, OBJ_FARM);
-	m_pCrop[1] = pCrop;
-
-	// 하
-	fX = m_tInfo.vPosition.x;
-	fY = m_tInfo.vPosition.y - 15.f + float(m_iImageCY * 0.6666f);
-	vPos = Vector3(fX, fY, 0.f);
-	pCrop = DObjectFactory<CCrop>::Create(vPos);
-	GameMgr->CreateObject(pCrop, OBJ_FARM);
-	m_pCrop[2] = pCrop;
-
-	// 좌
-	fX = m_tInfo.vPosition.x - float(m_iImageCX * 0.6666f);
-	fY = m_tInfo.vPosition.y - 15.f;
-	vPos = Vector3(fX, fY, 0.f);
-	pCrop = DObjectFactory<CCrop>::Create(vPos);
-	GameMgr->CreateObject(pCrop, OBJ_FARM);
-	m_pCrop[3] = pCrop;
-
-	// 우
-	fX = m_tInfo.vPosition.x + float(m_iImageCX * 0.6666f);
-	fY = m_tInfo.vPosition.y - 15.f;
-	vPos = Vector3(fX, fY, 0.f);
-	pCrop = DObjectFactory<CCrop>::Create(vPos);
-	GameMgr->CreateObject(pCrop, OBJ_FARM);
-	m_pCrop[4] = pCrop;
-
-	// 좌상
-	fX = m_tInfo.vPosition.x - float(m_iImageCX * 0.3333f);
-	fY = m_tInfo.vPosition.y - 15.f - float(m_iImageCY * 0.3333f);
-	vPos = Vector3(fX, fY, 0.f);
-	pCrop = DObjectFactory<CCrop>::Create(vPos);
-	GameMgr->CreateObject(pCrop, OBJ_FARM);
-	m_pCrop[5] = pCrop;
-
-	// 우상
-	fX = m_tInfo.vPosition.x + float(m_iImageCX * 0.3333f);
-	fY = m_tInfo.vPosition.y - 15.f - float(m_iImageCY * 0.3333f);
-	vPos = Vector3(fX, fY, 0.f);
-	pCrop = DObjectFactory<CCrop>::Create(vPos);
-	GameMgr->CreateObject(pCrop, OBJ_FARM);
-	m_pCrop[6] = pCrop;
-
-	// 좌하
-	fX = m_tInfo.vPosition.x - float(m_iImageCX * 0.3333f);
-	fY = m_tInfo.vPosition.y - 15.f + float(m_iImageCY * 0.3333f);
-	vPos = Vector3(fX, fY, 0.f);
-	pCrop = DObjectFactory<CCrop>::Create(vPos);
-	GameMgr->CreateObject(pCrop, OBJ_FARM);
-	m_pCrop[7] = pCrop;
-
-	// 우하
-	fX = m_tInfo.vPosition.x + float(m_iImageCX * 0.3333f);
-	fY = m_tInfo.vPosition.y - 15.f + float(m_iImageCY * 0.3333f);
-	vPos = Vector3(fX, fY, 0.f);
-	pCrop = DObjectFactory<CCrop>::Create(vPos);
-	GameMgr->CreateObject(pCrop, OBJ_FARM);
-	m_pCrop[8] = pCrop;
+		CGameObject* pCrop = DObjectFactory<CCrop>::Create(vPos);
+		GameMgr->CreateObject(pCrop, OBJ_FARM);
+		m_pCrop[i] = pCrop;
+	}
 }
 
 void BFarm::CreateFinished()
@@ -279,4 +231,32 @@ void BFarm::CreateFinished()
 	// 초반 농장 4개를 위해 함수로 작성.
 	m_eCurState = BFarm::Farm; // 이 친구도 묶어서.
 	SetCrop();
+
+	CGameObject* pPig = DObjectFactory<APig>::Create(m_tInfo.vPosition, m_eTeam);
+	GameMgr->CreateObject(pPig, OBJ_FARM);
+	dynamic_cast<APig*>(pPig)->SetTileIndexArr(m_iTileIndexArr);
+	m_pPig = pPig;
+}
+
+void BFarm::DestroyCropRandom()
+{
+	while (true)
+	{
+		int iIndex = GameMgr->GetRandom(0, 8);
+		if (nullptr != m_pCrop[iIndex])
+		{
+			m_pCrop[iIndex]->Destroy();
+			m_pCrop[iIndex] = nullptr;
+			break;
+		}
+	}
+}
+
+void BFarm::DestroyPig()
+{
+	if (nullptr != m_pPig)
+	{
+		m_pPig->Destroy();
+		m_pPig = nullptr;
+	}
 }

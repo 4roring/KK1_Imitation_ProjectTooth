@@ -55,10 +55,10 @@ void AActor::SetAnimFrame(float fFrameMin, float fFrameMax, float fFrameSpeed)
 
 void AActor::UpdateRect()
 {
-	int iSceneLeft = m_tScene.iFrame * m_iImageX;
-	int iSceneTop = m_tScene.iScene * m_iImageY;
-	int iSceneRight = m_tScene.iFrame * m_iImageX + m_iImageX;
-	int iSceneBottom = m_tScene.iScene * m_iImageY + m_iImageY;
+	int iSceneLeft = m_tScene.iFrame * m_iImageCX;
+	int iSceneTop = m_tScene.iScene * m_iImageCY;
+	int iSceneRight = m_tScene.iFrame * m_iImageCX + m_iImageCX;
+	int iSceneBottom = m_tScene.iScene * m_iImageCY + m_iImageCY;
 
 	m_tRect = { iSceneLeft, iSceneTop, iSceneRight, iSceneBottom };
 }
