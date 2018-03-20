@@ -49,8 +49,6 @@ typedef struct tagDecoration
 
 typedef struct tagUnitInfo
 {
-	int iMaxHp;
-	int iHp;
 	int iAtk;
 	float fAtkTime;
 	int iCount;

@@ -11,6 +11,9 @@ public:
 	virtual void LateUpdate() PURE;
 	virtual void Render() PURE;
 	virtual void Release() PURE;
+	
+public:
+	virtual void ApplyDamage(int iDamage);
 
 public:
 	OBJLAYER GetLayer() { return m_eLayer; }
@@ -18,6 +21,8 @@ public:
 	TEAMID GetTeamID() { return m_eTeam; }
 	OBJID GetObjectID() { return m_eObjectID; }
 	int GetTileIndex() { return m_iTileIndex; }
+	int GetHp() const { return m_iHp; }
+	float GetHpRatio() const { return m_iHp / (float)m_iMaxHp; }
 
 public:
 	void SetPos(const Vector3& vPos) { m_tInfo.vPosition = vPos; }
@@ -26,7 +31,6 @@ public:
 	void SetTeam(TEAMID eTeam) { m_eTeam = eTeam; }
 	void SetTileIndex(int iTileIndex) { m_iTileIndex = iTileIndex; }
 	void Destroy() { m_bDestroy = true; }
-	
 
 protected:
 	LPD3DXSPRITE m_pSprite;
@@ -41,6 +45,8 @@ protected:
 
 protected:
 	int m_iTileIndex = 0;
+	int m_iMaxHp = 0;
+	int m_iHp = 0;
 
 protected:
 	bool m_bDestroy = false;

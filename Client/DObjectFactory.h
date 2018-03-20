@@ -8,6 +8,7 @@ class BUnitFactory;
 class CEffect;
 class DEffectBridge;
 class DBulletEffectBridge;
+class DOneShotEffectBridge;
 
 template <typename T>
 class DObjectFactory
@@ -72,6 +73,7 @@ public:
 		pObject->SetTileIndexArray(iStart);
 		pObject->SetUnitID(eUnitID);
 		pObject->SetTeam(eTeam);
+
 		if (FAILED(pObject->Initialize()))
 		{
 			MSG_BOX(TEXT("Create UnitFactory Error!!!"));
@@ -112,12 +114,13 @@ public:
 		return pObject;
 	}
 
-	static CGameObject* CreateBullet(COLLTILE* pTarget, BULLETID eBulletID, const Vector3& vPos)
+	static CGameObject* CreateBullet(COLLTILE* pTarget, BULLETID eBulletID, const Vector3& vPos, int iAtk)
 	{
 		CEffect* pEffect = new CEffect;
 		DEffectBridge* pBulletEffect = new DBulletEffectBridge;
 		pBulletEffect->SetBulletID(eBulletID);
 		pBulletEffect->SetTarget(pTarget);
+		pBulletEffect->SetAtk(iAtk);
 		pEffect->SetEffectBridge(pBulletEffect);
 		pEffect->SetPos(vPos);
 		if (FAILED(pEffect->Initialize()))
@@ -126,6 +129,22 @@ public:
 			return nullptr;
 		}
 		
+		return pEffect;
+	}
+
+	static CGameObject* CreateOneShotParticle(PARTICLEID eParticleID, const Vector3& vPos)
+	{
+		CEffect* pEffect = new CEffect;
+		DEffectBridge* pOneShotEffect = new DOneShotEffectBridge;
+		pOneShotEffect->SetParticleID(eParticleID);
+		pEffect->SetEffectBridge(pOneShotEffect);
+		pEffect->SetPos(vPos);
+		if (FAILED(pEffect->Initialize()))
+		{
+			MSG_BOX(TEXT("Create Bullet Effect Error!!!"));
+			return nullptr;
+		}
+
 		return pEffect;
 	}
 };

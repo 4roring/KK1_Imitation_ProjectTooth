@@ -35,7 +35,7 @@ OBJSTATE CUnitUI::Update(float deltaTime)
 
 void CUnitUI::LateUpdate()
 {
-	UpdateMatrix();
+	UpdateMatrixScreenUI();
 }
 
 void CUnitUI::Render()
@@ -186,7 +186,6 @@ void CUnitUI::UnitSelectUIRender()
 			, &Vector3(float(iWidth >> 1), float(iHeight >> 1), 0.f)
 			, nullptr
 			, D3DCOLOR_ARGB(255, 255, 255, 255));
-
 
 		iWidth = m_pTexUnitTintUI[i]->right - m_pTexUnitTintUI[i]->left;
 		iHeight = m_pTexUnitTintUI[i]->bottom - m_pTexUnitTintUI[i]->top;

@@ -1,11 +1,11 @@
 #pragma once
 #include "DEffectBridge.h"
-class DOneShotEffectBridge :
+class DTimerEffectBridge :
 	public DEffectBridge
 {
 public:
-	DOneShotEffectBridge();
-	virtual ~DOneShotEffectBridge();
+	DTimerEffectBridge();
+	virtual ~DTimerEffectBridge();
 
 public:
 	virtual HRESULT Initialize() override;
@@ -14,15 +14,7 @@ public:
 	virtual void Render() override;
 	virtual void Release() override;
 
-public:
-	void FrameMove(float deltaTime);
-	void UpdateRect();
-
 private:
-	ANIMFRAME m_tFrame = {};
-	ANIMSCENE m_tScene = {};
-	RECT m_tRect = {};
-	int m_iImageCX = 0;
-	int m_iImageCY = 0;
+	LPRECT m_pFrameArr[3];
 };
 

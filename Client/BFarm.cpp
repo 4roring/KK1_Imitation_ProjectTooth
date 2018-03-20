@@ -32,18 +32,19 @@ HRESULT BFarm::Initialize()
 	m_tScene.iScene = 0;
 	m_tScene.fSceneMax = 1.f / (float)m_tScene.iMaxFrame;
 
-	m_iMaxHp = 10;
-	m_iHp = m_iMaxHp;
+	m_iMaxHp = 40;
+	m_iHp = 0;
 
 	m_iFood = 300;
 
+	InitHpUI();
 	return S_OK;
 }
 
 OBJSTATE BFarm::Update(float deltaTime)
 {
 	if (nullptr == m_pCommander && m_eTeam != TEAM_NEUTRAL)
-		m_pCommander = dynamic_cast<ACommander*>(GameMgr->GetTeamCommander(m_eTeam));
+		m_pCommander = GameMgr->GetCommander(m_eTeam);
 
 	if (nullptr == m_pLevel)
 		SetLevel();
@@ -59,9 +60,12 @@ void BFarm::LateUpdate()
 	BBuilding::LateUpdate();
 	SetAnimState();
 
-	if (m_iHp <= 0)
+	if (m_eCurState == BFarm::Farm && m_iHp <= 0)
 	{
 		DestroyPig();
+		DestroyCropAll();
+		RemoveTileObject();
+		m_eCurState = BFarm::FarmEnd;
 	}
 }
 
@@ -103,7 +107,7 @@ void BFarm::UpdateState(float deltaTime)
 			m_bDestroy = false;
 			m_eCurState = BFarm::OnStream;
 			if (nullptr == m_pCommander)
-				m_pCommander = dynamic_cast<ACommander*>(GameMgr->GetTeamCommander(m_eTeam));
+				m_pCommander = GameMgr->GetCommander(m_eTeam);
 			m_pCommander->SetFarmReserve(true);
 		}
 		break;
@@ -124,6 +128,7 @@ void BFarm::UpdateState(float deltaTime)
 		if (m_fBuildTime < 0)
 		{
 			CreateFinished();
+			m_eCurState = BFarm::Farm;
 		}
 		if (true == m_bDestroy)
 		{
@@ -196,7 +201,7 @@ void BFarm::SetLevel()
 		m_pLevel->GetCollTile(iTileNum)->byDrawID = 0;
 		m_pLevel->GetCollTile(iTileNum)->byOption = 0;
 	}
-
+	m_iTileIndex = m_iTileIndexArr[0];
 	Vector3 vPos = m_pLevel->GetCollTile(m_iTileIndexArr[0])->vPosition;
 	m_tInfo.vPosition = Vector3(vPos.x, vPos.y - COLLTILECY, 0.f);
 
@@ -228,10 +233,8 @@ void BFarm::SetCrop()
 void BFarm::CreateFinished()
 {
 	// TODO: 이펙트 펑! && 돼지 등장! && 농작물도 등장
-	// 초반 농장 4개를 위해 함수로 작성.
-	m_eCurState = BFarm::Farm; // 이 친구도 묶어서.
 	SetCrop();
-
+	m_iHp = m_iMaxHp;
 	CGameObject* pPig = DObjectFactory<APig>::Create(m_tInfo.vPosition, m_eTeam);
 	GameMgr->CreateObject(pPig, OBJ_FARM);
 	dynamic_cast<APig*>(pPig)->SetTileIndexArr(m_iTileIndexArr);
@@ -252,6 +255,18 @@ void BFarm::DestroyCropRandom()
 	}
 }
 
+void BFarm::DestroyCropAll()
+{
+	for (int i = 0; i < 9; ++i)
+	{
+		if (nullptr != m_pCrop[i])
+		{
+			m_pCrop[i]->Destroy();
+			m_pCrop[i] = nullptr;
+		}
+	}
+}
+
 void BFarm::DestroyPig()
 {
 	if (nullptr != m_pPig)
@@ -259,4 +274,10 @@ void BFarm::DestroyPig()
 		m_pPig->Destroy();
 		m_pPig = nullptr;
 	}
+}
+
+void BFarm::RemoveTileObject()
+{
+	for (int i : m_iTileIndexArr)
+		m_pLevel->SetTileObject(i, nullptr);
 }

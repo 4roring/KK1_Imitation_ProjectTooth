@@ -18,6 +18,9 @@ private:
 	void SetMainTexture();
 
 private:
+	bool CollisionTarget();
+
+private:
 	float m_fAngle = 0.f;
 	const TEXINFO* m_pTexTracer = nullptr;
 };

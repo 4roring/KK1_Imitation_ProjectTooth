@@ -42,11 +42,12 @@ void UUI::Render()
 
 void UUI::Release()
 {
-	GameMgr->GetSubject(m_eTeam)->UnSubscribe(m_pObserver);
+	if (nullptr != m_pObserver)
+		GameMgr->GetSubject(m_eTeam)->UnSubscribe(m_pObserver);
 	SafeDelete(m_pObserver);
 }
 
-void UUI::UpdateMatrix()
+void UUI::UpdateMatrixScreenUI()
 {
 	D3DXMATRIX matScale, matTrans;
 
@@ -55,6 +56,21 @@ void UUI::UpdateMatrix()
 	D3DXMatrixTranslation(&matTrans
 		, m_tInfo.vPosition.x
 		, m_tInfo.vPosition.y
+		, 0.f);
+
+	m_tInfo.matWorld = matScale * matTrans;
+}
+
+void UUI::UpdateMatrixWorldUI(float fDiameter)
+{
+	Vector3 vScroll = ViewMgr->GetScroll();
+	D3DXMATRIX matScale, matTrans;
+
+	D3DXMatrixScaling(&matScale, fDiameter, fDiameter, 1.f);
+
+	D3DXMatrixTranslation(&matTrans
+		, m_tInfo.vPosition.x + vScroll.x
+		, m_tInfo.vPosition.y + vScroll.y
 		, 0.f);
 
 	m_tInfo.matWorld = matScale * matTrans;

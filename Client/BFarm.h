@@ -18,9 +18,12 @@ public:
 public:
 	void SetLevel();
 	void SetCrop();
+	void SetFarmState(int iState) { m_eCurState = (FARMSTATE)iState; }
 	void CreateFinished();
 	void DestroyCropRandom();
+	void DestroyCropAll();
 	void DestroyPig();
+	void RemoveTileObject();
 
 private:
 	enum FARMSTATE { Grass, OnStream, Farm, FarmEnd, End };

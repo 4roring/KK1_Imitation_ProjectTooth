@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "DSubject.h"
 #include "AStar.h"
+#include "ACommander.h"
 
 CGameManager::CGameManager()
 {
@@ -15,21 +16,7 @@ CGameManager::~CGameManager()
 	Release();
 }
 
-CGameObject * CGameManager::GetTeamCommander(TEAMID eTeam) const
-{
-	if (eTeam == TEAM_RED)
-		return m_ObjectList[OBJ_PLAYER].back();
-
-	auto iter = find_if(m_ObjectList[OBJ_AI].begin(), m_ObjectList[OBJ_AI].end(),
-		[&eTeam](auto& pObject)
-	{
-		return (pObject->GetTeamID() == eTeam);
-	});
-
-	return *iter;
-}
-
-int CGameManager::GetRandom(int iMin, int iMax)
+int CGameManager::GetRandom(int iMin, int iMax) const
 {
 	std::random_device rd;
 	std::mt19937 mt(rd());
@@ -42,6 +29,9 @@ void CGameManager::CreateObject(CGameObject * pObject, OBJID eObjectID)
 {
 	pObject->SetObjectID(eObjectID);
 	m_ObjectList[eObjectID].push_back(pObject);
+
+	if (eObjectID == OBJ_PLAYER || eObjectID == OBJ_AI)
+		m_pCommander[pObject->GetTeamID()] = dynamic_cast<ACommander*>(pObject);
 }
 
 void CGameManager::DestroyObject(int eObjectID)
@@ -52,7 +42,7 @@ void CGameManager::DestroyObject(int eObjectID)
 void CGameManager::Initialize()
 {
 	m_TeamColor[TEAM_RED] = D3DCOLOR_ARGB(255, 255, 0, 0);
-	m_TeamColor[TEAM_GREEN] = D3DCOLOR_ARGB(255, 0, 255, 0);
+	m_TeamColor[TEAM_GREEN] = D3DCOLOR_ARGB(255, 80, 180, 80);
 	m_TeamColor[TEAM_BLUE] = D3DCOLOR_ARGB(255, 0, 0, 255);
 	m_TeamColor[TEAM_YELLO] = D3DCOLOR_ARGB(255, 255, 255, 0);
 	m_TeamColor[TEAM_NEUTRAL] = D3DCOLOR_ARGB(255, 255, 255, 255);
@@ -65,6 +55,7 @@ void CGameManager::Initialize()
 
 void CGameManager::Update(float deltaTime)
 {
+	DrawFPS(deltaTime);
 	for (int i = 0; i < OBJ_END; ++i)
 	{
 		for (auto iter = m_ObjectList[i].begin(); iter != m_ObjectList[i].end(); )
@@ -109,11 +100,8 @@ void CGameManager::Render()
 			switch (eLayer)
 			{
 			case LAYER_OBJ:
-				m_vecRender[eLayer].push_back(pObject);
-				continue;
 			case LAYER_EFFECT:
-				m_vecRender[eLayer].push_back(pObject);
-				continue;
+			case LAYER_WORLDUI:
 			case LAYER_UI:
 				m_vecRender[eLayer].push_back(pObject);
 				continue;
@@ -130,17 +118,16 @@ void CGameManager::Render()
 		return pObj1->GetInfo().vPosition.y < pObj2->GetInfo().vPosition.y;
 	});
 
-	for (auto& pObject : m_vecRender[LAYER_OBJ])
-		pObject->Render();
-
-	for (auto& pObject : m_vecRender[LAYER_EFFECT])
-		pObject->Render();
-
-	for (auto& pObject : m_vecRender[LAYER_UI])
-		pObject->Render();
+	for (int i = 0; i < LAYER_END; ++i)
+	{
+		for (auto& pObject : m_vecRender[i])
+			pObject->Render();
+	}
 
 	for (int i = 0; i < LAYER_END; ++i)
 		m_vecRender[i].clear();
+
+	RenderFPS();
 }
 
 void CGameManager::Release()
@@ -153,3 +140,30 @@ void CGameManager::Release()
 
 	SafeDelete(m_pAStar);
 }
+
+#ifdef _DEBUG
+void CGameManager::DrawFPS(float deltaTime)
+{
+	m_fFPSTime += deltaTime;
+	++m_iCount;
+}
+void CGameManager::RenderFPS()
+{
+	if (m_fFPSTime >= 1.f)
+	{
+		m_fFPSTime = 0.f;
+		m_iFPS = m_iCount;
+		m_iCount = 0;
+	}
+
+	D3DXMATRIX matTrans;
+	D3DXMatrixTranslation(&matTrans, 0.f, 0.f, 0.f);
+
+	TCHAR szBuf[16] = {};
+	swprintf_s(szBuf, TEXT("FPS : %d"), m_iFPS);
+
+	Device->GetSprite()->SetTransform(&matTrans);
+	Device->GetFont()->DrawTextW(Device->GetSprite(), szBuf, lstrlen(szBuf)
+		, nullptr, 0, D3DCOLOR_ARGB(255, 255, 255, 255));
+}
+#endif

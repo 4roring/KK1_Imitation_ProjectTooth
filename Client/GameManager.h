@@ -3,10 +3,11 @@
 
 class CAStar;
 class DSubject;
+class ACommander;
 class CGameManager :
 	public CSingleton<CGameManager>
 {
-private :
+private:
 	friend CSingleton;
 	explicit CGameManager();
 	virtual ~CGameManager();
@@ -14,12 +15,12 @@ private :
 	CGameManager& operator=(CGameManager&) = delete;
 
 public:
-	CGameObject* GetTeamCommander(TEAMID eTeam) const;
 	const OBJLIST& GetObjectList(OBJID eObjID) const { return m_ObjectList[eObjID]; }
 	const D3DCOLOR* GetTeamColor(TEAMID eTeamID) const { return &m_TeamColor[eTeamID]; }
 	DSubject* GetSubject(TEAMID eTeam) const { return m_pSubject[eTeam]; }
 	CAStar* GetAStar() const { return m_pAStar; }
-	int GetRandom(int iMin, int iMax);
+	int GetRandom(int iMin, int iMax) const;
+	ACommander* GetCommander(TEAMID eTeam) const { return m_pCommander[eTeam]; }
 
 public:
 	void CreateObject(CGameObject* pObject, OBJID eID);
@@ -42,5 +43,16 @@ private:
 private:
 	DSubject* m_pSubject[TEAM_NEUTRAL];
 	CAStar* m_pAStar;
+	ACommander* m_pCommander[TEAM_END];
+
+#ifdef _DEBUG
+private:
+	void DrawFPS(float deltaTime);
+	void RenderFPS();
+private:
+	float m_fFPSTime = 0.f;
+	int m_iCount = 0;
+	int m_iFPS = 0;
+#endif
 };
 

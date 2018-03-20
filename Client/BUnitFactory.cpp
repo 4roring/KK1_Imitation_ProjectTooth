@@ -2,6 +2,9 @@
 #include "BUnitFactory.h"
 #include "Level.h"
 #include "AUnit.h"
+#include "ACommander.h"
+#include "UUnitFactoryUI.h"
+#include "UHpUI.h"
 
 BUnitFactory::BUnitFactory()
 {
@@ -18,6 +21,10 @@ HRESULT BUnitFactory::Initialize()
 	if (FAILED(BBuilding::Initialize())) return E_FAIL;
 	if (FAILED(SetUnit())) return E_FAIL;
 
+	m_pCommander = GameMgr->GetCommander(m_eTeam);
+	if (m_pCommander == nullptr)
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -32,6 +39,7 @@ OBJSTATE BUnitFactory::Update(float deltaTime)
 
 		Vector3 vPos = m_pLevel->GetCollTile(m_iTileIndexArr[0])->vPosition;
 		m_tInfo.vPosition = Vector3(vPos.x, vPos.y - UNITFACTORY_CY[m_iTear], 0.f);
+		InitFactoryUI();	
 	}
 
 	if (false == m_bBuildEnd)
@@ -43,6 +51,18 @@ OBJSTATE BUnitFactory::Update(float deltaTime)
 	else if(m_iUnitCount < m_iUnitCountMax)   
 		CreateUnit(deltaTime);
 	
+	if (true == m_bDestroy)
+	{
+		// TODO: 터지는 이펙트 ON
+		for (int i = 0; i < m_iUnitCountMax; ++i)
+			m_pUnit[i] = nullptr;
+
+		for (int i : m_iTileIndexArr)
+			m_pLevel->SetTileObject(i, nullptr);
+
+		BBuilding::Update(deltaTime); // 나머지 처리는 부모에서
+		return STATE_DESTROY;
+	}
 		
 	return STATE_PLAY;
 }
@@ -50,6 +70,13 @@ OBJSTATE BUnitFactory::Update(float deltaTime)
 void BUnitFactory::LateUpdate()
 {
 	BBuilding::LateUpdate();
+
+	if (m_iHp <= 0)
+	{
+		m_bBuildEnd = true;
+		m_bDestroy = true;
+	}
+		
 }
 
 void BUnitFactory::Render()
@@ -61,24 +88,32 @@ void BUnitFactory::Release()
 {
 }
 
+void BUnitFactory::UnitCountSub()
+{
+	--m_iUnitCount;
+	m_pUnit[m_iUnitCount] = nullptr;
+}
+
 void BUnitFactory::AnimUpdate()
 {
+	constexpr float fLastBuildTime[3] = { 2.f, 3.f, 4.f };
+
 	switch (m_iTear)
 	{
 	case 0:
-		if (m_fBuildTime < m_fProductionTime - 2.f && m_tFrame.fFrame > 3.5f)
+		if (m_fBuildTime < m_fProductionTime - fLastBuildTime[m_iTear] && m_tFrame.fFrame > 3.5f)
 			m_tFrame.fFrame = 3.f;
 		else if (m_tFrame.fFrame >= m_tFrame.fMax - 0.5f)
 			m_tFrame.fFrame = m_tFrame.fMax - 0.5f;
 		break;
 	case 1:
-		if (m_fBuildTime < m_fProductionTime - 3.f && m_tFrame.fFrame > 3.5f)
+		if (m_fBuildTime < m_fProductionTime - fLastBuildTime[m_iTear] && m_tFrame.fFrame > 3.5f)
 			m_tFrame.fFrame = 3.f;
 		else if (m_tFrame.fFrame >= m_tFrame.fMax - 0.5f)
 			m_tFrame.fFrame = m_tFrame.fMax - 0.5f;
 		break;
 	case 2:
-		if (m_fBuildTime < m_fProductionTime - 4.f && m_tFrame.fFrame > 3.5f)
+		if (m_fBuildTime < m_fProductionTime - fLastBuildTime[m_iTear] && m_tFrame.fFrame > 3.5f)
 			m_tFrame.fFrame = 3.f;
 		else if (m_tFrame.fFrame >= m_tFrame.fMax - 0.5f)
 			m_tFrame.fFrame = m_tFrame.fMax - 0.5f;
@@ -96,6 +131,23 @@ void BUnitFactory::AnimUpdate()
 	}
 }
 
+void BUnitFactory::InitFactoryUI()
+{
+	if (m_eTeam == TEAM_RED)
+	{
+		m_pStateUI = DObjectFactory<UUnitFactoryUI>::Create(m_tInfo.vPosition, m_eTeam);
+		dynamic_cast<UUnitFactoryUI*>(m_pStateUI)->SetUnitID(m_eUnitID);
+		dynamic_cast<UUI*>(m_pStateUI)->SetTarget(this);
+	}
+	else
+	{
+		m_pStateUI = DObjectFactory<UHpUI>::Create(m_tInfo.vPosition);
+		dynamic_cast<UUI*>(m_pStateUI)->SetTarget(this);
+	}
+
+	GameMgr->CreateObject(m_pStateUI, OBJ_UI);
+}
+
 HRESULT BUnitFactory::SetUnit()
 {
 	switch (m_eUnitID)
@@ -104,12 +156,14 @@ HRESULT BUnitFactory::SetUnit()
 	case UNIT_LIZARD:
 	case UNIT_TOAD:
 	case UNIT_PIGEON:
+	case UNIT_MOLE:
 		m_pTexMain = TextureMgr->GetTexture(TEXT("structure_warrens1"));
 		m_pTexTint = TextureMgr->GetTexture(TEXT("structure_warrens1_tint"));
 		m_iTear = 0;
 		m_fProductionTime = PRODUCTIONTIME[m_iTear];
 		m_iMaxHp = UNITFACTORY_MAXHP[m_iTear];
 		m_iUnitCountMax = 3;
+		m_iPay = 20;
 		break;
 
 		// 두더지 건물은 따로 만들어야할뜻.
@@ -133,6 +187,7 @@ HRESULT BUnitFactory::SetUnit()
 		m_fProductionTime = PRODUCTIONTIME[m_iTear];
 		m_iMaxHp = UNITFACTORY_MAXHP[m_iTear];
 		m_iUnitCountMax = 2;
+		m_iPay = 60;
 		break;
 
 	case UNIT_BADGER:
@@ -146,6 +201,7 @@ HRESULT BUnitFactory::SetUnit()
 		m_fProductionTime = PRODUCTIONTIME[m_iTear];
 		m_iMaxHp = UNITFACTORY_MAXHP[m_iTear];
 		m_iUnitCountMax = 1;
+		m_iPay = 180;
 		break;
 
 	default:
@@ -187,15 +243,21 @@ void BUnitFactory::SetFactory()
 
 void BUnitFactory::CreateUnit(float deltaTime)
 {
-	if(m_iUnitCount < m_iUnitCountMax)
+	if(true == CheckFood()&& m_iUnitCount < m_iUnitCountMax)
 		m_fBuildTime += deltaTime;
 	if (m_fBuildTime >= m_fProductionTime)
 	{
 		// 유닛 생성!
 		CGameObject* pObject = DObjectFactory<AUnit>::CreateUnit(m_iTileIndexArr[0], m_eUnitID, m_eTeam, this);
 		GameMgr->CreateObject(pObject, OBJ_UNIT);
-
+		m_pUnit[m_iUnitCount] = pObject;
 		++m_iUnitCount;
 		m_fBuildTime = 0.f;
+		m_pCommander->AddFood(-m_iPay);
 	}
+}
+
+bool BUnitFactory::CheckFood()
+{
+	return (m_pCommander->GetFood() >= m_iPay);
 }

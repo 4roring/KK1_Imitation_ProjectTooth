@@ -41,7 +41,11 @@ HRESULT APig::Initialize()
 OBJSTATE APig::Update(float deltaTime)
 {
 	if (true == m_bDestroy)
+	{
+		m_pLevel->SetTileObject(m_iTileIndex, nullptr);
 		return STATE_DESTROY;
+	}
+		
 
 	AActor::Update(deltaTime);
 	if (nullptr == m_pLevel)
@@ -168,6 +172,6 @@ bool APig::CheckNextDistance()
 
 void APig::ShotBullet()
 {
-	CGameObject* pEffect = pEffect = DObjectFactory<CEffect>::CreateBullet(m_pTarget, BULLET_PISTOL, m_tInfo.vPosition);
+	CGameObject* pEffect = pEffect = DObjectFactory<CEffect>::CreateBullet(m_pTarget, BULLET_PISTOL, m_tInfo.vPosition, m_tUnitInfo.iAtk);
 	GameMgr->CreateObject(pEffect, OBJ_EFFECT);
 }

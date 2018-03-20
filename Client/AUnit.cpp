@@ -1,8 +1,11 @@
 #include "stdafx.h"
 #include "AUnit.h"
 #include "DUnit_1Tear.h"
+#include "DUnit_2Tear.h"
+#include "DUnit_3Tear.h"
 #include "BUnitFactory.h"
 #include "Level.h"
+#include "UHpUI.h"
 
 AUnit::AUnit()
 {
@@ -27,12 +30,13 @@ HRESULT AUnit::Initialize()
 	case UNIT_MOLE:
 		m_pUnitState = new DUnit_1Tear;
 		break;
-	
+
 		// 2티어
 	case UNIT_FERRET:
 	case UNIT_CHAMELEON:
 	case UNIT_SKUNK:
 	case UNIT_SNAKE:
+		m_pUnitState = new DUnit_2Tear;
 		break;
 
 		// 3티어
@@ -40,6 +44,7 @@ HRESULT AUnit::Initialize()
 	case UNIT_BOAR:
 	case UNIT_FOX:
 	case UNIT_WOLF:
+		m_pUnitState = new DUnit_3Tear;
 		break;
 
 		// 공중
@@ -66,6 +71,10 @@ HRESULT AUnit::Initialize()
 	m_pUnitState->SetUnit(this);
 	m_pUnitState->Initialize();
 
+	m_pHpUI = DObjectFactory<UHpUI>::Create(m_tInfo.vPosition);
+	dynamic_cast<UHpUI*>(m_pHpUI)->SetTarget(this);
+	GameMgr->CreateObject(m_pHpUI, OBJ_UI);
+
 	return S_OK;
 }
 
@@ -80,7 +89,13 @@ OBJSTATE AUnit::Update(float deltaTime)
 
 	if (true == m_bDead)
 	{
-		m_pFactory->UnitCountSub();
+		if (nullptr != m_pFactory)
+			m_pFactory->UnitCountSub();
+
+		m_pLevel->SetTileObject(m_iTileIndex, nullptr);
+		m_pHpUI->Destroy();
+		m_pHpUI = nullptr;
+
 		return STATE_DESTROY;
 	}
 
@@ -93,7 +108,11 @@ void AUnit::LateUpdate()
 {
 	AActor::LateUpdate();
 	m_pUnitState->LateUpdate();
+
+	if (m_iHp <= 0)
+		m_bDead = true;
 }
+
 
 void AUnit::Render()
 {
@@ -104,4 +123,21 @@ void AUnit::Render()
 void AUnit::Release()
 {
 	SafeDelete(m_pUnitState);
+}
+
+bool AUnit::CircleCollision(CGameObject * pUnit)
+{
+	float fRadiusSum = 30.f;
+	Vector3 vDir = m_tInfo.vPosition - pUnit->GetInfo().vPosition;
+	float fLength = D3DXVec3Length(&vDir);
+
+	if (fRadiusSum > fLength)
+	{
+		fLength = fLength - fRadiusSum;
+		D3DXVec3Normalize(&vDir, &vDir);
+		m_tInfo.vPosition -= vDir * fLength;
+
+		return true;
+	}
+	return false;
 }

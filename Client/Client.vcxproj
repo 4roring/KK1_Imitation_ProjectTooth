@@ -174,8 +174,11 @@
     <ClInclude Include="DOneShotEffectBridge.h" />
     <ClInclude Include="DState.h" />
     <ClInclude Include="DSubject.h" />
+    <ClInclude Include="DTimerEffectBridge.h" />
     <ClInclude Include="DUnitState.h" />
     <ClInclude Include="DUnit_1Tear.h" />
+    <ClInclude Include="DUnit_2Tear.h" />
+    <ClInclude Include="DUnit_3Tear.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
@@ -192,8 +195,10 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="FoodUI.h" />
+    <ClInclude Include="UHpUI.h" />
     <ClInclude Include="UnitUI.h" />
     <ClInclude Include="UUI.h" />
+    <ClInclude Include="UUnitFactoryUI.h" />
     <ClInclude Include="ViewManager.h" />
     <ClInclude Include="SingleTexture.h" />
     <ClInclude Include="Stage_3.h" />
@@ -226,8 +231,11 @@
     <ClCompile Include="DOneShotEffectBridge.cpp" />
     <ClCompile Include="DState.cpp" />
     <ClCompile Include="DSubject.cpp" />
+    <ClCompile Include="DTimerEffectBridge.cpp" />
     <ClCompile Include="DUnitState.cpp" />
     <ClCompile Include="DUnit_1Tear.cpp" />
+    <ClCompile Include="DUnit_2Tear.cpp" />
+    <ClCompile Include="DUnit_3Tear.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -243,8 +251,10 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="FoodUI.cpp" />
+    <ClCompile Include="UHpUI.cpp" />
     <ClCompile Include="UnitUI.cpp" />
     <ClCompile Include="UUI.cpp" />
+    <ClCompile Include="UUnitFactoryUI.cpp" />
     <ClCompile Include="ViewManager.cpp" />
     <ClCompile Include="SingleTexture.cpp" />
     <ClCompile Include="Stage_3.cpp" />

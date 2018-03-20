@@ -36,3 +36,4 @@ bool ViewManager::IsScreen()
 
 	return true;
 }
+

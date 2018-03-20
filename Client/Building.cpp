@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Building.h"
 #include "Level.h"
+#include "UHpUI.h"
 
 BBuilding::BBuilding()
 {
@@ -22,6 +23,13 @@ HRESULT BBuilding::Initialize()
 OBJSTATE BBuilding::Update(float deltaTime)
 {
 	FrameMove(deltaTime);
+
+	if (m_iHp <= 0)
+	{
+		DestroyHpUI();
+		return STATE_DESTROY;
+	}
+		
 
 	return STATE_PLAY;
 }
@@ -58,6 +66,22 @@ void BBuilding::Render()
 		, nullptr, *m_TeamColor);
 }
 
+void BBuilding::InitHpUI()
+{
+	m_pStateUI = DObjectFactory<UHpUI>::Create(m_tInfo.vPosition);
+	dynamic_cast<UUI*>(m_pStateUI)->SetTarget(this);
+	GameMgr->CreateObject(m_pStateUI, OBJ_UI);
+}
+
+void BBuilding::DestroyHpUI()
+{
+	if (nullptr != m_pStateUI)
+	{
+		m_pStateUI->Destroy();
+		m_pStateUI = nullptr;
+	}
+}
+
 void BBuilding::FrameMove(float deltaTime)
 {
 	m_tFrame.fFrame += m_tFrame.fCount * deltaTime;
@@ -84,6 +108,11 @@ void BBuilding::UpdateRect()
 	int iSceneBottom = m_tScene.iScene * m_iImageCY + m_iImageCY;
 
 	m_tRect = { iSceneLeft, iSceneTop, iSceneRight, iSceneBottom };
+}
+
+void BBuilding::ApplyDamage(int iDamage)
+{
+	CGameObject::ApplyDamage(iDamage);
 }
 
 void BBuilding::SetTileIndexArray(int iStart)

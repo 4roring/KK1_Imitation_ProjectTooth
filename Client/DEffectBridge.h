@@ -9,11 +9,11 @@ public:
 	DEffectBridge();
 	virtual ~DEffectBridge();
 
-	// DBridge을(를) 통해 상속됨
+public:
 	virtual HRESULT Initialize() PURE;
 	virtual OBJSTATE Update(float deltaTime) PURE;
 	virtual void LateUpdate() PURE;
-	virtual void Render() override;
+	virtual void Render() PURE;
 	virtual void Release() PURE;
 
 public:
@@ -21,14 +21,17 @@ public:
 	void SetBulletID(BULLETID eBulletID) { m_eBulletID = eBulletID; }
 	void SetParticleID(PARTICLEID eParticleID) { m_eParticleID = eParticleID; }
 	void SetTarget(COLLTILE* pTile) { m_pTarget = pTile; }
+	void SetAtk(int iAtk) { m_iAtk = iAtk; }
 
 protected:
 	BULLETID m_eBulletID = BULLET_END;
 	PARTICLEID m_eParticleID = PARTICLE_END;
 	CEffect* m_pEffect = nullptr;
 	COLLTILE* m_pTarget = nullptr;
+	int m_iAtk = 0;
 
 private:
 	const TEXINFO* m_pTexMain = nullptr;
+
 };
 

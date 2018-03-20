@@ -13,6 +13,10 @@ DPlayerCommand::~DPlayerCommand()
 {
 }
 
+void DPlayerCommand::Initialize()
+{
+}
+
 void DPlayerCommand::Update()
 {
 	Input();

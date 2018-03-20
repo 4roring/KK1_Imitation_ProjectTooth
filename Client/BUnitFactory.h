@@ -1,5 +1,7 @@
 #pragma once
 #include "Building.h"
+
+class ACommander;
 class BUnitFactory :
 	public BBuilding
 {
@@ -16,15 +18,17 @@ public:
 
 public:
 	void SetUnitID(UNITID eUnitID) { m_eUnitID = eUnitID; }
-	void UnitCountSub() { --m_iUnitCount; }
+	void UnitCountSub();
 
 private:
 	void AnimUpdate();
 
 private:
+	void InitFactoryUI();
 	HRESULT SetUnit();
 	void SetFactory();
 	void CreateUnit(float deltaTime);
+	bool CheckFood();
 
 private:
 	UNITID m_eUnitID;
@@ -33,8 +37,11 @@ private:
 	float m_fProductionTime = 0.f;
 
 private:
+	ACommander* m_pCommander = nullptr;
+	CGameObject* m_pUnit[3] = {};
 	int m_iUnitCountMax = 0;
 	int m_iUnitCount = 0;
+	int m_iPay = 0;
 };
 
 

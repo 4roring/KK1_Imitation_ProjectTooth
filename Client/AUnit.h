@@ -3,6 +3,7 @@
 
 class BUnitFactory;
 class DUnitState;
+class UHpUI;
 class AUnit :
 	public AActor
 {
@@ -24,6 +25,8 @@ public:
 	void SetUnitID(UNITID eUnitID) { m_eUnitID = eUnitID; }
 	void SetFactory(BUnitFactory* pFactory) { m_pFactory = pFactory; }
 
+public:
+	bool CircleCollision(CGameObject* pUnit);
 
 private:
 	UNITID m_eUnitID;
@@ -32,11 +35,11 @@ private:
 
 	friend DUnitState;
 	friend class DUnit_1Tear;
+	friend class DUnit_2Tear;
+	friend class DUnit_3Tear;
 
 private:
 	BUnitFactory* m_pFactory = nullptr;
-
-	
-
+	CGameObject* m_pHpUI = nullptr;
 };
 

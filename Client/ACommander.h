@@ -72,11 +72,5 @@ private:
 	UNITID m_eUnit[SLOT_MAX];
 	bool m_bAllOrder = false;
 	VECCOLLTILE m_vecPath;
-	
-#ifdef _DEBUG
-private:
-	LPD3DXFONT m_pFont;
-	void DrawStateString();
-#endif
 };
 

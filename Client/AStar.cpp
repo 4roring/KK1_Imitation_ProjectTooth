@@ -18,7 +18,11 @@ void CAStar::AStarStart(int iStart, const COLLTILE * pGoal, VECCOLLTILE& rVecPat
 		m_pLevel = dynamic_cast<CLevel*>(GameMgr->GetObjectList(OBJ_LEVEL).front());
 
 	m_iStart = iStart;
+
 	m_iGoal = m_pLevel->GetTileIndex(pGoal->vPosition);
+
+	if (pGoal->byOption != 0)
+		m_iGoal = m_pLevel->GetNeighborTileIndex(GameMgr->GetRandom(0, NEIGHBOR_END - 1), m_iGoal, 2);
 
 	if (m_iStart == m_iGoal)
 		return;
@@ -37,7 +41,6 @@ void CAStar::AStarStart(int iStart, const COLLTILE * pGoal, VECCOLLTILE& rVecPat
 	if(true == m_Thread.joinable())
 		m_Thread.join();
 	
-
 	//MakeRoute(rVecPath);
 }
 
@@ -64,6 +67,7 @@ void CAStar::MakeRoute(VECCOLLTILE& rVecPath)
 		}
 
 		m_OpenList.sort([](auto& p1, auto& p2){ return p1->fCost < p2->fCost; });
+
 		pParentNode = m_OpenList.front();
 
 		if (pParentNode->iIndex == m_iGoal)
@@ -91,7 +95,7 @@ void CAStar::ReleaseList()
 
 bool CAStar::CheckTileIndex(int iIndex)
 {
-	if (iIndex < 0 || iIndex > COLLTILEX * COLLTILEY)
+	if (iIndex < 0 || iIndex > COLLTILEX * COLLTILEY - 1)
 		return false;
 
 	if (m_pLevel->GetCollTile(iIndex)->byOption == 1)

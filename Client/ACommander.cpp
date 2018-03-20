@@ -25,17 +25,19 @@ HRESULT ACommander::Initialize()
 	InitCommander();
 
 	m_fSpeed = 110.f * fScreenZoom;
-	m_iMaxHp = 10;
-	m_iHp = 10;
+	m_iMaxHp = 0;
+	m_iHp = 0;
+
+	m_iSelectSlot = 0;
 
 	m_eUnit[0] = UNIT_SQUIRREL;
 	m_eUnit[1] = UNIT_LIZARD;
-	m_eUnit[2] = UNIT_FERRET;
-	m_eUnit[3] = UNIT_FALCON;
+	m_eUnit[2] = UNIT_MOLE;
+	m_eUnit[3] = UNIT_SKUNK;
 	m_eUnit[4] = UNIT_BADGER;
 	m_eUnit[5] = UNIT_FOX;
 
-	m_pFont = Device->GetFont();
+	m_iFood = 2000;
 
 	return S_OK;
 }
@@ -68,11 +70,6 @@ void ACommander::Render()
 {
 	RenderShadow(80);
 	RenderGroundChar();
-
-#ifdef _DEBUG
-	if(m_eObjectID == OBJ_PLAYER)
-		DrawStateString();
-#endif
 }
 
 void ACommander::Release()
@@ -102,12 +99,12 @@ void ACommander::InitCommander()
 		m_pTexTint = TextureMgr->GetTexture(TEXT("commander_capitalists_tint"));
 		break;
 	case TEAM_GREEN:
-		m_pTexMain = TextureMgr->GetTexture(TEXT("commander_commoners"));
-		m_pTexTint = TextureMgr->GetTexture(TEXT("commander_commoners_tint"));
-		break;
-	case TEAM_YELLO:
 		m_pTexMain = TextureMgr->GetTexture(TEXT("commander_military"));
 		m_pTexTint = TextureMgr->GetTexture(TEXT("commander_military_tint"));
+		break;
+	case TEAM_YELLO:
+		m_pTexMain = TextureMgr->GetTexture(TEXT("commander_clergy"));
+		m_pTexTint = TextureMgr->GetTexture(TEXT("commander_clergy_tint"));
 		break;
 	case TEAM_NEUTRAL:
 	case TEAM_END:
@@ -137,18 +134,22 @@ void ACommander::SetCommand()
 
 	if (m_eObjectID == OBJ_PLAYER)
 	{
-		Vector3 vInitScroll((WINCX >> 1) - m_tInfo.vPosition.x, (WINCY >> 1) - m_tInfo.vPosition.y, 0.f);
-		ViewMgr->SetScroll(vInitScroll);
+		/*Vector3 vInitScroll((WINCX >> 1) - m_tInfo.vPosition.x, (WINCY >> 1) - m_tInfo.vPosition.y, 0.f);
+		ViewMgr->SetScroll(vInitScroll);*/
 
 		m_pCommand = new DPlayerCommand;
 		m_pCommand->SetCommander(this);
 	}
 	else if (m_eObjectID == OBJ_AI)
 	{
+		Vector3 vInitScroll((WINCX >> 1) - m_tInfo.vPosition.x, (WINCY >> 1) - m_tInfo.vPosition.y, 0.f);
+		ViewMgr->SetScroll(vInitScroll);
+
 		// AI Command 생성
 		m_pCommand = new DAICommand;
 		m_pCommand->SetCommander(this);
 	}
+	m_pCommand->Initialize();
 }
 
 void ACommander::UpdateState(float deltaTime)
@@ -239,12 +240,18 @@ void ACommander::Move(float deltaTime)
 	m_tInfo.vDir *= m_fSpeed * deltaTime;
 	m_tInfo.vPosition += m_tInfo.vDir;
 
-	if (true == OffsetX())
-		ViewMgr->MoveScrollX(m_tInfo.vDir.x);
+	//if (true == OffsetX())
+	//	ViewMgr->MoveScrollX(m_tInfo.vDir.x);
 
-	if (true == OffsetY())
-		ViewMgr->MoveScrollY(m_tInfo.vDir.y);
+	//if (true == OffsetY())
+	//	ViewMgr->MoveScrollY(m_tInfo.vDir.y);
+
+	// AI 따라다니는 스크롤
+	Vector3 vInitScroll((WINCX >> 1) - m_tInfo.vPosition.x, (WINCY >> 1) - m_tInfo.vPosition.y, 0.f);
+	ViewMgr->SetScroll(vInitScroll);
 }
+
+
 
 void ACommander::SetAnimState()
 {
@@ -310,7 +317,7 @@ void ACommander::CheckTileObject()
 	CheckHQ();
 	CheckFarm();
 	CheckSlotUnit();
-	CheckEnemy(7);
+	CheckEnemy(5);
 }
 
 void ACommander::CheckHQ()
@@ -524,18 +531,3 @@ bool ACommander::OffsetY()
 
 	return false;
 }
-
-#ifdef _DEBUG
-void ACommander::DrawStateString()
-{
-	D3DXMATRIX matTrans;
-	D3DXMatrixTranslation(&matTrans, 0.f, 0.f, 0.f);
-
-	TCHAR szBuf[128] = {};
-	swprintf_s(szBuf, TEXT("Select Slot : %d"), m_iSelectSlot);
-
-	m_pSprite->SetTransform(&matTrans);
-	m_pFont->DrawTextW(m_pSprite, szBuf, lstrlen(szBuf)
-		, nullptr, 0, D3DCOLOR_ARGB(255, 255, 255, 255));
-}
-#endif

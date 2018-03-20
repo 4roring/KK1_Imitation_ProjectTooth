@@ -34,6 +34,7 @@ OBJSTATE CNeutralHQ::Update(float deltaTime)
 			m_pLevel->GetCollTile(iTileNum)->byDrawID = 1;
 			m_pLevel->GetCollTile(iTileNum)->byOption = 1;
 		}
+		m_iTileIndex = m_iTileIndexArr[0];
 	}
 
 	if (m_bDestroy)

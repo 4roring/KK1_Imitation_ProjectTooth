@@ -8,7 +8,7 @@ class DCommand
 public:
 	DCommand();
 	virtual ~DCommand();
-
+	virtual void Initialize() PURE;
 	virtual void Update() PURE;
 
 public:

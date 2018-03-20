@@ -31,6 +31,7 @@
 #include <thread>
 #include <mutex>
 #include <random>
+#include <functional>
 
 #ifdef _DEBUG
 #include <vld.h>

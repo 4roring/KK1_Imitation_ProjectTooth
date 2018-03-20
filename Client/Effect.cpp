@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Effect.h"
 #include "DBulletEffectBridge.h"
-
+#include "DOneShotEffectBridge.h"
 
 CEffect::CEffect()
 {

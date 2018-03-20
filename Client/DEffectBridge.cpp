@@ -10,8 +10,3 @@ DEffectBridge::DEffectBridge()
 DEffectBridge::~DEffectBridge()
 {
 }
-
-void DEffectBridge::Render()
-{
-
-}

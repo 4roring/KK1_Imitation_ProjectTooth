@@ -23,6 +23,8 @@ OBJSTATE AActor::Update(float deltaTime)
 {
 	FrameMove(deltaTime);
 	UpdateFlipX();
+	HealTime(deltaTime);
+
 	return STATE_PLAY;
 }
 
@@ -35,6 +37,12 @@ void AActor::LateUpdate()
 	CheckCollTile();
 }
 
+void AActor::ApplyDamage(int iDamage)
+{
+	CGameObject::ApplyDamage(iDamage);
+	m_fHealTime = 5.f;
+}
+
 void AActor::FrameMove(float deltaTime)
 {
 	m_tFrame.fFrame += m_tFrame.fCount * deltaTime;
@@ -43,6 +51,18 @@ void AActor::FrameMove(float deltaTime)
 
 	m_tScene.iScene = int(m_tScene.fSceneMax * m_tFrame.fFrame);
 	m_tScene.iFrame = int(m_tFrame.fFrame - m_tScene.iMaxFrame * m_tScene.iScene);
+}
+
+void AActor::HealTime(float deltaTime)
+{
+	m_fHealTime -= deltaTime;
+	if (m_fHealTime <= 0.f)
+	{
+		++m_iHp;
+		if (m_iHp > m_iMaxHp)
+			m_iHp = m_iMaxHp;
+		m_fHealTime = 3.f;
+	}
 }
 
 void AActor::SetAnimFrame(float fFrameMin, float fFrameMax, float fFrameSpeed)
@@ -147,8 +167,7 @@ bool AActor::CheckEnemy(int iRange)
 	for (auto& pTile : VecRange)
 	{
 		CGameObject* pObject = pTile->pGameObject;
-		if (nullptr != pObject && pObject->GetTeamID() != m_eTeam
-			&& pObject->GetTeamID() != TEAM_NEUTRAL)
+		if (true == AttackPossible(pObject))
 		{
 			m_pTarget = pTile;
 			return true;
@@ -156,6 +175,16 @@ bool AActor::CheckEnemy(int iRange)
 	}
 
 	return false;
+}
+
+bool AActor::AttackPossible(CGameObject* pObject)
+{
+	if (nullptr == pObject) return false;
+	if (pObject->GetTeamID() == m_eTeam) return false;
+	if (pObject->GetTeamID() == TEAM_NEUTRAL) return false;
+	if (pObject->GetHp() <= 0) return false;
+
+	return true;
 }
 
 void AActor::CheckCollTile()

@@ -52,23 +52,8 @@
     <Filter Include="02.Actor">
       <UniqueIdentifier>{df90311f-ba89-4306-9dff-405e72688bdc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Actor\00.ACommender">
-      <UniqueIdentifier>{d356ba34-25e1-43f3-8c64-782429075023}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Actor\01.AUnit">
-      <UniqueIdentifier>{7bba6077-32c4-47fb-8f8b-ee29f7b960f3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.Building">
       <UniqueIdentifier>{355d0270-8791-40b0-85ff-7815365ee173}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Building\BHQ">
-      <UniqueIdentifier>{42b336fc-2227-4e2a-b070-e5a3d7177e4f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Building\BFarm">
-      <UniqueIdentifier>{8a65f44b-8e36-46ec-a4bf-33e1be4a1bac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Building\BUnitFactory">
-      <UniqueIdentifier>{8c8f5bf5-168f-4985-8ce5-055dd6c88d10}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.GameObject\02.CNeutralHQ">
       <UniqueIdentifier>{8c677d74-c524-4cdb-8273-4f474c3fff60}</UniqueIdentifier>
@@ -109,38 +94,11 @@
     <Filter Include="98.DesignPattern\State">
       <UniqueIdentifier>{526c6cff-0540-4d15-a506-80f53ed3b872}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Actor\01.AUnit\DUnitState">
-      <UniqueIdentifier>{a462aa6a-d5a6-430d-ac4a-e06c1728c58f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Actor\01.AUnit\DUnitState\DUnit_1Tear">
-      <UniqueIdentifier>{15ccd762-7afe-48e2-8d53-2b416a2fbd67}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Actor\01.AUnit\DUnitState\DUnit_2Tear">
-      <UniqueIdentifier>{f2c3972b-1ebb-4786-9002-f3ecde9614e6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Actor\01.AUnit\DUnitState\DUnit_3Tear">
-      <UniqueIdentifier>{d1bb1bc8-f231-4cca-8769-d0bf7e65152a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Actor\01.AUnit\DUnitState\DUnit_Fly">
-      <UniqueIdentifier>{88e4bdc5-4526-496b-9f73-fc3a53ba0d4c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Actor\01.AUnit\DUnitState\DUnit_Building">
-      <UniqueIdentifier>{b486054a-5e22-4dbf-9e89-231f7e09c30c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Actor\01.AUnit\DUnitState\DUnit_Pig">
-      <UniqueIdentifier>{b6729cc1-d2d2-451a-bd3f-b9a4173db500}</UniqueIdentifier>
-    </Filter>
     <Filter Include="98.DesignPattern\Observer\Subject">
       <UniqueIdentifier>{abdad91b-8e10-47d8-9aa4-07988c83c442}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.Actor\99.Astar">
       <UniqueIdentifier>{73f94063-2042-46e6-86ed-2867689cf44d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Actor\00.ACommender\PlayerCommand">
-      <UniqueIdentifier>{6c5a21ef-cf5f-40b2-b6d7-e0759d113905}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Actor\00.ACommender\AICommand">
-      <UniqueIdentifier>{a636f68c-c3ed-42d3-9dff-3556b565dbeb}</UniqueIdentifier>
     </Filter>
     <Filter Include="04.Effect">
       <UniqueIdentifier>{27537f6f-3ee8-41ed-90d7-00e45437b27f}</UniqueIdentifier>
@@ -169,8 +127,50 @@
     <Filter Include="02.Actor\02.Pig">
       <UniqueIdentifier>{bcff1ea2-81e6-4f4e-8b93-1dd9ff7437c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.Building\BFarm\Crop">
+    <Filter Include="05.UI\HpUI">
+      <UniqueIdentifier>{3147b202-776b-409c-8698-e435da8c99e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.UI\UnitFactoryUI">
+      <UniqueIdentifier>{22c57ccb-184c-4ef8-a9e0-8acfc5218299}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\01.Unit">
+      <UniqueIdentifier>{7bba6077-32c4-47fb-8f8b-ee29f7b960f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\01.Unit\DUnitState">
+      <UniqueIdentifier>{a462aa6a-d5a6-430d-ac4a-e06c1728c58f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\01.Unit\DUnitState\DUnit_1Tear">
+      <UniqueIdentifier>{15ccd762-7afe-48e2-8d53-2b416a2fbd67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\01.Unit\DUnitState\DUnit_2Tear">
+      <UniqueIdentifier>{f2c3972b-1ebb-4786-9002-f3ecde9614e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\01.Unit\DUnitState\DUnit_3Tear">
+      <UniqueIdentifier>{d1bb1bc8-f231-4cca-8769-d0bf7e65152a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\01.Unit\DUnitState\DUnit_Building">
+      <UniqueIdentifier>{b486054a-5e22-4dbf-9e89-231f7e09c30c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\00.Commender">
+      <UniqueIdentifier>{d356ba34-25e1-43f3-8c64-782429075023}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\00.Commender\PlayerCommand">
+      <UniqueIdentifier>{6c5a21ef-cf5f-40b2-b6d7-e0759d113905}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\00.Commender\AICommand">
+      <UniqueIdentifier>{a636f68c-c3ed-42d3-9dff-3556b565dbeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Building\Farm">
+      <UniqueIdentifier>{8a65f44b-8e36-46ec-a4bf-33e1be4a1bac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Building\Farm\Crop">
       <UniqueIdentifier>{e1646583-7d5c-4b24-a8d3-eaa867e0207b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Building\HQ">
+      <UniqueIdentifier>{42b336fc-2227-4e2a-b070-e5a3d7177e4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Building\UnitFactory">
+      <UniqueIdentifier>{8c8f5bf5-168f-4985-8ce5-055dd6c88d10}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -242,13 +242,13 @@
       <Filter>00.MainGame\ViewManager</Filter>
     </ClInclude>
     <ClInclude Include="ACommander.h">
-      <Filter>02.Actor\00.ACommender</Filter>
+      <Filter>02.Actor\00.Commender</Filter>
     </ClInclude>
     <ClInclude Include="DCommand.h">
       <Filter>98.DesignPattern\Command</Filter>
     </ClInclude>
     <ClInclude Include="DPlayerCommand.h">
-      <Filter>02.Actor\00.ACommender\PlayerCommand</Filter>
+      <Filter>02.Actor\00.Commender\PlayerCommand</Filter>
     </ClInclude>
     <ClInclude Include="DBridge.h">
       <Filter>98.DesignPattern\Bridge</Filter>
@@ -263,28 +263,28 @@
       <Filter>01.GameObject\03.HQGround</Filter>
     </ClInclude>
     <ClInclude Include="BFarm.h">
-      <Filter>03.Building\BFarm</Filter>
+      <Filter>03.Building\Farm</Filter>
     </ClInclude>
     <ClInclude Include="DObjectFactory.h">
       <Filter>01.GameObject</Filter>
     </ClInclude>
     <ClInclude Include="BHQ.h">
-      <Filter>03.Building\BHQ</Filter>
+      <Filter>03.Building\HQ</Filter>
     </ClInclude>
     <ClInclude Include="BUnitFactory.h">
-      <Filter>03.Building\BUnitFactory</Filter>
+      <Filter>03.Building\UnitFactory</Filter>
     </ClInclude>
     <ClInclude Include="AUnit.h">
-      <Filter>02.Actor\01.AUnit</Filter>
+      <Filter>02.Actor\01.Unit</Filter>
     </ClInclude>
     <ClInclude Include="DState.h">
       <Filter>98.DesignPattern\State</Filter>
     </ClInclude>
     <ClInclude Include="DUnitState.h">
-      <Filter>02.Actor\01.AUnit\DUnitState</Filter>
+      <Filter>02.Actor\01.Unit\DUnitState</Filter>
     </ClInclude>
     <ClInclude Include="DUnit_1Tear.h">
-      <Filter>02.Actor\01.AUnit\DUnitState\DUnit_1Tear</Filter>
+      <Filter>02.Actor\01.Unit\DUnitState\DUnit_1Tear</Filter>
     </ClInclude>
     <ClInclude Include="DObserver.h">
       <Filter>98.DesignPattern\Observer</Filter>
@@ -296,7 +296,7 @@
       <Filter>02.Actor\99.Astar</Filter>
     </ClInclude>
     <ClInclude Include="DAICommand.h">
-      <Filter>02.Actor\00.ACommender\AICommand</Filter>
+      <Filter>02.Actor\00.Commender\AICommand</Filter>
     </ClInclude>
     <ClInclude Include="DBulletEffectBridge.h">
       <Filter>04.Effect\BulletEffectBridge</Filter>
@@ -322,7 +322,24 @@
     <ClInclude Include="APig.h">
       <Filter>02.Actor\02.Pig</Filter>
     </ClInclude>
-    <ClInclude Include="Crop.h" />
+    <ClInclude Include="UHpUI.h">
+      <Filter>05.UI\HpUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Crop.h">
+      <Filter>03.Building\Farm\Crop</Filter>
+    </ClInclude>
+    <ClInclude Include="UUnitFactoryUI.h">
+      <Filter>05.UI\UnitFactoryUI</Filter>
+    </ClInclude>
+    <ClInclude Include="DTimerEffectBridge.h">
+      <Filter>04.Effect\TimerEffectBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="DUnit_2Tear.h">
+      <Filter>02.Actor\01.Unit\DUnitState\DUnit_2Tear</Filter>
+    </ClInclude>
+    <ClInclude Include="DUnit_3Tear.h">
+      <Filter>02.Actor\01.Unit\DUnitState\DUnit_3Tear</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -387,13 +404,13 @@
       <Filter>00.MainGame\ViewManager</Filter>
     </ClCompile>
     <ClCompile Include="ACommander.cpp">
-      <Filter>02.Actor\00.ACommender</Filter>
+      <Filter>02.Actor\00.Commender</Filter>
     </ClCompile>
     <ClCompile Include="DCommand.cpp">
       <Filter>98.DesignPattern\Command</Filter>
     </ClCompile>
     <ClCompile Include="DPlayerCommand.cpp">
-      <Filter>02.Actor\00.ACommender\PlayerCommand</Filter>
+      <Filter>02.Actor\00.Commender\PlayerCommand</Filter>
     </ClCompile>
     <ClCompile Include="DBridge.cpp">
       <Filter>98.DesignPattern\Bridge</Filter>
@@ -408,25 +425,25 @@
       <Filter>01.GameObject\03.HQGround</Filter>
     </ClCompile>
     <ClCompile Include="BFarm.cpp">
-      <Filter>03.Building\BFarm</Filter>
+      <Filter>03.Building\Farm</Filter>
     </ClCompile>
     <ClCompile Include="BHQ.cpp">
-      <Filter>03.Building\BHQ</Filter>
+      <Filter>03.Building\HQ</Filter>
     </ClCompile>
     <ClCompile Include="BUnitFactory.cpp">
-      <Filter>03.Building\BUnitFactory</Filter>
+      <Filter>03.Building\UnitFactory</Filter>
     </ClCompile>
     <ClCompile Include="AUnit.cpp">
-      <Filter>02.Actor\01.AUnit</Filter>
+      <Filter>02.Actor\01.Unit</Filter>
     </ClCompile>
     <ClCompile Include="DState.cpp">
       <Filter>98.DesignPattern\State</Filter>
     </ClCompile>
     <ClCompile Include="DUnit_1Tear.cpp">
-      <Filter>02.Actor\01.AUnit\DUnitState\DUnit_1Tear</Filter>
+      <Filter>02.Actor\01.Unit\DUnitState\DUnit_1Tear</Filter>
     </ClCompile>
     <ClCompile Include="DUnitState.cpp">
-      <Filter>02.Actor\01.AUnit\DUnitState</Filter>
+      <Filter>02.Actor\01.Unit\DUnitState</Filter>
     </ClCompile>
     <ClCompile Include="DObserver.cpp">
       <Filter>98.DesignPattern\Observer</Filter>
@@ -438,7 +455,7 @@
       <Filter>02.Actor\99.Astar</Filter>
     </ClCompile>
     <ClCompile Include="DAICommand.cpp">
-      <Filter>02.Actor\00.ACommender\AICommand</Filter>
+      <Filter>02.Actor\00.Commender\AICommand</Filter>
     </ClCompile>
     <ClCompile Include="DBulletEffectBridge.cpp">
       <Filter>04.Effect\BulletEffectBridge</Filter>
@@ -464,7 +481,24 @@
     <ClCompile Include="APig.cpp">
       <Filter>02.Actor\02.Pig</Filter>
     </ClCompile>
-    <ClCompile Include="Crop.cpp" />
+    <ClCompile Include="UHpUI.cpp">
+      <Filter>05.UI\HpUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Crop.cpp">
+      <Filter>03.Building\Farm\Crop</Filter>
+    </ClCompile>
+    <ClCompile Include="UUnitFactoryUI.cpp">
+      <Filter>05.UI\UnitFactoryUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DTimerEffectBridge.cpp">
+      <Filter>04.Effect\TimerEffectBridge</Filter>
+    </ClCompile>
+    <ClCompile Include="DUnit_2Tear.cpp">
+      <Filter>02.Actor\01.Unit\DUnitState\DUnit_2Tear</Filter>
+    </ClCompile>
+    <ClCompile Include="DUnit_3Tear.cpp">
+      <Filter>02.Actor\01.Unit\DUnitState\DUnit_3Tear</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

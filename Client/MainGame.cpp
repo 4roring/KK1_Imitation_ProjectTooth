@@ -48,3 +48,4 @@ void CMainGame::Release()
 	Time->DestroyInstance();
 	Device->DestroyInstance();
 }
+

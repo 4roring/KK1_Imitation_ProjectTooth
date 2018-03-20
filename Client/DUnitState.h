@@ -11,7 +11,7 @@ public:
 	virtual ~DUnitState();
 
 public:
-	virtual HRESULT Initialize() PURE;
+	virtual HRESULT Initialize() override;
 	virtual void Update(float deltaTime) PURE;
 	virtual void LateUpdate() PURE;
 	void Release();
@@ -22,19 +22,22 @@ public:
 
 protected:
 	CGameObject* GetTileIndexObject();
+	COLLTILE* GetCurrentTile();
 	const Vector3& GetTilePos(int iIndex);
 	bool CheckTileEmpty();
 	bool IsOrder();
 	bool CheckAroundBlockTile();
 	bool CheckSight();
 	bool CheckRange();
+	bool CheckMoveTile(const COLLTILE* pTile);
 
 protected:
 	void ShotBullet(BULLETID eBulletID);
 
 protected:
 	COLLTILE* GetAroundEmptyTile();
-	void GetPath(const VECCOLLTILE vecPath);
+	COLLTILE* GetAroundEmptyTile(int iRange);
+	void GetPath(const VECCOLLTILE& vecPath);
 
 protected:
 	AUnit* m_pUnit = nullptr;

@@ -10,17 +10,21 @@ public:
 	UUI();
 	virtual ~UUI();
 
-	// CGameObject을(를) 통해 상속됨
+public:
 	virtual HRESULT Initialize() override;
 	virtual OBJSTATE Update(float deltaTime) PURE;
 	virtual void LateUpdate() PURE;
 	virtual void Render() PURE;
 	virtual void Release() override;
 
-protected:
-	void UpdateMatrix();
+public:
+	void SetTarget(CGameObject* pTarget) { m_pTarget = pTarget; }
 
 protected:
+	void UpdateMatrixScreenUI();
+	void UpdateMatrixWorldUI(float fDiameter);
+protected:
 	DObserver* m_pObserver = nullptr;
+	CGameObject* m_pTarget = nullptr;
 };
 

@@ -190,6 +190,8 @@ void CLevel::GetRange(VECCOLLTILE & rVecRange, int iStart)
 	for (int i = 0; i < NEIGHBOR_END; ++i)
 	{
 		int iTemp = GetNeighborTileIndex(i, iStart);
+		if (iTemp < 0 || iTemp >= COLLTILEX * COLLTILEY - 1)
+			continue;
 		rVecRange.push_back(m_vecCollTile[iTemp]);
 	}
 }
@@ -221,7 +223,7 @@ void CLevel::GetRange(VECCOLLTILE & rVecRange, int iStart, int iRange)
 
 			if ((y & 1) && x == iException) continue;
 				
-			if (iIndex < 0 || iIndex >= COLLTILEX * COLLTILEY)
+			if (iIndex < 0 || iIndex >= COLLTILEX * COLLTILEY - 1)
 				continue;
 
 			rVecRange.push_back(m_vecCollTile[iIndex]);
@@ -354,6 +356,18 @@ void CLevel::CreateBuilding()
 			GameMgr->CreateObject(DObjectFactory<CHQGround>::Create(GroundPos), OBJ_BACK);
 			CreateTeamHQ(GetTileIndex(m_vecCollTile[i]->vPosition), TEAM_BLUE);
 			break;
+
+		case 5: // Green得 HQ 持失
+			GroundPos = Vector3(m_vecCollTile[i]->vPosition.x, m_vecCollTile[i]->vPosition.y - COLLTILECY, 0.f);
+			GameMgr->CreateObject(DObjectFactory<CHQGround>::Create(GroundPos), OBJ_BACK);
+			CreateTeamHQ(GetTileIndex(m_vecCollTile[i]->vPosition), TEAM_GREEN);
+			break;
+
+		case 6: // Yello得 HQ 持失
+			GroundPos = Vector3(m_vecCollTile[i]->vPosition.x, m_vecCollTile[i]->vPosition.y - COLLTILECY, 0.f);
+			GameMgr->CreateObject(DObjectFactory<CHQGround>::Create(GroundPos), OBJ_BACK);
+			CreateTeamHQ(GetTileIndex(m_vecCollTile[i]->vPosition), TEAM_YELLO);
+			break;
 		}
 	}
 }
@@ -367,7 +381,7 @@ void CLevel::CreateFarm(int iTileIndex, TEAMID eTeam)
 void CLevel::CreateFinishedFarm(int iTileIndex, TEAMID eTeam)
 {
 	CGameObject* pObject = DObjectFactory<BFarm>::CreateBuilding(iTileIndex, eTeam);
-	dynamic_cast<BFarm*>(pObject)->CreateFinished();
+	dynamic_cast<BFarm*>(pObject)->SetFarmState(2);
 	GameMgr->CreateObject(pObject, OBJ_FARM);
 }
 

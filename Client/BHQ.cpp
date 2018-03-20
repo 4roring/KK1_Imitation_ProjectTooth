@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "BHQ.h"
 #include "Level.h"
+#include "Effect.h"
+#include "DOneShotEffectBridge.h"
 
 BHQ::BHQ()
 {
@@ -37,9 +39,10 @@ HRESULT BHQ::Initialize()
 	m_tWindmillScene.iScene = 0;
 	m_tWindmillScene.fSceneMax = 1.f / (float)m_tScene.iMaxFrame;
 
-	m_iMaxHp = 50;
+	m_iMaxHp = 100;
 	m_iHp = m_iMaxHp;
 
+	InitHpUI();
 	return S_OK;
 }
 
@@ -55,7 +58,7 @@ OBJSTATE BHQ::Update(float deltaTime)
 			m_pLevel->GetCollTile(iTileNum)->byDrawID = 1;
 			m_pLevel->GetCollTile(iTileNum)->byOption = 1;
 		}
-
+		m_iTileIndex = m_iTileIndexArr[0];
 		Vector3 vPos = m_pLevel->GetCollTile(m_iTileIndexArr[0])->vPosition;
 		m_tInfo.vPosition = Vector3(vPos.x, vPos.y, 0.f);
 	}
@@ -74,7 +77,8 @@ void BHQ::LateUpdate()
 void BHQ::Render()
 {
 	BBuilding::Render();
-	WindmillRender();
+	if(m_eCurState != BHQ::Dead)
+		WindmillRender();
 }
 
 void BHQ::Release()
@@ -83,11 +87,13 @@ void BHQ::Release()
 
 void BHQ::UpdateState(float deltaTime)
 {
-	if (m_iHp <= 0)
+	if (m_iHp <= 0 && m_eCurState != BHQ::Dead)
 	{
 		// TODO: HQ 터지는 이펙트 
 		// 이펙트 터지고 Dead로 상태 변환.
 		m_eCurState = BHQ::Dead;
+		CGameObject* pExplosion = DObjectFactory<CEffect>::CreateOneShotParticle(PARTICLE_EXPLOSION, m_tInfo.vPosition);
+		GameMgr->CreateObject(pExplosion, OBJ_EFFECT);
 	}
 
 	switch (m_eCurState)
@@ -177,7 +183,7 @@ void BHQ::SetAnimState()
 			SetAnimFrame(166.f, 203.f, 0.2f);
 			break;
 		case BHQ::Dead:
-			SetAnimFrame(204.f, 207.f, 0.2f);
+			SetAnimFrame(207.f, 207.f, 0.2f);
 			SetWindmillAnimFrame(0.f, 0.f, 0.2f);
 			break;
 		case BHQ::ReBuild:

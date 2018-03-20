@@ -19,6 +19,8 @@ private:
 
 private:
 	void UnitSelectUIRender();
+
+protected:
 	void UnitInfoUIRender();
 
 private:

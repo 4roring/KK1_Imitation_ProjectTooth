@@ -17,16 +17,24 @@ DUnitState::~DUnitState()
 {
 }
 
+HRESULT DUnitState::Initialize()
+{
+	m_pObserver = new DObserver;
+	GameMgr->GetSubject(m_pUnit->m_eTeam)->Subscribe(m_pObserver);
+
+	return S_OK;
+}
+
 void DUnitState::Release()
 {
-	GameMgr->GetSubject(m_pUnit->m_eTeam)->Subscribe(m_pObserver);
+	GameMgr->GetSubject(m_pUnit->m_eTeam)->UnSubscribe(m_pObserver);
 	SafeDelete(m_pObserver);
 }
 
 void DUnitState::SetUnitInfo(UNITINFO& rUnitInfo, int iMaxHp, int iAtk, float fAtkTime, int iRange, int iSight)
 {
-	rUnitInfo.iMaxHp = iMaxHp;
-	rUnitInfo.iHp = iMaxHp;
+	m_pUnit->m_iMaxHp = iMaxHp;
+	m_pUnit->m_iHp = m_pUnit->m_iMaxHp;
 	rUnitInfo.iAtk = iAtk;
 	rUnitInfo.fAtkTime = fAtkTime;
 	rUnitInfo.iRange = iRange;
@@ -44,13 +52,33 @@ void DUnitState::MovePath(float deltaTime)
 	rInfo.vDir *= m_pUnit->m_fSpeed * deltaTime;
 	rInfo.vPosition += rInfo.vDir;
 
-	if (D3DXVec3Length(&vTarget) < 5.f)
+	if (D3DXVec3Length(&vTarget) < 15.f)
 		m_vecPath.pop_back();
+
+	if (m_vecPath.size() > 2)
+	{
+		auto iter_begin = GameMgr->GetObjectList(OBJ_UNIT).begin();
+		auto iter_end = GameMgr->GetObjectList(OBJ_UNIT).end();
+
+		for (; iter_begin != iter_end; ++iter_begin)
+		{
+			if (m_pUnit != *iter_begin)
+			{
+				if (m_pUnit->CircleCollision(*iter_begin) && m_vecPath.size() > 2)
+					m_vecPath.pop_back();
+			}
+		}
+	}
 }
 
 CGameObject * DUnitState::GetTileIndexObject()
 {
 	return m_pUnit->m_pLevel->GetTileObject(m_pUnit->m_iTileIndex);
+}
+
+COLLTILE * DUnitState::GetCurrentTile()
+{
+	return m_pUnit->m_pLevel->GetCollTile(m_pUnit->m_iTileIndex);
 }
 
 const Vector3 & DUnitState::GetTilePos(int iIndex)
@@ -111,9 +139,19 @@ bool DUnitState::CheckRange()
 	return (m_pUnit->CheckEnemy(m_pUnit->m_tUnitInfo.iRange));
 }
 
+bool DUnitState::CheckMoveTile(const COLLTILE* pTile)
+{
+	if (nullptr != pTile->pGameObject && pTile->pGameObject->GetObjectID() == OBJ_FARM) return true;
+	if (nullptr == pTile->pGameObject) return true;
+	if (pTile->byOption == 0) return true;
+
+	return false;
+}
+
 void DUnitState::ShotBullet(BULLETID eBulletID)
 {
-	CGameObject* pEffect = pEffect = DObjectFactory<CEffect>::CreateBullet(m_pUnit->m_pTarget, eBulletID, m_pUnit->m_tInfo.vPosition);
+	CGameObject* pEffect =
+		DObjectFactory<CEffect>::CreateBullet(m_pUnit->m_pTarget, eBulletID, m_pUnit->m_tInfo.vPosition, m_pUnit->m_tUnitInfo.iAtk);
 	GameMgr->CreateObject(pEffect, OBJ_EFFECT);
 }
 
@@ -125,6 +163,7 @@ COLLTILE* DUnitState::GetAroundEmptyTile()
 
 	while (true == vecCollTile.empty())
 	{
+		vecCollTile.clear();
 		m_pUnit->m_pLevel->GetRange(vecCollTile, iStart, iRange);
 
 		for (auto iter = vecCollTile.begin(); iter != vecCollTile.end();)
@@ -142,11 +181,31 @@ COLLTILE* DUnitState::GetAroundEmptyTile()
 	return vecCollTile.back();
 }
 
-void DUnitState::GetPath(const VECCOLLTILE vecPath)
+COLLTILE * DUnitState::GetAroundEmptyTile(int iRange)
+{
+	VECCOLLTILE vecCollTile;
+	int iStart = m_pUnit->m_iTileIndex;
+
+
+	vecCollTile.clear();
+	m_pUnit->m_pLevel->GetRange(vecCollTile, iStart, iRange);
+
+	for (auto iter = vecCollTile.begin(); iter != vecCollTile.end();)
+	{
+		if (nullptr != (*iter)->pGameObject || (*iter)->byOption == 1)
+			iter = vecCollTile.erase(iter);
+		else
+			++iter;
+	}
+
+	if(vecCollTile.size() >= 2)
+		std::random_shuffle(vecCollTile.begin(), vecCollTile.end());
+
+	return vecCollTile.back();
+}
+
+void DUnitState::GetPath(const VECCOLLTILE& vecPath)
 {
 	m_vecPath.clear();
 	m_vecPath.assign(vecPath.begin(), vecPath.end());
 }
-
-
-

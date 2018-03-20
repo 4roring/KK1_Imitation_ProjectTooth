@@ -28,7 +28,7 @@ OBJSTATE UFoodUI::Update(float deltaTime)
 
 void UFoodUI::LateUpdate()
 {
-	UpdateMatrix();
+	UpdateMatrixScreenUI();
 	m_iFood = m_pObserver->GetFood();
 }
 

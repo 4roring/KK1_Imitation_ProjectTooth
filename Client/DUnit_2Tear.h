@@ -1,11 +1,11 @@
 #pragma once
 #include "DUnitState.h"
-class DUnit_1Tear :
+class DUnit_2Tear :
 	public DUnitState
 {
 public:
-	DUnit_1Tear();
-	virtual ~DUnit_1Tear();
+	DUnit_2Tear();
+	virtual ~DUnit_2Tear();
 
 public:
 	virtual HRESULT Initialize() override;

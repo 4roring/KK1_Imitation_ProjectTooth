@@ -21,8 +21,7 @@ HRESULT DUnit_1Tear::Initialize()
 	if (FAILED(SetUnitState()))
 		return E_FAIL;
 
-	m_pObserver = new DObserver;
-	GameMgr->GetSubject(m_pUnit->m_eTeam)->Subscribe(m_pObserver);
+	DUnitState::Initialize();
 
 	return S_OK;
 }
@@ -45,41 +44,38 @@ void DUnit_1Tear::UpdateState(float deltaTime)
 	switch (m_eCurState)
 	{
 	case DUnit_1Tear::Idle:
-		// 자신이 서있는 타일에 오브젝트가 존재하면 근처로 이동(생성직후)
+		// 자신이 서있는 타일에 오브젝트가 존재하면 근처로 이동
 		if (nullptr != GetTileIndexObject() && m_pUnit != GetTileIndexObject())
 			m_vecPath.push_back(GetAroundEmptyTile());
 
 		if (false == m_vecPath.empty())
 			m_eCurState = DUnit_1Tear::Move;
 
-		// 자신의 시야에 적이 있으면 이동(A*)
+		 //자신의 시야에 적이 있으면 적을 향해 이동
 		if (true == CheckSight())
-			GameMgr->GetAStar()->AStarStart(m_pUnit->m_iTileIndex, m_pUnit->m_pTarget, m_vecPath);
-		
+		{
+			m_vecPath.clear();
+			m_vecPath.push_back(m_pUnit->m_pTarget);
+		}
+			
 		// 자신의 공격범위에 적이 있으면 공격
 		if (true == CheckRange())
 			m_eCurState = DUnit_1Tear::Attack;
-
 		break;
 	case DUnit_1Tear::Move:
-		/*if (true == CheckAroundBlockTile())
-			GameMgr->GetAStar()->AStarStart(m_pUnit->m_iTileIndex, m_vecPath.front(), m_vecPath);*/
 		MovePath(deltaTime);
 
 		// 자신의 공격 범위에 적이 있으면 공격
 		if (true == CheckRange())
-		{
-			if (nullptr != GetTileIndexObject() && m_pUnit != GetTileIndexObject())
-				m_vecPath.push_back(GetAroundEmptyTile());
-			else
-				m_eCurState = DUnit_1Tear::Attack;
-			break;
-		}
+			m_eCurState = DUnit_1Tear::Attack;
 
 		// 자신의 시야에 적이 있거나 타겟이 잡히면 타겟을 향해 이동
 		if (true == CheckSight())
-			GameMgr->GetAStar()->AStarStart(m_pUnit->m_iTileIndex, m_pUnit->m_pTarget, m_vecPath);
-
+		{
+			m_vecPath.clear();
+			m_vecPath.push_back(m_pUnit->m_pTarget);
+		}
+			
 		if (true == m_vecPath.empty())
 			m_eCurState = Idle;
 
@@ -101,35 +97,53 @@ void DUnit_1Tear::UpdateState(float deltaTime)
 			if (m_fAttackDelay <= 0.7f)
 				m_pUnit->m_tFrame.fFrame = m_pUnit->m_tFrame.fMin;
 			break;
-			// TODO: 도마뱀과 두더지는 0.25의 대기 후 공격
+			// TODO: 도마뱀과 두더지는 0.75에 공격 후 0.25 대기(선빵에 강함)
 		case UNIT_LIZARD:
 			if (m_fAttackDelay >= m_pUnit->m_tUnitInfo.fAtkTime)
 			{
-				if(m_pUnit->m_tFrame.fFrame >= m_pUnit->m_tFrame.fMax - 0.5f)
-				ShotBullet(BULLET_SPEAR);
-				
+				if (false == m_bAttack)
+				{
+					ShotBullet(BULLET_SPEAR);
+					m_bAttack = true;
+				}
+					
 				if (m_fAttackDelay >= 1.f)
+				{
 					m_fAttackDelay = 0.f;
+					m_bAttack = false;
+				}
 			}
-
 			if (m_fAttackDelay <= 0.5f)
 				m_pUnit->m_tFrame.fFrame = m_pUnit->m_tFrame.fMin;
 			break;
 		case UNIT_MOLE:
-
+			if (m_fAttackDelay >= m_pUnit->m_tUnitInfo.fAtkTime)
+			{
+				if (nullptr != m_pUnit->m_pTarget->pGameObject && false == m_bAttack)
+				{
+					m_pUnit->m_pTarget->pGameObject->ApplyDamage(m_pUnit->m_tUnitInfo.iAtk);
+					m_bAttack = true;
+				}
+					
+				if (m_fAttackDelay >= 1.f)
+				{
+					m_fAttackDelay = 0.f;
+					m_bAttack = false;
+				}
+			}
+			if (m_fAttackDelay <= 0.5f)
+				m_pUnit->m_tFrame.fFrame = m_pUnit->m_tFrame.fMin;
 			break;
 			// TODO: 두꺼비는 애니메이션 끝나면 자폭
 		case UNIT_TOAD:
 			break;
 		}
 		
-		// TODO: 자신의 범위에 적이 없으면 Idle
 		if (false == CheckRange())
 		{
 			m_fAttackDelay = 0.f;
 			m_eCurState = DUnit_1Tear::Idle;
 		}
-			
 		if (m_pObserver->GetOrder() > 1.f)
 		{
 			m_fAttackDelay = 0.f;
@@ -210,19 +224,19 @@ HRESULT DUnit_1Tear::SetUnitState()
 		m_pUnit->m_iImageCX = 26;
 		m_pUnit->m_iImageCY = 26;
 
-		m_pUnit->m_fSpeed = 100.f;
+		m_pUnit->m_fSpeed = 120.f;
 
 		break;
 	case UNIT_LIZARD:
 		m_pUnit->m_pTexMain = TextureMgr->GetTexture(TEXT("lizard"));
 		m_pUnit->m_pTexTint = TextureMgr->GetTexture(TEXT("lizard_tint"));
 		
-		SetUnitInfo(m_pUnit->m_tUnitInfo, 9, 3, 1.f, 2, 4);
+		SetUnitInfo(m_pUnit->m_tUnitInfo, 9, 3, 0.75f, 2, 4);
 
 		m_pUnit->m_iImageCX = 32;
 		m_pUnit->m_iImageCY = 32;
 
-		m_pUnit->m_fSpeed = 140.f;
+		m_pUnit->m_fSpeed = 180.f;
 
 		break;
 	case UNIT_TOAD:
@@ -232,6 +246,13 @@ HRESULT DUnit_1Tear::SetUnitState()
 	case UNIT_MOLE:
 		m_pUnit->m_pTexMain = TextureMgr->GetTexture(TEXT("mole"));
 		m_pUnit->m_pTexTint = TextureMgr->GetTexture(TEXT("mole_tint"));
+
+		SetUnitInfo(m_pUnit->m_tUnitInfo, 15, 1, 0.75f, 1, 4);
+
+		m_pUnit->m_iImageCX = 28;
+		m_pUnit->m_iImageCY = 28;
+
+		m_pUnit->m_fSpeed = 100.f;
 		break;
 	default:
 		MSG_BOX(TEXT("1Tear Unit Initialize Failed!!!"));

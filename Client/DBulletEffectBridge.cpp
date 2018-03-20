@@ -36,15 +36,20 @@ HRESULT DBulletEffectBridge::Initialize()
 		m_fAngle *= -1.f;
 
 	m_pEffect->m_tInfo.vDir = vDir;
-	m_pEffect->m_fSpeed = 500.f;
+	m_pEffect->m_fSpeed = 800.f;
 	
 	return S_OK;
 }
 
 OBJSTATE DBulletEffectBridge::Update(float deltaTime)
 {
-	if (D3DXVec3Length(&(m_pEffect->m_tInfo.vPosition - m_pTarget->vPosition)) <= 5.f)
+	if (true == CollisionTarget())
+	{
+		if (nullptr != m_pTarget->pGameObject)
+			m_pTarget->pGameObject->ApplyDamage(m_iAtk);
+
 		return STATE_DESTROY;
+	}
 
 	m_pEffect->m_tInfo.vPosition += m_pEffect->m_tInfo.vDir * m_pEffect->m_fSpeed * deltaTime;
 
@@ -97,8 +102,8 @@ void DBulletEffectBridge::SetMainTexture()
 		m_pTexTracer = TextureMgr->GetTexture(TEXT("tracer_artillery"));
 		break;
 	case BULLET_GRENADE:
-		m_pEffect->m_pTexMain = TextureMgr->GetTexture(TEXT("bullet_artillery"));
-		m_pTexTracer = TextureMgr->GetTexture(TEXT("tracer_artillery"));
+		m_pEffect->m_pTexMain = TextureMgr->GetTexture(TEXT("bullet_grenade"));
+		m_pTexTracer = TextureMgr->GetTexture(TEXT("tracer_grenade"));
 		break;
 	case BULLET_MEDKIT:
 		m_pEffect->m_pTexMain = TextureMgr->GetTexture(TEXT("bullet_artillery"));
@@ -109,15 +114,20 @@ void DBulletEffectBridge::SetMainTexture()
 		m_pTexTracer = TextureMgr->GetTexture(TEXT("tracer_pistol"));
 		break;
 	case BULLET_SNIPER:
-		m_pEffect->m_pTexMain = TextureMgr->GetTexture(TEXT("bullet_artillery"));
-		m_pTexTracer = TextureMgr->GetTexture(TEXT("tracer_artillery"));
+		m_pEffect->m_pTexMain = TextureMgr->GetTexture(TEXT("bullet_sniper"));
+		m_pTexTracer = TextureMgr->GetTexture(TEXT("tracer_sniper"));
 		break;
 	case BULLET_VENOM:
-		m_pEffect->m_pTexMain = TextureMgr->GetTexture(TEXT("bullet_artillery"));
-		m_pTexTracer = TextureMgr->GetTexture(TEXT("tracer_artillery"));
+		m_pEffect->m_pTexMain = TextureMgr->GetTexture(TEXT("bullet_venom"));
+		m_pTexTracer = TextureMgr->GetTexture(TEXT("tracer_venom"));
 		break;
 	case BULLET_SPEAR:
 		m_pEffect->m_pTexMain = TextureMgr->GetTexture(TEXT("thrownspear"));
+		m_pTexTracer = nullptr;
+		break;
+	case BULLET_MINIGUN:
+		m_pEffect->m_pTexMain = TextureMgr->GetTexture(TEXT("tracer_minigun1"));
+		m_pTexTracer = TextureMgr->GetTexture(TEXT("tracer_minigun3"));
 		m_pTexTracer = nullptr;
 		break;
 	case BULLET_END:
@@ -127,4 +137,10 @@ void DBulletEffectBridge::SetMainTexture()
 #endif
 		break;
 	}
+}
+
+bool DBulletEffectBridge::CollisionTarget()
+{
+	float fDistance = D3DXVec3Length(&(m_pEffect->m_tInfo.vPosition - m_pTarget->vPosition));
+	return (fDistance <= 15.f);
 }

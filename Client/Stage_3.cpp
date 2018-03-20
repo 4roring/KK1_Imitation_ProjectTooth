@@ -21,8 +21,17 @@ HRESULT CStage_3::Initialize()
 	GameMgr->Initialize();
 	Vector3 vPos = Vector3(680.f, 2600.f, 0.f);
 	GameMgr->CreateObject(DObjectFactory<ACommander>::Create(vPos, TEAM_RED), OBJ_PLAYER);
+	
 	vPos = Vector3(2525.f, 3170.f, 0.f);
 	GameMgr->CreateObject(DObjectFactory<ACommander>::Create(vPos, TEAM_BLUE), OBJ_AI);
+	
+	vPos = Vector3(4225.f, 2837.f, 0.f);
+	GameMgr->CreateObject(DObjectFactory<ACommander>::Create(vPos, TEAM_YELLO), OBJ_AI);
+
+	vPos = Vector3(2402.f, 1575.f, 0.f);
+	GameMgr->CreateObject(DObjectFactory<ACommander>::Create(vPos, TEAM_GREEN), OBJ_AI);
+	
+	
 	GameMgr->CreateObject(DObjectFactory<CLevel>::Create(), OBJ_LEVEL);
 	GameMgr->CreateObject(DObjectFactory<UFoodUI>::Create(), OBJ_UI);
 	GameMgr->CreateObject(DObjectFactory<CUnitUI>::Create(), OBJ_UI);

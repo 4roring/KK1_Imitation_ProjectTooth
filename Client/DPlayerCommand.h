@@ -7,7 +7,8 @@ public:
 	DPlayerCommand();
 	virtual ~DPlayerCommand();
 
-	// COperator을(를) 통해 상속됨
+public:
+	virtual void Initialize() override;
 	virtual void Update() override;
 
 private:

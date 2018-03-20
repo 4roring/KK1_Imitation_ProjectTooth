@@ -15,16 +15,19 @@ public:
 	virtual void Release() PURE;
 
 public:
+	virtual void ApplyDamage(int iDamage) override;
+
+public:
 	void SetTileIndexArray(int iStart);
 
 protected:
+	void InitHpUI();
+	void DestroyHpUI();
 	void FrameMove(float deltaTime);
 	void SetAnimFrame(float fFrameMin, float fFrameMax, float fFrameSpeed);
 	void UpdateRect();
 	
 protected:
-	int m_iMaxHp = 0;
-	int m_iHp = 0;
 	float m_fBuildTime = 0.f;
 
 protected:
@@ -35,8 +38,11 @@ protected:
 	const D3DCOLOR* m_TeamColor = nullptr;
 
 protected:
-	int m_iTileIndexArr[4];
+	int m_iTileIndexArr[4] = {};
 	int m_iImageCX;
 	int m_iImageCY;
+
+protected:
+	CGameObject* m_pStateUI;
 };
 
