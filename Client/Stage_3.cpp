@@ -30,8 +30,7 @@ HRESULT CStage_3::Initialize()
 
 	vPos = Vector3(2402.f, 1575.f, 0.f);
 	GameMgr->CreateObject(DObjectFactory<ACommander>::Create(vPos, TEAM_GREEN), OBJ_AI);
-	
-	
+
 	GameMgr->CreateObject(DObjectFactory<CLevel>::Create(), OBJ_LEVEL);
 	GameMgr->CreateObject(DObjectFactory<UFoodUI>::Create(), OBJ_UI);
 	GameMgr->CreateObject(DObjectFactory<CUnitUI>::Create(), OBJ_UI);

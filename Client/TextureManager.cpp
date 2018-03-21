@@ -42,7 +42,9 @@ HRESULT CTextureManager::InsertTexture(const std::wstring & wstrFilePath, const 
 			pTexture = new CAtlasTexture;
 			break;
 		default:
+#ifdef _DEBUG
 			assert(!"Insert Texture Failed!! Not Texture Type.");
+#endif
 			break;
 		}
 

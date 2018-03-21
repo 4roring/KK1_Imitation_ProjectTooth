@@ -19,19 +19,25 @@ private:
 	void MovePath(float deltaTime);
 
 private:
-	int Wait(float fTime = 9999999.f);
-	int MoveToEmptyFarm(float fTime = 9999999.f);
-	int MoveToHQ(float fTime = 9999999.f);
-	int MoveToTeamHQ(float fTime = 999999.f);
-	int MoveToTeamArea(float fTime = 999999.f);
-	int Build(float fTime = 9999999.f);
-	int Build(int iSelect, float fTime = 9999999.f);
+	int Wait(float fTime);
+	int MoveToEmptyFarm();
+	int ReconToHQ();
+	int MoveToTeamHQ();
+	int MoveToTeamArea();
+	int Build();
+	int Build(int iSelect);
+	int AttackToEnemyTeam(int iTeam);
+	int Order();
 
 private:
 	VECCOLLTILE m_vecPath;
 	std::vector<CGameObject*> m_vecHQ;
 	CLevel* m_pLevel = nullptr;
+	float m_fEndTime = 0.f;
 	float m_fPlayTime = 0.f;
 	std::list<std::function<int()>> m_BehaviorList;
+
+private:
+	int m_iUnitFactory = 0;
 };
 

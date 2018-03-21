@@ -68,10 +68,7 @@ void DUnit_3Tear::UpdateState(float deltaTime)
 		}
 
 		if (m_fMiniGunTime >= 2.f)
-		{
 			m_fMiniGunTime = 0.f;
-			
-		}
 
 		// 자신의 공격범위에 적이 있으면 공격
 		if (true == CheckRange())
@@ -108,7 +105,7 @@ void DUnit_3Tear::UpdateState(float deltaTime)
 				m_fAttackDelay = 0.f;
 			}
 
-			if (m_fAttackDelay <= 0.3f)
+			if (m_fAttackDelay <= m_pUnit->m_tUnitInfo.fAtkTime - 0.1f)
 				m_pUnit->m_tFrame.fFrame = m_pUnit->m_tFrame.fMin;
 			break;
 		case UNIT_BOAR:
@@ -185,10 +182,7 @@ void DUnit_3Tear::BadgerPowerUpdate(float deltaTime)
 			m_fMiniGunTime = 0.f;
 			m_pUnit->m_tUnitInfo.fAtkTime -= 0.1f;
 			if (m_pUnit->m_tUnitInfo.fAtkTime < 0.1f)
-			{
-				m_pUnit->m_tFrame.fMin = 16.f;
 				m_pUnit->m_tUnitInfo.fAtkTime = 0.1f;
-			}
 		}
 		break;
 	case DUnit_3Tear::Dead:
@@ -280,12 +274,11 @@ HRESULT DUnit_3Tear::SetUnitState()
 {
 	switch (m_pUnit->m_eUnitID)
 	{
-		// TODO: 유닛툴에서 만든 데이터 읽어오기. 또는 여기서 노가다?
 	case UNIT_BADGER:
 		m_pUnit->m_pTexMain = TextureMgr->GetTexture(TEXT("badger"));
 		m_pUnit->m_pTexTint = TextureMgr->GetTexture(TEXT("badger_tint"));
 
-		SetUnitInfo(m_pUnit->m_tUnitInfo, 60, 3, 0.5f, 4, 4);
+		SetUnitInfo(m_pUnit->m_tUnitInfo, 60, 3, 0.5f, 4, 5);
 
 		m_pUnit->m_iImageCX = 52;
 		m_pUnit->m_iImageCY = 52;

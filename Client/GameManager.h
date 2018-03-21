@@ -4,6 +4,7 @@
 class CAStar;
 class DSubject;
 class ACommander;
+class CLevel;
 class CGameManager :
 	public CSingleton<CGameManager>
 {
@@ -29,6 +30,9 @@ public:
 	void DestroyObject(int eObjID);
 
 public:
+	bool ObjectCulling(const Vector3& vPos);
+
+public:
 	void Initialize();
 	void Update(float deltaTime);
 	void LateUpdate();
@@ -45,14 +49,14 @@ private:
 	CAStar* m_pAStar;
 	ACommander* m_pCommander[TEAM_END];
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 private:
-	void DrawFPS(float deltaTime);
+	void UpdateFPS(float deltaTime);
 	void RenderFPS();
 private:
 	float m_fFPSTime = 0.f;
 	int m_iCount = 0;
 	int m_iFPS = 0;
-#endif
+//#endif
 };
 

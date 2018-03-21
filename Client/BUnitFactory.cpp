@@ -55,8 +55,14 @@ OBJSTATE BUnitFactory::Update(float deltaTime)
 	{
 		// TODO: 터지는 이펙트 ON
 		for (int i = 0; i < m_iUnitCountMax; ++i)
-			m_pUnit[i] = nullptr;
-
+		{
+			if (nullptr != m_pUnit[i])
+			{
+				dynamic_cast<AUnit*>(m_pUnit[i])->SetFactory(nullptr);
+				m_pUnit[i] = nullptr;
+			}
+		}
+			
 		for (int i : m_iTileIndexArr)
 			m_pLevel->SetTileObject(i, nullptr);
 
@@ -122,6 +128,7 @@ void BUnitFactory::AnimUpdate()
 #ifdef _DEBUG
 		assert(!"UnitFactory Anim Update Error!!!");
 #endif
+		break;
 	}
 
 	if (m_fBuildTime >= m_fProductionTime)

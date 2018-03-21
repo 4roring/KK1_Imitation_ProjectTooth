@@ -186,7 +186,6 @@ HRESULT DUnit_2Tear::SetUnitState()
 {
 	switch (m_pUnit->m_eUnitID)
 	{
-		// TODO: 유닛툴에서 만든 데이터 읽어오기. 또는 여기서 노가다?
 	case UNIT_FERRET:
 		m_pUnit->m_pTexMain = TextureMgr->GetTexture(TEXT(""));
 		m_pUnit->m_pTexTint = TextureMgr->GetTexture(TEXT(""));
@@ -199,7 +198,7 @@ HRESULT DUnit_2Tear::SetUnitState()
 		m_pUnit->m_pTexMain = TextureMgr->GetTexture(TEXT("skunk"));
 		m_pUnit->m_pTexTint = TextureMgr->GetTexture(TEXT("skunk_tint"));
 
-		SetUnitInfo(m_pUnit->m_tUnitInfo, 32, 5, 1.f, 4, 4);
+		SetUnitInfo(m_pUnit->m_tUnitInfo, 32, 5, 1.f, 4, 5);
 
 		m_pUnit->m_iImageCX = 32;
 		m_pUnit->m_iImageCY = 32;
@@ -210,7 +209,7 @@ HRESULT DUnit_2Tear::SetUnitState()
 		m_pUnit->m_pTexMain = TextureMgr->GetTexture(TEXT("snake"));
 		m_pUnit->m_pTexTint = TextureMgr->GetTexture(TEXT("snake_tint"));
 
-		SetUnitInfo(m_pUnit->m_tUnitInfo, 35, 4, 1.f, 4, 4);
+		SetUnitInfo(m_pUnit->m_tUnitInfo, 35, 4, 1.f, 4, 5);
 
 		m_pUnit->m_iImageCX = 30;
 		m_pUnit->m_iImageCY = 30;

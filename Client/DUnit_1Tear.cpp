@@ -215,11 +215,10 @@ HRESULT DUnit_1Tear::SetUnitState()
 {
 	switch (m_pUnit->m_eUnitID)
 	{
-		// TODO: 유닛툴에서 만든 데이터 읽어오기. 또는 여기서 노가다?
 	case UNIT_SQUIRREL:
 		m_pUnit->m_pTexMain = TextureMgr->GetTexture(TEXT("squirrel"));
 		m_pUnit->m_pTexTint = TextureMgr->GetTexture(TEXT("squirrel_tint"));
-		SetUnitInfo(m_pUnit->m_tUnitInfo, 8, 2, 1.f, 4, 4);
+		SetUnitInfo(m_pUnit->m_tUnitInfo, 8, 2, 1.f, 4, 5);
 
 		m_pUnit->m_iImageCX = 26;
 		m_pUnit->m_iImageCY = 26;
@@ -231,7 +230,7 @@ HRESULT DUnit_1Tear::SetUnitState()
 		m_pUnit->m_pTexMain = TextureMgr->GetTexture(TEXT("lizard"));
 		m_pUnit->m_pTexTint = TextureMgr->GetTexture(TEXT("lizard_tint"));
 		
-		SetUnitInfo(m_pUnit->m_tUnitInfo, 9, 3, 0.75f, 2, 4);
+		SetUnitInfo(m_pUnit->m_tUnitInfo, 9, 3, 0.75f, 2, 5);
 
 		m_pUnit->m_iImageCX = 32;
 		m_pUnit->m_iImageCY = 32;
@@ -247,7 +246,7 @@ HRESULT DUnit_1Tear::SetUnitState()
 		m_pUnit->m_pTexMain = TextureMgr->GetTexture(TEXT("mole"));
 		m_pUnit->m_pTexTint = TextureMgr->GetTexture(TEXT("mole_tint"));
 
-		SetUnitInfo(m_pUnit->m_tUnitInfo, 15, 1, 0.75f, 1, 4);
+		SetUnitInfo(m_pUnit->m_tUnitInfo, 15, 1, 0.75f, 1, 5);
 
 		m_pUnit->m_iImageCX = 28;
 		m_pUnit->m_iImageCY = 28;

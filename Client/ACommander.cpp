@@ -37,7 +37,7 @@ HRESULT ACommander::Initialize()
 	m_eUnit[4] = UNIT_BADGER;
 	m_eUnit[5] = UNIT_FOX;
 
-	m_iFood = 2000;
+	m_iFood = 12000;
 
 	return S_OK;
 }
@@ -62,7 +62,7 @@ void ACommander::LateUpdate()
 	CheckTileObject();
 	SetAnimState();
 
-	if(m_eTeam == TEAM_RED)
+	if (m_eTeam == TEAM_RED)
 		GameMgr->GetSubject(m_eTeam)->Notify(m_iFood);
 }
 
@@ -128,14 +128,14 @@ void ACommander::SetCommand()
 {
 	if (m_eTeam == TEAM_RED)
 	{
-		for (int i = 0; i<SLOT_MAX; ++i)
+		for (int i = 0; i < SLOT_MAX; ++i)
 			GameMgr->GetSubject(m_eTeam)->Notify(m_eUnit[i], i);
 	}
 
 	if (m_eObjectID == OBJ_PLAYER)
 	{
-		/*Vector3 vInitScroll((WINCX >> 1) - m_tInfo.vPosition.x, (WINCY >> 1) - m_tInfo.vPosition.y, 0.f);
-		ViewMgr->SetScroll(vInitScroll);*/
+		//Vector3 vInitScroll((WINCX >> 1) - m_tInfo.vPosition.x, (WINCY >> 1) - m_tInfo.vPosition.y, 0.f);
+		//ViewMgr->SetScroll(vInitScroll);
 
 		m_pCommand = new DPlayerCommand;
 		m_pCommand->SetCommander(this);
@@ -153,11 +153,11 @@ void ACommander::SetCommand()
 }
 
 void ACommander::UpdateState(float deltaTime)
-{	
+{
 	switch (m_eCurAnimState)
 	{
 	case ACommander::Idle:
-		if(m_fOrder > 0.f)
+		if (m_fOrder > 0.f)
 			m_eCurAnimState = ACommander::Order;
 
 		if (true == m_bBuild)
@@ -169,7 +169,7 @@ void ACommander::UpdateState(float deltaTime)
 		if (m_fReturn > 0.f)
 			m_eCurAnimState = ACommander::ReturnHome;
 
-		if(true == m_bDead)
+		if (true == m_bDead)
 			m_eCurAnimState = ACommander::Dead;
 		break;
 	case ACommander::Order:
@@ -177,12 +177,12 @@ void ACommander::UpdateState(float deltaTime)
 
 		if (m_tInfo.vDir.x != 0.f || m_tInfo.vDir.y != 0.f)
 			m_eCurAnimState = ACommander::RunOrder;
-		
+
 		if (m_fOrder == 0.f)
 			m_eCurAnimState = ACommander::Idle;
 		break;
 	case ACommander::Build:
-		if (m_tFrame.fFrame >= m_tFrame.fMax-0.1f)
+		if (m_tFrame.fFrame >= m_tFrame.fMax - 0.1f)
 		{
 			m_bBuild = false;
 			m_eCurAnimState = ACommander::Idle;
@@ -202,7 +202,7 @@ void ACommander::UpdateState(float deltaTime)
 	case ACommander::RunOrder:
 		Move(deltaTime);
 		OrderToUnit();
-		if(m_fOrder == 0.f)
+		if (m_fOrder == 0.f)
 			m_eCurAnimState = ACommander::Run;
 
 		if (m_tInfo.vDir.x == 0.f && m_tInfo.vDir.y == 0.f)
@@ -224,7 +224,7 @@ void ACommander::UpdateState(float deltaTime)
 		break;
 	case ACommander::Dead:
 		// TODO: 죽었을 때 처리.
-		
+
 		break;
 	default:
 #ifdef _DEBUG
@@ -240,11 +240,15 @@ void ACommander::Move(float deltaTime)
 	m_tInfo.vDir *= m_fSpeed * deltaTime;
 	m_tInfo.vPosition += m_tInfo.vDir;
 
-	//if (true == OffsetX())
-	//	ViewMgr->MoveScrollX(m_tInfo.vDir.x);
+	//if (m_eObjectID == OBJ_PLAYER)
+	//{
+	//	if (true == OffsetX())
+	//		ViewMgr->MoveScrollX(m_tInfo.vDir.x);
 
-	//if (true == OffsetY())
-	//	ViewMgr->MoveScrollY(m_tInfo.vDir.y);
+	//	if (true == OffsetY())
+	//		ViewMgr->MoveScrollY(m_tInfo.vDir.y);
+	//}
+
 
 	// AI 따라다니는 스크롤
 	Vector3 vInitScroll((WINCX >> 1) - m_tInfo.vPosition.x, (WINCY >> 1) - m_tInfo.vPosition.y, 0.f);
@@ -292,7 +296,7 @@ void ACommander::OrderToUnit()
 	auto iter = std::find_if(objUnitList.begin(), objUnitList.end(),
 		[&](auto& pUnit)
 	{
-		if(true == m_bAllOrder)
+		if (true == m_bAllOrder)
 			return (pUnit->GetTeamID() == m_eTeam);
 
 		return (pUnit->GetTeamID() == m_eTeam
@@ -301,7 +305,7 @@ void ACommander::OrderToUnit()
 
 	if (iter == objUnitList.end()) return;
 
-	if(nullptr != m_pTarget && m_fOrder < 1.f)
+	if (nullptr != m_pTarget && m_fOrder < 1.f)
 		GameMgr->GetAStar()->AStarStart((*iter)->GetTileIndex(), m_pTarget, m_vecPath);
 	else
 		GameMgr->GetAStar()->AStarStart((*iter)->GetTileIndex(), m_pLevel->GetCollTile(m_iTileIndex), m_vecPath);
@@ -364,16 +368,16 @@ void ACommander::CheckSlotUnit()
 
 		VECCOLLTILE VecRange;
 		m_pLevel->GetRange(VecRange, m_iTileIndex);
-		
+
 		if (true == CheckTile4x4(VecRange, 0))
 			CreateSlotUnitFactory(m_pLevel->GetNeighborTileIndex(NEIGHBOR_LEFTDOWN, m_iTileIndex));
-		else if(true == CheckTile4x4(VecRange, 1))
+		else if (true == CheckTile4x4(VecRange, 1))
 			CreateSlotUnitFactory(m_iTileIndex);
 		else if (true == CheckTile4x4(VecRange, 2))
 			CreateSlotUnitFactory(m_pLevel->GetNeighborTileIndex(NEIGHBOR_RIGHTDOWN, m_iTileIndex));
 		else if (true == CheckTile4x4(VecRange, 3))
 			CreateSlotUnitFactory(m_pLevel->GetNeighborTileIndex(NEIGHBOR_DOWN, m_iTileIndex));
-	
+
 		m_bBuild = false;
 	}
 }
@@ -418,7 +422,7 @@ void ACommander::CreateSlotUnitFactory(int iStart)
 		// TODO: 빨간 UI 넣어주고
 		return;
 	}
-	
+
 	CGameObject* pObject = DObjectFactory<BUnitFactory>::CreateUnitFactory(iStart, m_eUnit[m_iSelectSlot], m_eTeam);
 
 	GameMgr->CreateObject(pObject, OBJ_UNITFACTORY);
@@ -447,7 +451,7 @@ bool ACommander::CheckUnitFactoryPay()
 	case UNIT_SKUNK:
 	case UNIT_FALCON:
 	case UNIT_SNAKE:
-		if (m_iFood >= 120) 
+		if (m_iFood >= 120)
 		{
 			m_iFood -= 120;
 			return true;
@@ -460,7 +464,7 @@ bool ACommander::CheckUnitFactoryPay()
 	case UNIT_FOX:
 	case UNIT_WOLF:
 	case UNIT_OWL:
-		if (m_iFood >= 180) 
+		if (m_iFood >= 180)
 		{
 			m_iFood -= 180;
 			return true;
@@ -491,7 +495,7 @@ bool ACommander::CheckTileEmpty(COLLTILE * pTile)
 bool ACommander::CheckObjectID(CGameObject * pObject, OBJID eObjectID)
 {
 	if (pObject->GetObjectID() == eObjectID) return true;
-	
+
 	return false;
 }
 
@@ -526,7 +530,7 @@ bool ACommander::OffsetY()
 	const Vector3& vScroll = ViewMgr->GetScroll();
 	const Vector3& vPos = m_tInfo.vPosition + ViewMgr->GetScroll();
 
-	if (m_tInfo.vDir.y > 0.f && vPos.y >(WINCY >> 1) - 2.f) return true;
+	if (m_tInfo.vDir.y > 0.f && vPos.y > (WINCY >> 1) - 2.f) return true;
 	if (m_tInfo.vDir.y < 0.f && vPos.y < (WINCY >> 1) + 2.f) return true;
 
 	return false;
