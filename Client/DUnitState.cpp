@@ -98,12 +98,12 @@ bool DUnitState::IsOrder()
 {
 	if (m_pObserver->GetOrder() == 0.f) return false;
 
-	if (m_pUnit->m_eUnitID == m_pObserver->GetOrderID())
+	if (m_pObserver->GetOrderID() == UNIT_ALL)
 	{
 		m_vecPath.clear();
 		return true;
 	}
-	else if (m_pObserver->GetOrderID() == UNIT_ALL)
+	else if (m_pUnit->m_eUnitID == m_pObserver->GetOrderID())
 	{
 		m_vecPath.clear();
 		return true;

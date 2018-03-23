@@ -10,7 +10,7 @@ constexpr int WINDMILL_CY = 140;
 constexpr int UNITFACTORY_CX[3] = { 40, 54, 70 };
 constexpr int UNITFACTORY_CY[3] = { 40, 54, 70 };
 constexpr int UNITFACTORY_MAXHP[3] = { 50, 75, 100 };
-constexpr float PRODUCTIONTIME[3] = { 5.f, 10.f, 10.f };
+constexpr float PRODUCTIONTIME[3] = { 10.f, 20.f, 30.f };
 
 constexpr float COLLTILECX = 42.f;
 constexpr float COLLTILECY = 28.f;
@@ -20,3 +20,5 @@ constexpr int COLLTILEY = 126;
 constexpr float fScreenZoom = 2.5f;
 
 constexpr int SLOT_MAX = 6;
+
+constexpr int MINIMAP_CXY = 256;

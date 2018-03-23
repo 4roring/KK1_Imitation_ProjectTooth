@@ -38,6 +38,7 @@ void CGameManager::CreateObject(CGameObject * pObject, OBJID eObjectID)
 void CGameManager::DestroyObject(int eObjectID)
 {
 	std::for_each(m_ObjectList[eObjectID].begin(), m_ObjectList[eObjectID].end(), SafeDelete<CGameObject*>);
+	m_ObjectList[eObjectID].clear();
 }
 
 bool CGameManager::ObjectCulling(const Vector3 & vPos)
@@ -82,7 +83,7 @@ void CGameManager::Update(float deltaTime)
 				break;
 
 			case STATE_WAIT:
-				break;
+				continue;
 
 			case STATE_DESTROY:
 				SafeDelete(*iter);
@@ -141,7 +142,6 @@ void CGameManager::Render()
 
 			pObject->Render();
 		}
-			
 	}
 
 	for (int i = 0; i < LAYER_END; ++i)

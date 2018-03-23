@@ -16,5 +16,15 @@ public:
 
 private:
 	void TextureLoad(TCHAR* FilePath);
+	void SetLoadingMessage(const TCHAR* pMessage) { m_pLoadingMessage = pMessage; }
+
+public:
+	static unsigned int _stdcall ThreadFunc(void* pArg);
+	bool m_bComplete = false;
+
+private:
+	const TCHAR* m_pLoadingMessage;
+	HANDLE m_hThread = nullptr;
+	LPD3DXFONT m_pFont = nullptr;
 };
 

@@ -19,7 +19,6 @@
 #include <list>
 #include <map>
 #include <unordered_map>
-#include <unordered_set>
 #include <vector>
 #include <algorithm>
 #include <cmath>
@@ -27,11 +26,11 @@
 #include <fstream>
 #include <d3dx9.h>
 #include <d3d9.h>
-#include <memory>
 #include <thread>
 #include <mutex>
 #include <random>
 #include <functional>
+#include <process.h>
 
 #ifdef _DEBUG
 #include <vld.h>
@@ -42,6 +41,12 @@
 #include "Include.h"
 #include "DObjectFactory.h"
 
+// FMOD
+#include "fmod.h"
+#include "fmod.hpp"
+
+#pragma comment(lib, "fmodex_vc.lib")
+
 // Managers
 #include "GameManager.h"
 #include "KeyManager.h"
@@ -50,3 +55,4 @@
 #include "TimeManager.h"
 #include "SceneManager.h"
 #include "ViewManager.h"
+#include "SoundManager.h"

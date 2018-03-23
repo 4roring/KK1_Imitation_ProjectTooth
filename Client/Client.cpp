@@ -13,7 +13,7 @@ WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 
 HWND g_hWnd;
-HWND g_hD3DX9;
+HWND g_hMain;
 
 // 이 코드 모듈에 들어 있는 함수의 정방향 선언입니다.
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -120,6 +120,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    }
 
    g_hWnd = hWnd;
+   g_hMain = hWnd;
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);

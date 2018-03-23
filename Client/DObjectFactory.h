@@ -8,7 +8,8 @@ class BUnitFactory;
 class CEffect;
 class DEffectBridge;
 class DBulletEffectBridge;
-class DOneShotEffectBridge;
+class DExplosionEffectBridge;
+class DDirectlyEffectBridge;
 
 template <typename T>
 class DObjectFactory
@@ -132,16 +133,33 @@ public:
 		return pEffect;
 	}
 
-	static CGameObject* CreateOneShotParticle(PARTICLEID eParticleID, const Vector3& vPos)
+	static CGameObject* CreateExplosionEffect(PARTICLEID eParticleID, const Vector3& vPos, float fSize)
 	{
 		CEffect* pEffect = new CEffect;
-		DEffectBridge* pOneShotEffect = new DOneShotEffectBridge;
-		pOneShotEffect->SetParticleID(eParticleID);
-		pEffect->SetEffectBridge(pOneShotEffect);
+		DEffectBridge* pExplosionEffect = new DExplosionEffectBridge;
+		pExplosionEffect->SetParticleID(eParticleID);
+		pExplosionEffect->SetSize(fSize);
+		pEffect->SetEffectBridge(pExplosionEffect);
 		pEffect->SetPos(vPos);
 		if (FAILED(pEffect->Initialize()))
 		{
-			MSG_BOX(TEXT("Create Bullet Effect Error!!!"));
+			MSG_BOX(TEXT("Create Explosion Effect Error!!!"));
+			return nullptr;
+		}
+
+		return pEffect;
+	}
+
+	static CGameObject* CreateDirectlyEffect(PARTICLEID eParticleID, const Vector3& vPos)
+	{
+		CEffect* pEffect = new CEffect;
+		DEffectBridge* pDirectlyEffect = new DDirectlyEffectBridge;
+		pDirectlyEffect->SetParticleID(eParticleID);
+		pEffect->SetEffectBridge(pDirectlyEffect);
+		pEffect->SetPos(vPos);
+		if (FAILED(pEffect->Initialize()))
+		{
+			MSG_BOX(TEXT("Create Directly Effect Error!!!"));
 			return nullptr;
 		}
 

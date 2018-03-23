@@ -34,7 +34,7 @@ HRESULT CDevice::InitDevice()
 	ZeroMemory(&d3dpp, sizeof(D3DPRESENT_PARAMETERS));
 	SetParameters(d3dpp);
 	
-	if (FAILED(m_pD3D9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, g_hD3DX9
+	if (FAILED(m_pD3D9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, g_hMain
 		, vp, &d3dpp, &m_pDevice)))
 	{
 		MessageBox(nullptr, L"Create Device Failed", L"System Message", MB_OK);
@@ -83,7 +83,7 @@ void CDevice::SetParameters(D3DPRESENT_PARAMETERS & d3dpp)
 	d3dpp.MultiSampleQuality = 0;
 
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp.hDeviceWindow = g_hD3DX9;
+	d3dpp.hDeviceWindow = g_hMain;
 	d3dpp.Windowed = TRUE;
 
 	d3dpp.EnableAutoDepthStencil = TRUE;

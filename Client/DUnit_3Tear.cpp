@@ -38,11 +38,7 @@ void DUnit_3Tear::LateUpdate()
 	SetAnimState();
 
 	if (m_pUnit->m_iHp <= 0)
-	{
-		m_pUnit->m_iHp = 1;
-		m_eCurState = DUnit_3Tear::Dead;
-	}
-		
+		m_eCurState = DUnit_3Tear::Dead;	
 }
 
 void DUnit_3Tear::UpdateState(float deltaTime)
@@ -101,6 +97,7 @@ void DUnit_3Tear::UpdateState(float deltaTime)
 		case UNIT_BADGER:
 			if (m_fAttackDelay >= m_pUnit->m_tUnitInfo.fAtkTime)
 			{
+				SoundMgr->PlayEffectSound(TEXT("Unit_Badger_Attack"), m_pUnit->m_tInfo.vPosition);
 				ShotBullet(BULLET_MINIGUN);
 				m_fAttackDelay = 0.f;
 			}
@@ -114,6 +111,7 @@ void DUnit_3Tear::UpdateState(float deltaTime)
 		case UNIT_FOX:
 			if (m_fAttackDelay >= m_pUnit->m_tUnitInfo.fAtkTime)
 			{
+				SoundMgr->PlayEffectSound(TEXT("Unit_Fox_Attack"), m_pUnit->m_tInfo.vPosition);
 				ShotBullet(BULLET_SNIPER);
 				m_fAttackDelay = 0.f;
 			}
@@ -145,7 +143,11 @@ void DUnit_3Tear::UpdateState(float deltaTime)
 	case DUnit_3Tear::Dead:
 		m_pUnit->m_iHp = 1;
 		if (m_pUnit->m_tFrame.fFrame >= m_pUnit->m_tFrame.fMax - 0.3f)
+		{
 			m_pUnit->m_bDead = true;
+			m_pUnit->m_iHp = 0;
+		}
+			
 		break;
 	case DUnit_3Tear::End:
 	default:
@@ -252,7 +254,7 @@ void DUnit_3Tear::SetAnimState()
 			case UNIT_BOAR:
 				break;
 			case UNIT_FOX:
-				m_pUnit->SetAnimFrame(21.f, 39.f, 1.3f);
+				m_pUnit->SetAnimFrame(21.f, 39.f, 1.f);
 				break;
 			case UNIT_WOLF:
 				break;

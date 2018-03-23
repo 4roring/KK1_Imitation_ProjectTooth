@@ -20,6 +20,7 @@ public:
 	LPD3DXSPRITE GetSprite() { return m_pSprite; }
 	LPD3DXFONT GetFont() { return m_pFont; }
 	LPD3DXFONT GetFoodFont() { return m_pFoodFont; }
+	LPD3DXFONT GetTitleFont() { return m_pTitleFont; }
 
 public:
 	void Draw(const D3DXMATRIX& matWorld);
@@ -31,6 +32,7 @@ private:
 private:
 	HRESULT FontInit();
 	HRESULT FoodFontInit();
+	HRESULT TitleFontInit();
 
 private:
 	LPDIRECT3D9 m_pD3D9 = nullptr;
@@ -40,5 +42,6 @@ private:
 private:
 	LPD3DXFONT m_pFont = nullptr;
 	LPD3DXFONT m_pFoodFont = nullptr;
+	LPD3DXFONT m_pTitleFont = nullptr;
 };
 

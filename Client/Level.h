@@ -45,7 +45,7 @@ public:
 	void CreateTeamHQ(int iTileIndex, TEAMID eTeam);
 
 public:
-	COLLTILE* GetCollTile(int iIndex) const { return m_vecCollTile[iIndex]; }
+	COLLTILE* GetCollTile(int iIndex) const;
 	CGameObject* GetTileObject(int iIndex) { return m_vecCollTile[iIndex]->pGameObject; }
 
 public:

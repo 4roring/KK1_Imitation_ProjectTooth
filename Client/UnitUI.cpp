@@ -2,17 +2,17 @@
 #include "UnitUI.h"
 #include "DObserver.h"
 
-CUnitUI::CUnitUI()
+UUnitUI::UUnitUI()
 {
 }
 
 
-CUnitUI::~CUnitUI()
+UUnitUI::~UUnitUI()
 {
 	Release();
 }
 
-HRESULT CUnitUI::Initialize()
+HRESULT UUnitUI::Initialize()
 {
 	UUI::Initialize();
 	m_pMidBar = TextureMgr->GetTexture(TEXT("ui"), TEXT("unitbar_woodbg"))->pRect;
@@ -23,7 +23,7 @@ HRESULT CUnitUI::Initialize()
 	return S_OK;
 }
 
-OBJSTATE CUnitUI::Update(float deltaTime)
+OBJSTATE UUnitUI::Update(float deltaTime)
 {
 	if (nullptr == m_pColor)
 		SetUnitUI();
@@ -33,22 +33,22 @@ OBJSTATE CUnitUI::Update(float deltaTime)
 	return STATE_PLAY;
 }
 
-void CUnitUI::LateUpdate()
+void UUnitUI::LateUpdate()
 {
 	UpdateMatrixScreenUI();
 }
 
-void CUnitUI::Render()
+void UUnitUI::Render()
 {
 	UnitInfoUIRender();
 	UnitSelectUIRender();
 }
 
-void CUnitUI::Release()
+void UUnitUI::Release()
 {
 }
 
-void CUnitUI::SetUnitUI()
+void UUnitUI::SetUnitUI()
 {
 	for (int i = 0; i<SLOT_MAX; ++i)
 		m_eUnitSlot[i] = m_pObserver->GetUnitSlot(i);
@@ -151,7 +151,7 @@ void CUnitUI::SetUnitUI()
 	}
 }
 
-void CUnitUI::UnitSelectUIRender()
+void UUnitUI::UnitSelectUIRender()
 {
 	D3DXMATRIX matScale, matTrans, matWorld;
 
@@ -209,7 +209,7 @@ void CUnitUI::UnitSelectUIRender()
 	}
 }
 
-void CUnitUI::UnitInfoUIRender()
+void UUnitUI::UnitInfoUIRender()
 {
 	m_pSprite->SetTransform(&m_tInfo.matWorld);
 	m_pSprite->Draw(m_pTexMain->pTexture

@@ -16,6 +16,7 @@ void CMainGame::Initialize()
 {
 	Device->InitDevice();
 	Time->InitTime();
+	TextureMgr->InsertTexture(TEXT("../Texture/BlackScreen.png"), TEXT("BlackScreen"), TEX_SINGLE);
 	SceneMgr->SceneChange(SCENE_LOGO);
 }
 
@@ -27,8 +28,9 @@ void CMainGame::Update()
 
 void CMainGame::LateUpdate()
 {
-	GetKey->Update();
 	SceneMgr->LateUpdate();
+	GetKey->Update();
+	SoundMgr->Update();
 }
 
 void CMainGame::Render()
@@ -40,6 +42,7 @@ void CMainGame::Render()
 
 void CMainGame::Release()
 {
+	SoundMgr->DestroyInstance();
 	ViewMgr->DestroyInstance();
 	SceneMgr->DestroyInstance();
 	GameMgr->DestroyInstance();

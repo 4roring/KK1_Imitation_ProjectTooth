@@ -13,5 +13,9 @@ public:
 
 private:
 	void Input();
+	void PlayOrderSound();
+
+private:
+	bool m_bOrderSound = false;
 };
 

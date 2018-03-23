@@ -2,7 +2,7 @@
 #include "BHQ.h"
 #include "Level.h"
 #include "Effect.h"
-#include "DOneShotEffectBridge.h"
+#include "DExplosionEffectBridge.h"
 
 BHQ::BHQ()
 {
@@ -92,7 +92,8 @@ void BHQ::UpdateState(float deltaTime)
 		// TODO: HQ 터지는 이펙트 
 		// 이펙트 터지고 Dead로 상태 변환.
 		m_eCurState = BHQ::Dead;
-		CGameObject* pExplosion = DObjectFactory<CEffect>::CreateOneShotParticle(PARTICLE_EXPLOSION, m_tInfo.vPosition);
+		SoundMgr->PlayEffectSound(TEXT("Destroy_HQ"), m_tInfo.vPosition);
+		CGameObject* pExplosion = DObjectFactory<CEffect>::CreateExplosionEffect(PARTICLE_EXPLOSION, m_tInfo.vPosition, 1.f);
 		GameMgr->CreateObject(pExplosion, OBJ_EFFECT);
 	}
 

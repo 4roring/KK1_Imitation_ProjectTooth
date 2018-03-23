@@ -5,6 +5,8 @@
 #include "ACommander.h"
 #include "UUnitFactoryUI.h"
 #include "UHpUI.h"
+#include "Effect.h"
+#include "DExplosionEffectBridge.h"
 
 BUnitFactory::BUnitFactory()
 {
@@ -53,16 +55,24 @@ OBJSTATE BUnitFactory::Update(float deltaTime)
 	
 	if (true == m_bDestroy)
 	{
-		// TODO: 터지는 이펙트 ON
+		CGameObject* pExplosion = DObjectFactory<CEffect>::CreateExplosionEffect(PARTICLE_EXPLOSION, m_tInfo.vPosition, 0.5f);
+		GameMgr->CreateObject(pExplosion, OBJ_EFFECT);
+
 		for (int i = 0; i < m_iUnitCountMax; ++i)
 		{
 			if (nullptr != m_pUnit[i])
 			{
-				dynamic_cast<AUnit*>(m_pUnit[i])->SetFactory(nullptr);
-				m_pUnit[i] = nullptr;
+				AUnit* pUnit = dynamic_cast<AUnit*>(m_pUnit[i]);
+				if (pUnit != nullptr)
+				{
+					pUnit->SetFactory(nullptr);
+					m_pUnit[i] = nullptr;
+				}
 			}
 		}
-			
+
+		DestroySound();
+
 		for (int i : m_iTileIndexArr)
 			m_pLevel->SetTileObject(i, nullptr);
 
@@ -138,6 +148,36 @@ void BUnitFactory::AnimUpdate()
 	}
 }
 
+void BUnitFactory::DestroySound()
+{
+	switch (m_eUnitID)
+	{
+	case UNIT_SQUIRREL:
+	case UNIT_LIZARD:
+	case UNIT_TOAD:
+	case UNIT_PIGEON:
+	case UNIT_MOLE:
+		SoundMgr->PlayEffectSound(TEXT("Destroy_Small"), m_tInfo.vPosition);
+		break;
+
+	case UNIT_FERRET:
+	case UNIT_CHAMELEON:
+	case UNIT_FALCON:
+	case UNIT_SKUNK:
+	case UNIT_SNAKE:
+		SoundMgr->PlayEffectSound(TEXT("Destroy_Mid"), m_tInfo.vPosition);
+		break;
+
+	case UNIT_BADGER:
+	case UNIT_BOAR:
+	case UNIT_FOX:
+	case UNIT_OWL:
+	case UNIT_WOLF:
+		SoundMgr->PlayEffectSound(TEXT("Destroy_Big"), m_tInfo.vPosition);
+		break;
+	}
+}
+
 void BUnitFactory::InitFactoryUI()
 {
 	if (m_eTeam == TEAM_RED)
@@ -172,16 +212,6 @@ HRESULT BUnitFactory::SetUnit()
 		m_iUnitCountMax = 3;
 		m_iPay = 20;
 		break;
-
-		// 두더지 건물은 따로 만들어야할뜻.
-	//case UNIT_MOLE:
-	//	m_pTexMain = TextureMgr->GetTexture(TEXT("structure_warrens1"));
-	//	m_pTexTint = TextureMgr->GetTexture(TEXT("structure_warrens1_tint"));
-	//	m_iTear = 0;
-	//	m_fBuildTime = PRODUCTIONTIME[m_iTear];
-	//	m_fProductionTime = PRODUCTIONTIME[m_iTear];
-	//	m_iMaxHp = UNITFACTORY_MAXHP[m_iTear];
-	//	break;
 
 	case UNIT_FERRET:
 	case UNIT_CHAMELEON:

@@ -5,6 +5,7 @@
 #include "Deco.h"
 #include "FoodUI.h"
 #include "UnitUI.h"
+#include "UMiniMap.h"
 
 CStage_3::CStage_3()
 {
@@ -33,8 +34,16 @@ HRESULT CStage_3::Initialize()
 
 	GameMgr->CreateObject(DObjectFactory<CLevel>::Create(), OBJ_LEVEL);
 	GameMgr->CreateObject(DObjectFactory<UFoodUI>::Create(), OBJ_UI);
-	GameMgr->CreateObject(DObjectFactory<CUnitUI>::Create(), OBJ_UI);
+	GameMgr->CreateObject(DObjectFactory<UUnitUI>::Create(), OBJ_UI);
+	GameMgr->CreateObject(DObjectFactory<UMiniMap>::Create(), OBJ_UI);
 	LoadDeco();
+
+#ifndef _DEBUG
+	ShowCursor(false);
+#endif
+
+	SoundMgr->PlayBGM(TEXT("Background"));
+	SoundMgr->PlayBGM(TEXT("Background_SFX"));
 
 	return S_OK;
 }
@@ -42,6 +51,9 @@ HRESULT CStage_3::Initialize()
 void CStage_3::Update()
 {
 	GameMgr->Update(Time->GetDeltaTime());
+
+	if (GetKey->KeyDown('9'))
+		SceneMgr->SceneChange(SCENE_ENDING);
 }
 
 void CStage_3::LateUpdate()
@@ -56,10 +68,14 @@ void CStage_3::Render()
 
 void CStage_3::Release()
 {
-	GameMgr->DestroyObject(OBJ_LEVEL);
-	GameMgr->DestroyObject(OBJ_PLAYER);
-	GameMgr->DestroyObject(OBJ_AI);
-	GameMgr->DestroyObject(OBJ_UNIT);
+	if (SceneMgr->GetCurSceneID() == SCENE_ENDING)
+	{
+		GameMgr->DestroyObject(OBJ_LEVEL);
+		GameMgr->DestroyObject(OBJ_PLAYER);
+		GameMgr->DestroyObject(OBJ_AI);
+		GameMgr->DestroyObject(OBJ_UNIT);
+		SoundMgr->StopAll();
+	}
 }
 
 void CStage_3::LoadDeco()

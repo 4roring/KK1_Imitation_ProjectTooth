@@ -93,7 +93,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Headers;../FMOD;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -123,7 +123,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Headers;../FMOD;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -160,6 +160,7 @@
     <ClInclude Include="Crop.h" />
     <ClInclude Include="DAICommand.h" />
     <ClInclude Include="DBulletEffectBridge.h" />
+    <ClInclude Include="DDirectlyEffectBridge.h" />
     <ClInclude Include="DEffectBridge.h" />
     <ClInclude Include="DObjectFactory.h" />
     <ClInclude Include="Actor.h" />
@@ -171,15 +172,15 @@
     <ClInclude Include="Deco.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="DObserver.h" />
-    <ClInclude Include="DOneShotEffectBridge.h" />
+    <ClInclude Include="DExplosionEffectBridge.h" />
     <ClInclude Include="DState.h" />
     <ClInclude Include="DSubject.h" />
-    <ClInclude Include="DTimerEffectBridge.h" />
     <ClInclude Include="DUnitState.h" />
     <ClInclude Include="DUnit_1Tear.h" />
     <ClInclude Include="DUnit_2Tear.h" />
     <ClInclude Include="DUnit_3Tear.h" />
     <ClInclude Include="Effect.h" />
+    <ClInclude Include="Ending.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HQGround.h" />
@@ -195,7 +196,11 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="FoodUI.h" />
+    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="Title.h" />
+    <ClInclude Include="TitleButton.h" />
     <ClInclude Include="UHpUI.h" />
+    <ClInclude Include="UMiniMap.h" />
     <ClInclude Include="UnitUI.h" />
     <ClInclude Include="UUI.h" />
     <ClInclude Include="UUnitFactoryUI.h" />
@@ -224,19 +229,20 @@
     <ClCompile Include="DAICommand.cpp" />
     <ClCompile Include="DBridge.cpp" />
     <ClCompile Include="DBulletEffectBridge.cpp" />
+    <ClCompile Include="DDirectlyEffectBridge.cpp" />
     <ClCompile Include="Deco.cpp" />
     <ClCompile Include="DEffectBridge.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="DObserver.cpp" />
-    <ClCompile Include="DOneShotEffectBridge.cpp" />
+    <ClCompile Include="DExplosionEffectBridge.cpp" />
     <ClCompile Include="DState.cpp" />
     <ClCompile Include="DSubject.cpp" />
-    <ClCompile Include="DTimerEffectBridge.cpp" />
     <ClCompile Include="DUnitState.cpp" />
     <ClCompile Include="DUnit_1Tear.cpp" />
     <ClCompile Include="DUnit_2Tear.cpp" />
     <ClCompile Include="DUnit_3Tear.cpp" />
     <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="Ending.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HQGround.cpp" />
@@ -251,7 +257,11 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="FoodUI.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="Title.cpp" />
+    <ClCompile Include="TitleButton.cpp" />
     <ClCompile Include="UHpUI.cpp" />
+    <ClCompile Include="UMiniMap.cpp" />
     <ClCompile Include="UnitUI.cpp" />
     <ClCompile Include="UUI.cpp" />
     <ClCompile Include="UUnitFactoryUI.cpp" />

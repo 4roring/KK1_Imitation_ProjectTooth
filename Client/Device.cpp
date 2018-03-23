@@ -61,6 +61,12 @@ HRESULT CDevice::InitDevice()
 		return E_FAIL;
 	}
 
+	if (FAILED(TitleFontInit()))
+	{
+		MSG_BOX(TEXT("Create FoodFont Failed"));
+		return E_FAIL;
+	}
+
 	return S_OK;
 }
 
@@ -68,7 +74,7 @@ void CDevice::Begin()
 {
 	m_pDevice->Clear(0, nullptr
 		, D3DCLEAR_STENCIL | D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET
-		, D3DCOLOR_ARGB(255, 0, 0, 255), 1.f, 0);
+		, D3DCOLOR_ARGB(255, 0, 0, 0), 1.f, 0);
 	m_pDevice->BeginScene();
 	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
 }
@@ -98,7 +104,9 @@ void CDevice::SetParameters(D3DPRESENT_PARAMETERS & d3dpp)
 
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	d3dpp.hDeviceWindow = g_hWnd;
-	d3dpp.Windowed = TRUE;
+
+	d3dpp.Windowed = FALSE;
+	//d3dpp.Windowed = TRUE;
 
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
@@ -126,7 +134,7 @@ HRESULT CDevice::FontInit()
 
 HRESULT CDevice::FoodFontInit()
 {
-	AddFontResourceEx(L"../Font/FFFFORWA.TTF", FR_PRIVATE, 0);
+	AddFontResourceEx(TEXT("../Font/FFFFORWA.TTF"), FR_PRIVATE, 0);
 
 	D3DXFONT_DESC tFontInfo;
 	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESC));
@@ -143,8 +151,30 @@ HRESULT CDevice::FoodFontInit()
 	return S_OK;
 }
 
+HRESULT CDevice::TitleFontInit()
+{
+	AddFontResourceEx(TEXT("../Font/NanumSquareR.ttf"), FR_PRIVATE, 0);
+
+	D3DXFONT_DESC tFontInfo;
+	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESC));
+
+	tFontInfo.Width = 24;
+	tFontInfo.Height = 60;
+	tFontInfo.Weight = FW_NORMAL;
+	tFontInfo.CharSet = HANGUL_CHARSET;
+	lstrcpy(tFontInfo.FaceName, TEXT("³ª´®½ºÄù¾î"));
+
+	if (FAILED(D3DXCreateFontIndirect(m_pDevice, &tFontInfo, &m_pTitleFont)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 void CDevice::Release()
 {
+	SafeRelease(m_pTitleFont);
+	SafeRelease(m_pFoodFont);
+	SafeRelease(m_pFont);
 	SafeRelease(m_pSprite);
 	SafeRelease(m_pDevice);
 	SafeRelease(m_pD3D9);

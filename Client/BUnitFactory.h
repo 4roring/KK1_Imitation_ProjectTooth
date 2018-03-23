@@ -22,6 +22,7 @@ public:
 
 private:
 	void AnimUpdate();
+	void DestroySound();
 
 private:
 	void InitFactoryUI();

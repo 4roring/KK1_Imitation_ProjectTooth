@@ -93,6 +93,7 @@ void DUnit_2Tear::UpdateState(float deltaTime)
 		case UNIT_SKUNK:
 			if (m_fAttackDelay >= m_pUnit->m_tUnitInfo.fAtkTime)
 			{
+				SoundMgr->PlayEffectSound(TEXT("Unit_Skunk_Attack"), m_pUnit->m_tInfo.vPosition);
 				ShotBullet(BULLET_GRENADE);
 				m_fAttackDelay = 0.f;
 			}
@@ -104,6 +105,7 @@ void DUnit_2Tear::UpdateState(float deltaTime)
 		case UNIT_SNAKE:
 			if (m_fAttackDelay >= m_pUnit->m_tUnitInfo.fAtkTime)
 			{
+				SoundMgr->PlayEffectSound(TEXT("Unit_Snake_Attack"), m_pUnit->m_tInfo.vPosition);
 				ShotBullet(BULLET_VENOM);
 				m_fAttackDelay = 0.f;
 			}

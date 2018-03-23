@@ -23,25 +23,25 @@ void CAStar::AStarStart(int iStart, const COLLTILE * pGoal, VECCOLLTILE& rVecPat
 
 	if (pGoal->byOption != 0)
 		m_iGoal = m_pLevel->GetNeighborTileIndex(GameMgr->GetRandom(0, NEIGHBOR_END - 1), m_iGoal, 2);
-
+	
 	if (m_iStart == m_iGoal)
 		return;
 
 	rVecPath.clear();
 	ReleaseList();
 
-	m_Thread = std::thread(
-		[&]() 
-	{ 
-		m_Mutex.lock();
-		MakeRoute(rVecPath); 
-		m_Mutex.unlock();
-	});
+	//m_Thread = std::thread(
+	//	[&]() 
+	//{ 
+	//	m_Mutex.lock();
+	//	MakeRoute(rVecPath); 
+	//	m_Mutex.unlock();
+	//});
 
-	if(true == m_Thread.joinable())
-		m_Thread.join();
+
+	//m_Thread.join();
 	
-	//MakeRoute(rVecPath);
+	MakeRoute(rVecPath);
 }
 
 void CAStar::MakeRoute(VECCOLLTILE& rVecPath)

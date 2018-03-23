@@ -21,7 +21,7 @@
 #endif
 
 HWND g_hWnd;
-HWND g_hD3DX9;
+HWND g_hMain;
 
 // CToolView
 

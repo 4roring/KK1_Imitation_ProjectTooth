@@ -1,6 +1,8 @@
-0@lmb@..\Texture\UI\buttons\lmb.png
-0@mmb@..\Texture\UI\buttons\mmb.png
-0@rmb@..\Texture\UI\buttons\rmb.png
+0@buttonbg1_small@..\Texture\UI\buttons\buttonbg1_small.png
+0@buttonbg1_small_overlay@..\Texture\UI\buttons\buttonbg1_small_overlay.png
+0@buttontab1_off@..\Texture\UI\buttons\buttontab1_off.png
+0@buttontab1_on@..\Texture\UI\buttons\buttontab1_on.png
+0@title@..\Texture\UI\Title\title.png
 0@base_highlight@..\Texture\UI\world\base_highlight.png
 0@editarmies_unitpositionmarker@..\Texture\UI\world\editarmies_unitpositionmarker.png
 0@highlight@..\Texture\UI\world\highlight.png

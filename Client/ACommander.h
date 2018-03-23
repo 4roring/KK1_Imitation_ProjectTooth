@@ -35,8 +35,9 @@ private:
 	void Move(float deltaTime);
 	void SetAnimState();
 	void OrderToUnit();
+	void OrderEffect();
 
-private: // 건물 생산과 관련된 함수들
+private: 
 	void CheckTileObject();
 	void CheckHQ();
 	void CheckFarm();
@@ -44,8 +45,6 @@ private: // 건물 생산과 관련된 함수들
 	bool CheckTile4x4(VECCOLLTILE& vecRange, int iDir);
 	void CreateSlotUnitFactory(int iStart);
 	bool CheckUnitFactoryPay();
-
-private:
 	bool CheckTileEmpty(COLLTILE* pTile);
 
 private:
@@ -64,13 +63,24 @@ private:
 
 private:
 	int m_iFood = 0;
-	bool m_bFarmReserve = false;
 	float m_fReturn = 0.f;
 	float m_fOrder = 0.f;
+	bool m_bFarmReserve = false;
 	bool m_bBuild = false;
+
+private:
 	int m_iSelectSlot = 0;
 	UNITID m_eUnit[SLOT_MAX];
 	bool m_bAllOrder = false;
 	VECCOLLTILE m_vecPath;
+	
+private:
+	CGameObject* m_pBurstEffect = nullptr;
+
+public:
+	void ViewTeamSelect(TEAMID eTeam) { m_eViewToTeam = eTeam; }
+
+private: // Scroll Select
+	TEAMID m_eViewToTeam = TEAM_RED;
 };
 

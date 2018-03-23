@@ -17,6 +17,8 @@ void DAICommand::Initialize()
 	// 초기 행동들 집어넣기!
 	m_BehaviorList.push_back([&]()->int { return Wait(2.f); });
 	m_BehaviorList.push_back([&]()->int { return MoveToEmptyFarm(); });
+
+	m_iFarm = 4;
 }
 
 void DAICommand::Update()
@@ -38,7 +40,7 @@ void DAICommand::FSM(float deltaTime)
 		iEvent = m_BehaviorList.front()();
 	else
 	{
-		m_fEndTime = m_fPlayTime + 10.f;
+		m_fEndTime = m_fPlayTime + 5.f;
 		m_BehaviorList.push_back([&]()->int { return Wait(m_fEndTime); });
 	}
 
@@ -111,6 +113,12 @@ int DAICommand::MoveToEmptyFarm()
 
 int DAICommand::ReconToHQ()
 {
+	if (m_iFarm > 7)
+	{
+		m_BehaviorList.push_back([&]()->int { return MoveToTeamArea(); });
+		return 1;
+	}
+
 	if (true == m_vecHQ.empty())
 	{
 		auto iter_Begin = GameMgr->GetObjectList(OBJ_HQ).begin();
@@ -157,6 +165,12 @@ int DAICommand::MoveToTeamHQ()
 		const COLLTILE* pGoal = m_pLevel->GetCollTile((*iter_find)->GetTileIndex());
 		GameMgr->GetAStar()->AStarStart(m_pACommander->m_iTileIndex, pGoal, m_vecPath);
 
+		if (m_iFarm < 9)
+		{
+			m_BehaviorList.push_back([&]()->int { return MoveToEmptyFarm(); });
+			return 1;
+		}
+
 		m_fEndTime = m_fPlayTime + 10.f;
 		m_BehaviorList.push_back([&]()->int { return Wait(m_fEndTime); });
 
@@ -202,7 +216,7 @@ int DAICommand::MoveToTeamArea()
 		GameMgr->GetAStar()->AStarStart(m_pACommander->m_iTileIndex, pGoal, m_vecPath);
 
 		auto iter = m_BehaviorList.begin();
-		m_BehaviorList.insert(++iter, [&]()->int { return Build(GameMgr->GetRandom(0, 4)); });
+		m_BehaviorList.insert(++iter, [&]()->int { return Build(GameMgr->GetRandom(0, 5)); });
 		return 1;
 	}
 
@@ -215,6 +229,7 @@ int DAICommand::Build()
 	{
 		m_pACommander->m_bBuild = true;
 		m_BehaviorList.push_back([&]()->int { return ReconToHQ(); });
+		++m_iFarm;
 		return 1;
 	}
 

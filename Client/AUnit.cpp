@@ -88,16 +88,7 @@ OBJSTATE AUnit::Update(float deltaTime)
 	}
 
 	if (true == m_bDead)
-	{
-		if (nullptr != m_pFactory)
-			m_pFactory->UnitCountSub();
-
-		m_pLevel->SetTileObject(m_iTileIndex, nullptr);
-		m_pHpUI->Destroy();
-		m_pHpUI = nullptr;
-
 		return STATE_DESTROY;
-	}
 
 	AActor::Update(deltaTime);
 	m_pUnitState->Update(deltaTime);
@@ -110,9 +101,17 @@ void AUnit::LateUpdate()
 	m_pUnitState->LateUpdate();
 
 	if (m_iHp <= 0)
-		m_bDead = true;
-}
+	{
+		if (nullptr != m_pFactory)
+			m_pFactory->UnitCountSub();
 
+		m_pLevel->SetTileObject(m_iTileIndex, nullptr);
+		m_pHpUI->Destroy();
+		m_pHpUI = nullptr;
+
+		m_bDead = true;
+	}
+}
 
 void AUnit::Render()
 {

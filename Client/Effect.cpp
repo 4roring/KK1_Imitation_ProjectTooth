@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "Effect.h"
 #include "DBulletEffectBridge.h"
-#include "DOneShotEffectBridge.h"
+#include "DExplosionEffectBridge.h"
+#include "DDirectlyEffectBridge.h"
 
 CEffect::CEffect()
 {
@@ -30,6 +31,9 @@ HRESULT CEffect::Initialize()
 OBJSTATE CEffect::Update(float deltaTime)
 {
 	OBJSTATE eEvent = m_pEffectBridge->Update(deltaTime);
+
+	if (true == m_bDestroy)
+		return STATE_DESTROY;
 
 	if (eEvent == STATE_DESTROY)
 		return STATE_DESTROY;

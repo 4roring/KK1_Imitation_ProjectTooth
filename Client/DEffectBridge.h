@@ -22,6 +22,7 @@ public:
 	void SetParticleID(PARTICLEID eParticleID) { m_eParticleID = eParticleID; }
 	void SetTarget(COLLTILE* pTile) { m_pTarget = pTile; }
 	void SetAtk(int iAtk) { m_iAtk = iAtk; }
+	void SetSize(float fSize) { m_fSize = fSize; }
 
 protected:
 	BULLETID m_eBulletID = BULLET_END;
@@ -29,8 +30,9 @@ protected:
 	CEffect* m_pEffect = nullptr;
 	COLLTILE* m_pTarget = nullptr;
 	int m_iAtk = 0;
+	float m_fSize = 0.f;
 
-private:
+protected:
 	const TEXINFO* m_pTexMain = nullptr;
 
 };

@@ -4,6 +4,8 @@
 #include "ACommander.h"
 #include "Crop.h"
 #include "APig.h"
+#include "Effect.h"
+#include "DExplosionEffectBridge.h"
 
 BFarm::BFarm()
 {
@@ -62,6 +64,9 @@ void BFarm::LateUpdate()
 
 	if (m_eCurState == BFarm::Farm && m_iHp <= 0)
 	{
+		SoundMgr->PlayEffectSound(TEXT("Destroy_Small"), m_tInfo.vPosition);
+		CGameObject* pExplosion = DObjectFactory<CEffect>::CreateExplosionEffect(PARTICLE_EXPLOSION, m_tInfo.vPosition, 0.5f);
+		GameMgr->CreateObject(pExplosion, OBJ_EFFECT);
 		DestroyPig();
 		DestroyCropAll();
 		RemoveTileObject();
@@ -103,6 +108,7 @@ void BFarm::UpdateState(float deltaTime)
 		if (true == m_bDestroy)
 		{
 			// TODO: 이펙트 펑!
+			SoundMgr->PlayEffectSound(TEXT("Build_Farm"), m_tInfo.vPosition);
 			m_fBuildTime = 100.f;
 			m_bDestroy = false;
 			m_eCurState = BFarm::OnStream;
@@ -130,12 +136,12 @@ void BFarm::UpdateState(float deltaTime)
 			CreateFinished();
 			m_eCurState = BFarm::Farm;
 		}
-		if (true == m_bDestroy)
-		{
-			m_pCommander->AddFood(60);
-			m_eCurState = BFarm::Grass;
-			m_bDestroy = false;
-		}
+		//if (true == m_bDestroy) // Farm Cancel은 이번 버전에서 삭제.
+		//{
+		//	m_pCommander->AddFood(60);
+		//	m_eCurState = BFarm::Grass;
+		//	m_bDestroy = false;
+		//}
 		break;
 	case BFarm::Farm:
 		if (nullptr != m_pPig)
@@ -143,7 +149,7 @@ void BFarm::UpdateState(float deltaTime)
 			m_fFoodUpTime += deltaTime;
 			if (m_fFoodUpTime >= 1.f)
 			{
-				m_pCommander->AddFood(1);
+				m_pCommander->AddFood(2);
 				--m_iFood;
 				m_fFoodUpTime = 0.f;
 
@@ -157,6 +163,7 @@ void BFarm::UpdateState(float deltaTime)
 		break;
 	case BFarm::FarmEnd:
 		DestroyPig();
+		m_iHp = 0;
 		break;
 	case BFarm::End:
 	default:

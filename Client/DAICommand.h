@@ -39,5 +39,6 @@ private:
 
 private:
 	int m_iUnitFactory = 0;
+	int m_iFarm = 0;
 };
 

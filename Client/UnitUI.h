@@ -1,11 +1,11 @@
 #pragma once
 #include "UUI.h"
-class CUnitUI :
+class UUnitUI :
 	public UUI
 {
 public:
-	CUnitUI();
-	virtual ~CUnitUI();
+	UUnitUI();
+	virtual ~UUnitUI();
 
 public:
 	virtual HRESULT Initialize() override;

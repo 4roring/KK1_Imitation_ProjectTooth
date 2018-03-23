@@ -90,11 +90,11 @@ void DUnit_1Tear::UpdateState(float deltaTime)
 		case UNIT_SQUIRREL:
 			if (m_fAttackDelay >= m_pUnit->m_tUnitInfo.fAtkTime)
 			{
+				SoundMgr->PlayEffectSound(TEXT("Unit_Squirrel_Attack"), m_pUnit->m_tInfo.vPosition);
 				ShotBullet(BULLET_PISTOL);
 				m_fAttackDelay = 0.f;
 			}
-
-			if (m_fAttackDelay <= 0.7f)
+			if (m_fAttackDelay <= 0.8f)
 				m_pUnit->m_tFrame.fFrame = m_pUnit->m_tFrame.fMin;
 			break;
 			// TODO: 도마뱀과 두더지는 0.75에 공격 후 0.25 대기(선빵에 강함)
@@ -103,6 +103,7 @@ void DUnit_1Tear::UpdateState(float deltaTime)
 			{
 				if (false == m_bAttack)
 				{
+					SoundMgr->PlayEffectSound(TEXT("Unit_Lizard_Attack"), m_pUnit->m_tInfo.vPosition);
 					ShotBullet(BULLET_SPEAR);
 					m_bAttack = true;
 				}
@@ -121,6 +122,7 @@ void DUnit_1Tear::UpdateState(float deltaTime)
 			{
 				if (nullptr != m_pUnit->m_pTarget->pGameObject && false == m_bAttack)
 				{
+					SoundMgr->PlayEffectSound(TEXT("Unit_Mole_Attack"), m_pUnit->m_tInfo.vPosition);
 					m_pUnit->m_pTarget->pGameObject->ApplyDamage(m_pUnit->m_tUnitInfo.iAtk);
 					m_bAttack = true;
 				}

@@ -21,7 +21,8 @@ public:
 
 private:
 	friend class DBulletEffectBridge;
-	friend class DOneShotEffectBridge;
+	friend class DExplosionEffectBridge;
+	friend class DDirectlyEffectBridge;
 	DEffectBridge* m_pEffectBridge;
 
 private:

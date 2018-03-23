@@ -103,14 +103,8 @@
     <Filter Include="04.Effect">
       <UniqueIdentifier>{27537f6f-3ee8-41ed-90d7-00e45437b27f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Effect\TimerEffectBridge">
-      <UniqueIdentifier>{59723600-1980-437d-af1d-e61f842cfd06}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.Effect\BulletEffectBridge">
       <UniqueIdentifier>{206b5cd2-94dd-43b2-9f79-33abd1196b89}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Effect\OneShotEffectBridge">
-      <UniqueIdentifier>{8b65e1a1-af08-4707-98d0-3f3e7866d3ed}</UniqueIdentifier>
     </Filter>
     <Filter Include="04.Effect\EffectBridge">
       <UniqueIdentifier>{56d1088f-4b2b-46c2-b302-55fd0b0a4971}</UniqueIdentifier>
@@ -171,6 +165,24 @@
     </Filter>
     <Filter Include="03.Building\UnitFactory">
       <UniqueIdentifier>{8c8f5bf5-168f-4985-8ce5-055dd6c88d10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Scene\01.Title\CTitleButton">
+      <UniqueIdentifier>{5bf98a3b-1240-49d6-b758-1ab74cf0a3c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Managers\98.SoundManager">
+      <UniqueIdentifier>{dfa8e02c-b99a-4bdc-b7c8-09e58b34c08c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Effect\ExplosionEffectBridge">
+      <UniqueIdentifier>{8b65e1a1-af08-4707-98d0-3f3e7866d3ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.UI\MiniMapUI">
+      <UniqueIdentifier>{5d3f5148-d6ae-4924-8bfb-2ea96b840b95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Effect\DirectlyEffectBridge">
+      <UniqueIdentifier>{59723600-1980-437d-af1d-e61f842cfd06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Scene\03.Ending">
+      <UniqueIdentifier>{91170fb2-82d6-4b84-9d00-27c6a51d3e0a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -301,9 +313,6 @@
     <ClInclude Include="DBulletEffectBridge.h">
       <Filter>04.Effect\BulletEffectBridge</Filter>
     </ClInclude>
-    <ClInclude Include="DOneShotEffectBridge.h">
-      <Filter>04.Effect\OneShotEffectBridge</Filter>
-    </ClInclude>
     <ClInclude Include="Effect.h">
       <Filter>04.Effect</Filter>
     </ClInclude>
@@ -331,14 +340,32 @@
     <ClInclude Include="UUnitFactoryUI.h">
       <Filter>05.UI\UnitFactoryUI</Filter>
     </ClInclude>
-    <ClInclude Include="DTimerEffectBridge.h">
-      <Filter>04.Effect\TimerEffectBridge</Filter>
-    </ClInclude>
     <ClInclude Include="DUnit_2Tear.h">
       <Filter>02.Actor\01.Unit\DUnitState\DUnit_2Tear</Filter>
     </ClInclude>
     <ClInclude Include="DUnit_3Tear.h">
       <Filter>02.Actor\01.Unit\DUnitState\DUnit_3Tear</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>96.Scene\01.Title</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleButton.h">
+      <Filter>96.Scene\01.Title\CTitleButton</Filter>
+    </ClInclude>
+    <ClInclude Include="DExplosionEffectBridge.h">
+      <Filter>04.Effect\ExplosionEffectBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>97.Managers\98.SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UMiniMap.h">
+      <Filter>05.UI\MiniMapUI</Filter>
+    </ClInclude>
+    <ClInclude Include="DDirectlyEffectBridge.h">
+      <Filter>04.Effect\DirectlyEffectBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="Ending.h">
+      <Filter>96.Scene\03.Ending</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -460,9 +487,6 @@
     <ClCompile Include="DBulletEffectBridge.cpp">
       <Filter>04.Effect\BulletEffectBridge</Filter>
     </ClCompile>
-    <ClCompile Include="DOneShotEffectBridge.cpp">
-      <Filter>04.Effect\OneShotEffectBridge</Filter>
-    </ClCompile>
     <ClCompile Include="Effect.cpp">
       <Filter>04.Effect</Filter>
     </ClCompile>
@@ -490,14 +514,32 @@
     <ClCompile Include="UUnitFactoryUI.cpp">
       <Filter>05.UI\UnitFactoryUI</Filter>
     </ClCompile>
-    <ClCompile Include="DTimerEffectBridge.cpp">
-      <Filter>04.Effect\TimerEffectBridge</Filter>
-    </ClCompile>
     <ClCompile Include="DUnit_2Tear.cpp">
       <Filter>02.Actor\01.Unit\DUnitState\DUnit_2Tear</Filter>
     </ClCompile>
     <ClCompile Include="DUnit_3Tear.cpp">
       <Filter>02.Actor\01.Unit\DUnitState\DUnit_3Tear</Filter>
+    </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>96.Scene\01.Title</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleButton.cpp">
+      <Filter>96.Scene\01.Title\CTitleButton</Filter>
+    </ClCompile>
+    <ClCompile Include="DExplosionEffectBridge.cpp">
+      <Filter>04.Effect\ExplosionEffectBridge</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>97.Managers\98.SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UMiniMap.cpp">
+      <Filter>05.UI\MiniMapUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DDirectlyEffectBridge.cpp">
+      <Filter>04.Effect\DirectlyEffectBridge</Filter>
+    </ClCompile>
+    <ClCompile Include="Ending.cpp">
+      <Filter>96.Scene\03.Ending</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

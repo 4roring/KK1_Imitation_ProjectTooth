@@ -408,3 +408,11 @@ void CLevel::CreateTeamHQ(int iTileIndex, TEAMID eTeam)
 
 	CreateTeamStartFarm(iTileIndex, eTeam);
 }
+
+COLLTILE * CLevel::GetCollTile(int iIndex) const
+{
+	if (iIndex < 0)
+		return m_vecCollTile[3115];
+
+	return m_vecCollTile[iIndex];
+}

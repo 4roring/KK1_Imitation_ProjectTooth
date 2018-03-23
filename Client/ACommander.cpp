@@ -7,6 +7,8 @@
 #include "DAICommand.h"
 #include "AStar.h"
 #include "AUnit.h"
+#include "DDirectlyEffectBridge.h"
+#include "Effect.h"
 
 ACommander::ACommander()
 {
@@ -33,11 +35,16 @@ HRESULT ACommander::Initialize()
 	m_eUnit[0] = UNIT_SQUIRREL;
 	m_eUnit[1] = UNIT_LIZARD;
 	m_eUnit[2] = UNIT_MOLE;
-	m_eUnit[3] = UNIT_SKUNK;
+
+	if(m_eTeam == TEAM_RED || m_eTeam == TEAM_BLUE)
+		m_eUnit[3] = UNIT_SKUNK;
+	else
+		m_eUnit[3] = UNIT_SNAKE;
+
 	m_eUnit[4] = UNIT_BADGER;
 	m_eUnit[5] = UNIT_FOX;
 
-	m_iFood = 12000;
+	m_iFood = 0;
 
 	return S_OK;
 }
@@ -52,6 +59,7 @@ OBJSTATE ACommander::Update(float deltaTime)
 
 	m_pCommand->Update();
 	UpdateState(deltaTime);
+	OrderEffect();
 
 	return STATE_PLAY;
 }
@@ -134,16 +142,16 @@ void ACommander::SetCommand()
 
 	if (m_eObjectID == OBJ_PLAYER)
 	{
-		//Vector3 vInitScroll((WINCX >> 1) - m_tInfo.vPosition.x, (WINCY >> 1) - m_tInfo.vPosition.y, 0.f);
-		//ViewMgr->SetScroll(vInitScroll);
+		Vector3 vInitScroll((WINCX >> 1) - m_tInfo.vPosition.x, (WINCY >> 1) - m_tInfo.vPosition.y, 0.f);
+		ViewMgr->SetScroll(vInitScroll);
 
 		m_pCommand = new DPlayerCommand;
 		m_pCommand->SetCommander(this);
 	}
 	else if (m_eObjectID == OBJ_AI)
 	{
-		Vector3 vInitScroll((WINCX >> 1) - m_tInfo.vPosition.x, (WINCY >> 1) - m_tInfo.vPosition.y, 0.f);
-		ViewMgr->SetScroll(vInitScroll);
+		//Vector3 vInitScroll((WINCX >> 1) - m_tInfo.vPosition.x, (WINCY >> 1) - m_tInfo.vPosition.y, 0.f);
+		//ViewMgr->SetScroll(vInitScroll);
 
 		// AI Command 생성
 		m_pCommand = new DAICommand;
@@ -174,6 +182,13 @@ void ACommander::UpdateState(float deltaTime)
 		break;
 	case ACommander::Order:
 		OrderToUnit();
+		if (nullptr == m_pBurstEffect)
+		{
+			m_pBurstEffect = DObjectFactory<CEffect>::CreateDirectlyEffect(PARTICLE_BURST, m_tInfo.vPosition);
+			GameMgr->CreateObject(m_pBurstEffect, OBJ_EFFECT);
+		}
+		else
+			m_pBurstEffect->SetPos(m_tInfo.vPosition);
 
 		if (m_tInfo.vDir.x != 0.f || m_tInfo.vDir.y != 0.f)
 			m_eCurAnimState = ACommander::RunOrder;
@@ -200,6 +215,7 @@ void ACommander::UpdateState(float deltaTime)
 			m_eCurAnimState = ACommander::Idle;
 		break;
 	case ACommander::RunOrder:
+		OrderToUnit();
 		Move(deltaTime);
 		OrderToUnit();
 		if (m_fOrder == 0.f)
@@ -240,19 +256,14 @@ void ACommander::Move(float deltaTime)
 	m_tInfo.vDir *= m_fSpeed * deltaTime;
 	m_tInfo.vPosition += m_tInfo.vDir;
 
-	//if (m_eObjectID == OBJ_PLAYER)
-	//{
-	//	if (true == OffsetX())
-	//		ViewMgr->MoveScrollX(m_tInfo.vDir.x);
+	if (m_eTeam == m_eViewToTeam)
+	{
+		if (true == OffsetX())
+			ViewMgr->MoveScrollX(m_tInfo.vDir.x);
 
-	//	if (true == OffsetY())
-	//		ViewMgr->MoveScrollY(m_tInfo.vDir.y);
-	//}
-
-
-	// AI 따라다니는 스크롤
-	Vector3 vInitScroll((WINCX >> 1) - m_tInfo.vPosition.x, (WINCY >> 1) - m_tInfo.vPosition.y, 0.f);
-	ViewMgr->SetScroll(vInitScroll);
+		if (true == OffsetY())
+			ViewMgr->MoveScrollY(m_tInfo.vDir.y);
+	}
 }
 
 
@@ -298,9 +309,9 @@ void ACommander::OrderToUnit()
 	{
 		if (true == m_bAllOrder)
 			return (pUnit->GetTeamID() == m_eTeam);
-
-		return (pUnit->GetTeamID() == m_eTeam
-			&& static_cast<AUnit*>(pUnit)->GetUnitID() == m_eUnit[m_iSelectSlot]);
+		else
+			return (pUnit->GetTeamID() == m_eTeam
+				&& static_cast<AUnit*>(pUnit)->GetUnitID() == m_eUnit[m_iSelectSlot]);
 	});
 
 	if (iter == objUnitList.end()) return;
@@ -314,6 +325,28 @@ void ACommander::OrderToUnit()
 		GameMgr->GetSubject(m_eTeam)->Notify(m_fOrder, UNIT_ALL, m_vecPath);
 	else
 		GameMgr->GetSubject(m_eTeam)->Notify(m_fOrder, m_eUnit[m_iSelectSlot], m_vecPath);
+}
+
+void ACommander::OrderEffect()
+{
+	if (m_fOrder > 0.f)
+	{
+		if (nullptr == m_pBurstEffect)
+		{
+			m_pBurstEffect = DObjectFactory<CEffect>::CreateDirectlyEffect(PARTICLE_BURST, m_tInfo.vPosition);
+			GameMgr->CreateObject(m_pBurstEffect, OBJ_EFFECT);
+		}
+		else
+			m_pBurstEffect->SetPos(m_tInfo.vPosition);
+	}
+	else
+	{
+		if (nullptr != m_pBurstEffect)
+		{
+			m_pBurstEffect->Destroy();
+			m_pBurstEffect = nullptr;
+		}
+	}
 }
 
 void ACommander::CheckTileObject()
@@ -338,6 +371,7 @@ void ACommander::CheckHQ()
 		{
 			if (true == m_bBuild && pTile->pGameObject->GetTeamID() == TEAM_NEUTRAL && m_iFood >= 60)
 			{
+				SoundMgr->PlayEffectSound(TEXT("Build_HQ"), m_tInfo.vPosition);
 				pTile->pGameObject->Destroy();
 				pTile->pGameObject->SetTeam(m_eTeam);
 				m_iFood -= 60;
@@ -422,9 +456,8 @@ void ACommander::CreateSlotUnitFactory(int iStart)
 		// TODO: 빨간 UI 넣어주고
 		return;
 	}
-
+	SoundMgr->PlayEffectSound(TEXT("Build_UnitFactory"), m_tInfo.vPosition);
 	CGameObject* pObject = DObjectFactory<BUnitFactory>::CreateUnitFactory(iStart, m_eUnit[m_iSelectSlot], m_eTeam);
-
 	GameMgr->CreateObject(pObject, OBJ_UNITFACTORY);
 }
 
