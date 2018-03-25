@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "SoundManager.h"
-#include <io.h>
 #include <filesystem>
 
 namespace FileSystem = std::experimental::filesystem::v1;
@@ -67,9 +66,7 @@ HRESULT CSoundManager::LoadSoundFile()
 			}
 		}
 	}
-
-	//FindFile.clear();
-
+	FindFile.clear();
 	FMOD_System_Update(m_pSystem);
 
 	return S_OK;
@@ -124,7 +121,10 @@ void CSoundManager::PlayBGM(const std::wstring pSoundKey)
 	auto iter_find = m_SoundMap.find(pSoundKey);
 
 	if (iter_find == m_SoundMap.end())
+	{
+		MSG_BOX(TEXT("Sound File Not Found"));
 		return;
+	}
 
 	FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE,
 		iter_find->second, FALSE, &m_pChannelArr[BGM]);

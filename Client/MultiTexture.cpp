@@ -49,10 +49,10 @@ HRESULT CMultiTexture::InsertTexture(const std::wstring & wstrFilePath, const st
 			MSG_BOX(szPath);
 			return E_FAIL;
 		}
-		vecTexture.push_back(pTexInfo);
+		vecTexture.emplace_back(pTexInfo);
 	}
 
-	m_mapMultiTex.insert(MULTITEXMAP::value_type(wstrStateKey, vecTexture));
+	m_mapMultiTex.emplace(wstrStateKey, vecTexture);
 
 	return S_OK;
 }

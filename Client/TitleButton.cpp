@@ -38,7 +38,7 @@ OBJSTATE CTitleButton::Update(float deltaTime)
 			m_bOnMouseSound = true;
 		}
 
-		if (GetKey->KeyDown(VK_LBUTTON))
+		if (KeyMgr->KeyDown(VK_LBUTTON))
 		{
 			SoundMgr->PlaySound(TEXT("Menu_Select"), SoundMgr->FAR_EFFECT);
 			if (m_iOption == 0)

@@ -6,12 +6,10 @@ public:
 	~CMainGame();
 
 public:
-	void Initialize();
+	HRESULT Initialize();
 	void Update();
 	void LateUpdate();
 	void Render();
 	void Release();
-
-
 };
 

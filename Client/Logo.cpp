@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Logo.h"
-
+#include <future>
 
 CLogo::CLogo()
 {
@@ -30,7 +30,7 @@ HRESULT CLogo::Initialize()
 
 void CLogo::Update()
 {
-	if (true == m_bComplete && GetKey->KeyPress(VK_RETURN))
+	if (true == m_bComplete && KeyMgr->KeyPress(VK_RETURN))
 		SceneMgr->SceneChange(SCENE_TITLE);
 }
 

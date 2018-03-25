@@ -24,13 +24,6 @@ HRESULT CLevel::Initialize()
 			return E_FAIL;
 	}
 
-	//if (FAILED(TextureMgr->InsertTexture(TEXT("../Texture/Map/Tile/CollisionTile%d.png"), TEXT("TILE"), TEX_MULTI, TEXT("CollisionTile"), 2)))
-	//{
-	//	MSG_BOX(TEXT("Isometric MultiTexture Load Failed"));
-
-	//	return E_FAIL;
-	//}
-
 	m_vecCollTile.reserve(COLLTILEX * COLLTILEY);
 
 	for (int y = 0; y < COLLTILEY; ++y)
@@ -60,7 +53,6 @@ HRESULT CLevel::Initialize()
 void CLevel::Update()
 {
 	m_iPickIndex = GetTileIndex(GetMousePos());
-	//Picking();
 }
 
 void CLevel::Render()
@@ -125,15 +117,10 @@ bool CLevel::isCulling(const Vector3& vPos)
 	float fZoom = ToolMgr->GetZoom();
 	Vector3 vScroll = ToolMgr->GetScroll();
 
-	if (vPos.x + vScroll.x < 0.f  + 50.f) return true;
-	if (vPos.y + vScroll.y  < 0.f +  50.f) return true;
-	if (vPos.x + vScroll.x  > WINCX - 50.f) return true;
-	if (vPos.y + vScroll.y  > WINCY - 50.f) return true;
-
-	//if (vPos.x * fZoom < 0.f + (vScroll.x - 50.f)) return true;
-	//if (vPos.y * fZoom < 0.f + (vScroll.y - 50.f)) return true;
-	//if (vPos.x * fZoom > WINCX + (vScroll.x + 50.f)) return true;
-	//if (vPos.y * fZoom > WINCY + (vScroll.y + 50.f)) return true;
+	if (vPos.x + vScroll.x < 0.f + 50.f) return true;
+	if (vPos.y + vScroll.y < 0.f + 50.f) return true;
+	if (vPos.x + vScroll.x > WINCX - 50.f) return true;
+	if (vPos.y + vScroll.y > WINCY - 50.f) return true;
 
 	return false;
 }
@@ -195,18 +182,18 @@ void CLevel::CollTileRender(float& fZoom, Vector3& vScroll, D3DXMATRIX& matScale
 				, color);
 
 			// 폰트 그리기
-			/*D3DXMatrixTranslation(&matTrans
-				, m_vecCollTile[iIndex]->vPosition.x * fZoom - 30.f
-				, m_vecCollTile[iIndex]->vPosition.y * fZoom - 20.f
+			D3DXMatrixTranslation(&matTrans
+				, m_vecCollTile[iIndex]->vPosition.x * fZoom + vScroll.x
+				, m_vecCollTile[iIndex]->vPosition.y * fZoom + vScroll.y
 				, 0.f);
 
-			matWorld = matScale * matTrans;
+			matWorld = matTrans;
 
 			m_pSprite->SetTransform(&matWorld);
 
 			swprintf_s(szBuf, TEXT("%d"), iIndex);
 			m_pFont->DrawTextW(m_pSprite, szBuf, lstrlen(szBuf)
-				, nullptr, 0, D3DCOLOR_ARGB(255, 255, 255, 255));*/
+				, nullptr, 0, D3DCOLOR_ARGB(255, 255, 255, 255));
 		}
 	}
 }
@@ -267,9 +254,9 @@ void CLevel::InfoRender()
 	TCHAR szBuf[128] = {};
 
 	m_pSprite->SetTransform(&matTrans);
-	swprintf_s(szBuf, TEXT("Mouse : %.1f, %.1f"), GetMousePos().x , GetMousePos().y);
+	swprintf_s(szBuf, TEXT("Mouse : %.1f, %.1f"), GetMousePos().x, GetMousePos().y);
 	m_pFont->DrawTextW(m_pSprite, szBuf, lstrlen(szBuf)
-		, nullptr, 0, D3DCOLOR_ARGB(255, 255, 255, 255)); 
+		, nullptr, 0, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
 Vector3 CLevel::GetMousePos()
@@ -283,7 +270,7 @@ Vector3 CLevel::GetMousePos()
 
 	float fX = (float)tPos.x;
 	float fY = (float)tPos.y;
-	
+
 	Vector3 vPos = Vector3(fX, fY, 0.f);
 
 	return vPos - vScroll;
@@ -333,18 +320,18 @@ void CLevel::Picking()
 {
 	if (true == m_bFileMode) return;
 
-	if (GetKey->KeyPress(VK_LBUTTON))
+	if (KeyMgr->KeyPress(VK_LBUTTON))
 	{
 		if (m_iPickIndex < 0 || m_iPickIndex >= COLLTILEX * COLLTILEY - 1)
 			return;
 
 		if (m_bTileMode)
 			TileChange();
-		else if(nullptr != m_pItem && GetKey->KeyDown(VK_LBUTTON))
+		else if (nullptr != m_pItem && KeyMgr->KeyDown(VK_LBUTTON))
 			InsertDeco();
 	}
 
-	if (nullptr != m_pItem && false == m_vecDeco.empty() && GetKey->KeyDown('X'))
+	if (nullptr != m_pItem && false == m_vecDeco.empty() && KeyMgr->KeyDown('X'))
 	{
 		SafeDelete(m_vecDeco.back());
 		m_vecDeco.pop_back();

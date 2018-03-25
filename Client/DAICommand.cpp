@@ -15,8 +15,8 @@ DAICommand::~DAICommand()
 void DAICommand::Initialize()
 {
 	// 초기 행동들 집어넣기!
-	m_BehaviorList.push_back([&]()->int { return Wait(2.f); });
-	m_BehaviorList.push_back([&]()->int { return MoveToEmptyFarm(); });
+	m_BehaviorList.emplace_back([&]()->int { return Wait(2.f); });
+	m_BehaviorList.emplace_back([&]()->int { return MoveToEmptyFarm(); });
 
 	m_iFarm = 4;
 }
@@ -41,7 +41,7 @@ void DAICommand::FSM(float deltaTime)
 	else
 	{
 		m_fEndTime = m_fPlayTime + 5.f;
-		m_BehaviorList.push_back([&]()->int { return Wait(m_fEndTime); });
+		m_BehaviorList.emplace_back([&]()->int { return Wait(m_fEndTime); });
 	}
 
 	if (iEvent == 1)
@@ -71,12 +71,12 @@ int DAICommand::Wait(float fTime)
 	if (fTime < m_fPlayTime)
 	{
 		if (m_iUnitFactory > 0)
-			m_BehaviorList.push_back([&]()->int { return AttackToEnemyTeam(0); });
+			m_BehaviorList.emplace_back([&]()->int { return AttackToEnemyTeam(0); });
 
 		int iNum = GameMgr->GetRandom(0, 100);
 
 		if (iNum > 50)
-			m_BehaviorList.push_back([&]()->int { return MoveToTeamArea(); });
+			m_BehaviorList.emplace_back([&]()->int { return MoveToTeamArea(); });
 
 		return 1;
 	}
@@ -91,19 +91,19 @@ int DAICommand::MoveToEmptyFarm()
 		auto iter_Begin = GameMgr->GetObjectList(OBJ_FARM).begin();
 		auto iter_End = GameMgr->GetObjectList(OBJ_FARM).end();
 
-		TEAMID eTeam = m_pACommander->GetTeamID();
+		TEAMID eTeamID = m_pACommander->GetTeamID();
 
 		auto iter_find = std::find_if(iter_Begin, iter_End,
-			[&eTeam](auto& pFarm)
+			[&eTeamID](auto& pFarm)
 		{
-			return pFarm->GetTeamID() == eTeam && pFarm->GetHp() == 0;
+			return pFarm->GetTeamID() == eTeamID && pFarm->GetHp() == 0;
 		});
 
 		COLLTILE* pGoal = m_pLevel->GetCollTile((*iter_find)->GetTileIndex());
 		GameMgr->GetAStar()->AStarStart(m_pACommander->m_iTileIndex, pGoal, m_vecPath);
 
 		auto iter = m_BehaviorList.begin();
-		m_BehaviorList.insert(++iter, [&]()->int { return Build(); });
+		m_BehaviorList.emplace(++iter, [&]()->int { return Build(); });
 
 		return 1;
 	}
@@ -115,7 +115,7 @@ int DAICommand::ReconToHQ()
 {
 	if (m_iFarm > 7)
 	{
-		m_BehaviorList.push_back([&]()->int { return MoveToTeamArea(); });
+		m_BehaviorList.emplace_back([&]()->int { return MoveToTeamArea(); });
 		return 1;
 	}
 
@@ -139,7 +139,7 @@ int DAICommand::ReconToHQ()
 	if (m_vecHQ.size() == 1) // 정찰 적당히 완료
 	{
 		// 집 근처로 가서 현재 상황에 맞는 유닛 ㄱ
-		m_BehaviorList.push_back([&]()->int { return MoveToTeamArea(); });
+		m_BehaviorList.emplace_back([&]()->int { return MoveToTeamArea(); });
 		return 1;
 	}
 
@@ -155,11 +155,11 @@ int DAICommand::MoveToTeamHQ()
 		auto iter_Begin = GameMgr->GetObjectList(OBJ_HQ).begin();
 		auto iter_End = GameMgr->GetObjectList(OBJ_HQ).end();
 
-		TEAMID eTeam = m_pACommander->GetTeamID();
+		TEAMID eTeamID = m_pACommander->GetTeamID();
 		auto iter_find = std::find_if(iter_Begin, iter_End,
-			[&eTeam](auto& pHQ)
+			[&eTeamID](auto& pHQ)
 		{
-			return pHQ->GetTeamID() == eTeam;
+			return pHQ->GetTeamID() == eTeamID;
 		});
 
 		const COLLTILE* pGoal = m_pLevel->GetCollTile((*iter_find)->GetTileIndex());
@@ -167,12 +167,12 @@ int DAICommand::MoveToTeamHQ()
 
 		if (m_iFarm < 9)
 		{
-			m_BehaviorList.push_back([&]()->int { return MoveToEmptyFarm(); });
+			m_BehaviorList.emplace_back([&]()->int { return MoveToEmptyFarm(); });
 			return 1;
 		}
 
 		m_fEndTime = m_fPlayTime + 10.f;
-		m_BehaviorList.push_back([&]()->int { return Wait(m_fEndTime); });
+		m_BehaviorList.emplace_back([&]()->int { return Wait(m_fEndTime); });
 
 		return 1;
 	}
@@ -189,11 +189,11 @@ int DAICommand::MoveToTeamArea()
 		auto iter_Begin = GameMgr->GetObjectList(OBJ_HQ).begin();
 		auto iter_End = GameMgr->GetObjectList(OBJ_HQ).end();
 
-		TEAMID eTeam = m_pACommander->GetTeamID();
+		TEAMID eTeamID = m_pACommander->GetTeamID();
 		auto iter_find = std::find_if(iter_Begin, iter_End,
-			[&eTeam](auto& pHQ)
+			[&eTeamID](auto& pHQ)
 		{
-			return pHQ->GetTeamID() == eTeam;
+			return pHQ->GetTeamID() == eTeamID;
 		});
 
 		int iIndex = 0;
@@ -216,7 +216,7 @@ int DAICommand::MoveToTeamArea()
 		GameMgr->GetAStar()->AStarStart(m_pACommander->m_iTileIndex, pGoal, m_vecPath);
 
 		auto iter = m_BehaviorList.begin();
-		m_BehaviorList.insert(++iter, [&]()->int { return Build(GameMgr->GetRandom(0, 5)); });
+		m_BehaviorList.emplace(++iter, [&]()->int { return Build(GameMgr->GetRandom(0, 5)); });
 		return 1;
 	}
 
@@ -228,7 +228,7 @@ int DAICommand::Build()
 	if (true == m_vecPath.empty())
 	{
 		m_pACommander->m_bBuild = true;
-		m_BehaviorList.push_back([&]()->int { return ReconToHQ(); });
+		m_BehaviorList.emplace_back([&]()->int { return ReconToHQ(); });
 		++m_iFarm;
 		return 1;
 	}
@@ -246,12 +246,12 @@ int DAICommand::Build(int iSelect)
 		if (m_iUnitFactory != GameMgr->GetObjectList(OBJ_UNITFACTORY).size())
 		{
 			m_iUnitFactory = GameMgr->GetObjectList(OBJ_UNITFACTORY).size();
-			m_BehaviorList.push_back([&]()->int { return MoveToTeamHQ(); });
+			m_BehaviorList.emplace_back([&]()->int { return MoveToTeamHQ(); });
 			return 1;
 		}
 		else
 		{
-			m_BehaviorList.push_back([&]()->int { return MoveToTeamArea(); });
+			m_BehaviorList.emplace_back([&]()->int { return MoveToTeamArea(); });
 			return 1;
 		}
 	}
@@ -275,7 +275,7 @@ int DAICommand::AttackToEnemyTeam(int iTeam)
 		const COLLTILE* pGoal = m_pLevel->GetCollTile((*iter_find)->GetTileIndex());
 		GameMgr->GetAStar()->AStarStart(m_pACommander->m_iTileIndex, pGoal, m_vecPath);
 		auto iter = m_BehaviorList.begin();
-		m_BehaviorList.insert(++iter, [&]()->int { return Order(); });
+		m_BehaviorList.emplace(++iter, [&]()->int { return Order(); });
 		return 1;
 	}
 
@@ -295,7 +295,7 @@ int DAICommand::Order()
 	{
 		m_pACommander->m_bAllOrder = true;
 		m_pACommander->m_fOrder = 0.5f;
-		m_BehaviorList.push_back([&]()->int { return MoveToTeamHQ(); });
+		m_BehaviorList.emplace_back([&]()->int { return MoveToTeamHQ(); });
 		return 1;
 	}
 

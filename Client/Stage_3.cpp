@@ -52,7 +52,7 @@ void CStage_3::Update()
 {
 	GameMgr->Update(Time->GetDeltaTime());
 
-	if (GetKey->KeyDown('9'))
+	if (KeyMgr->KeyDown('9'))
 		SceneMgr->SceneChange(SCENE_ENDING);
 }
 

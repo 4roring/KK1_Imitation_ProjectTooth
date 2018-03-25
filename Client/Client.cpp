@@ -50,8 +50,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MSG msg;
 	msg.message = WM_NULL;
 
-	DWORD dwTime = GetTickCount();
-
 	CMainGame mainGame;
 	mainGame.Initialize();
 
@@ -68,14 +66,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		}
 		else
 		{
-			if (dwTime + 10 < GetTickCount())
-			{
-				dwTime = GetTickCount();
-
-				mainGame.Update();
-				mainGame.LateUpdate();
-				mainGame.Render();
-			}
+			mainGame.Update();
+			mainGame.LateUpdate();
+			mainGame.Render();
 		}
 	}
 
@@ -111,13 +104,11 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, false);
 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+   HWND hWnd = CreateWindowW(szWindowClass, TEXT("KK1 Tooth and Tail"), WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance, nullptr);
    
    if (!hWnd)
-   {
       return FALSE;
-   }
 
    g_hWnd = hWnd;
    g_hMain = hWnd;

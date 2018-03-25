@@ -24,27 +24,27 @@ void DPlayerCommand::Update()
 
 void DPlayerCommand::Input()
 {
-	if (GetKey->KeyPress('A'))
+	if (KeyMgr->KeyPress('A'))
 		m_pACommander->m_tInfo.vDir.x = -1.f;
-	else if (GetKey->KeyPress('D'))
+	else if (KeyMgr->KeyPress('D'))
 		m_pACommander->m_tInfo.vDir.x = 1.f;
 	else
 		m_pACommander->m_tInfo.vDir.x = 0.f;
 
-	if (GetKey->KeyPress('W'))
+	if (KeyMgr->KeyPress('W'))
 		m_pACommander->m_tInfo.vDir.y = -1.f;
-	else if (GetKey->KeyPress('S'))
+	else if (KeyMgr->KeyPress('S'))
 		m_pACommander->m_tInfo.vDir.y = 1.f;
 	else
 		m_pACommander->m_tInfo.vDir.y = 0.f;
 
-	if (GetKey->KeyPress(VK_LBUTTON))
+	if (KeyMgr->KeyPress(VK_LBUTTON))
 	{
 		m_pACommander->m_fOrder += Time->GetDeltaTime();
 		m_pACommander->m_bAllOrder = false;
 		PlayOrderSound();
 	}
-	else if (GetKey->KeyPress(VK_RBUTTON))
+	else if (KeyMgr->KeyPress(VK_RBUTTON))
 	{
 		m_pACommander->m_fOrder += Time->GetDeltaTime();
 		m_pACommander->m_bAllOrder = true;
@@ -57,10 +57,10 @@ void DPlayerCommand::Input()
 	}
 		
 
-	if (GetKey->KeyDown(VK_SPACE))
+	if (KeyMgr->KeyDown(VK_SPACE))
 		m_pACommander->m_bBuild = true;
 
-	if (GetKey->KeyDown('Q'))
+	if (KeyMgr->KeyDown('Q'))
 	{
 		if (--m_pACommander->m_iSelectSlot < 0)
 			m_pACommander->m_iSelectSlot = SLOT_MAX - 1;
@@ -68,7 +68,7 @@ void DPlayerCommand::Input()
 		GameMgr->GetSubject(m_pACommander->m_eTeam)->NotifySlotNum(m_pACommander->m_iSelectSlot);
 	}
 
-	if (GetKey->KeyDown('E'))
+	if (KeyMgr->KeyDown('E'))
 	{
 		if (++m_pACommander->m_iSelectSlot >= SLOT_MAX)
 			m_pACommander->m_iSelectSlot = 0;
@@ -76,7 +76,7 @@ void DPlayerCommand::Input()
 		GameMgr->GetSubject(m_pACommander->m_eTeam)->NotifySlotNum(m_pACommander->m_iSelectSlot);
 	}	
 
-	if (GetKey->KeyDown('1'))
+	if (KeyMgr->KeyDown('1'))
 	{
 		ACommander* pCommander = nullptr;
 		for (int i = 0; i < TEAM_NEUTRAL; ++i)
@@ -91,7 +91,7 @@ void DPlayerCommand::Input()
 		}
 	}
 		
-	if (GetKey->KeyDown('2'))
+	if (KeyMgr->KeyDown('2'))
 	{
 		ACommander* pCommander = nullptr;
 		for (int i = 0; i < TEAM_NEUTRAL; ++i)
@@ -106,7 +106,7 @@ void DPlayerCommand::Input()
 		}
 	}
 
-	if (GetKey->KeyDown('3'))
+	if (KeyMgr->KeyDown('3'))
 	{
 		ACommander* pCommander = nullptr;
 		for (int i = 0; i < TEAM_NEUTRAL; ++i)
@@ -121,7 +121,7 @@ void DPlayerCommand::Input()
 		}
 	}
 
-	if (GetKey->KeyDown('4'))
+	if (KeyMgr->KeyDown('4'))
 	{
 		ACommander* pCommander = nullptr;
 		for (int i = 0; i < TEAM_NEUTRAL; ++i)
@@ -136,7 +136,7 @@ void DPlayerCommand::Input()
 		}
 	}
 
-	if (GetKey->KeyDown('R'))
+	if (KeyMgr->KeyDown('R'))
 		m_pACommander->m_iFood += 100;
 }
 

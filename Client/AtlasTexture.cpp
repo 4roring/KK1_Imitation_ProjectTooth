@@ -108,6 +108,6 @@ void CAtlasTexture::LoadAtlasInfo(const std::wstring & wstrFilePath)
 		rc->right = rc->left + iCX;
 		rc->bottom = rc->top + iCY;
 
-		m_mapAtlasTex.insert(ATLASTEXMAP::value_type(wstrStateKey, rc));
+		m_mapAtlasTex.emplace(wstrStateKey, rc);
 	}
 }

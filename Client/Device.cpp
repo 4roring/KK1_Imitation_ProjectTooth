@@ -105,8 +105,8 @@ void CDevice::SetParameters(D3DPRESENT_PARAMETERS & d3dpp)
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	d3dpp.hDeviceWindow = g_hWnd;
 
-	d3dpp.Windowed = FALSE;
-	//d3dpp.Windowed = TRUE;
+	//d3dpp.Windowed = FALSE;
+	d3dpp.Windowed = TRUE;
 
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;

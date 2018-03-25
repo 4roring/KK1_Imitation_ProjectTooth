@@ -46,7 +46,7 @@ void DUnit_2Tear::UpdateState(float deltaTime)
 	case DUnit_2Tear::Idle:
 		// 자신이 서있는 타일에 오브젝트가 존재하면 근처로 이동
 		if (nullptr != GetTileIndexObject() && m_pUnit != GetTileIndexObject())
-			m_vecPath.push_back(GetAroundEmptyTile());
+			m_vecPath.emplace_back(GetAroundEmptyTile());
 
 		if (false == m_vecPath.empty())
 			m_eCurState = DUnit_2Tear::Move;
@@ -55,7 +55,7 @@ void DUnit_2Tear::UpdateState(float deltaTime)
 		if (true == CheckSight())
 		{
 			m_vecPath.clear();
-			m_vecPath.push_back(m_pUnit->m_pTarget);
+			m_vecPath.emplace_back(m_pUnit->m_pTarget);
 		}
 
 		// 자신의 공격범위에 적이 있으면 공격
@@ -73,7 +73,7 @@ void DUnit_2Tear::UpdateState(float deltaTime)
 		if (true == CheckSight())
 		{
 			m_vecPath.clear();
-			m_vecPath.push_back(m_pUnit->m_pTarget);
+			m_vecPath.emplace_back(m_pUnit->m_pTarget);
 		}
 
 		if (true == m_vecPath.empty())

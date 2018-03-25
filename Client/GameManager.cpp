@@ -29,7 +29,7 @@ int CGameManager::GetRandom(int iMin, int iMax) const
 void CGameManager::CreateObject(CGameObject * pObject, OBJID eObjectID)
 {
 	pObject->SetObjectID(eObjectID);
-	m_ObjectList[eObjectID].push_back(pObject);
+	m_ObjectList[eObjectID].emplace_back(pObject);
 
 	if (eObjectID == OBJ_PLAYER || eObjectID == OBJ_AI)
 		m_pCommander[pObject->GetTeamID()] = dynamic_cast<ACommander*>(pObject);
@@ -82,9 +82,6 @@ void CGameManager::Update(float deltaTime)
 				++iter;
 				break;
 
-			case STATE_WAIT:
-				continue;
-
 			case STATE_DESTROY:
 				SafeDelete(*iter);
 				iter = m_ObjectList[i].erase(iter);
@@ -117,7 +114,7 @@ void CGameManager::Render()
 			case LAYER_EFFECT:
 			case LAYER_WORLDUI:
 			case LAYER_UI:
-				m_vecRender[eLayer].push_back(pObject);
+				m_vecRender[eLayer].emplace_back(pObject);
 				continue;
 			default:
 				break;

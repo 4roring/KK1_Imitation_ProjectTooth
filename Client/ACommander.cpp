@@ -77,7 +77,7 @@ void ACommander::LateUpdate()
 void ACommander::Render()
 {
 	RenderShadow(80);
-	RenderGroundChar();
+	RenderActor();
 }
 
 void ACommander::Release()
@@ -215,7 +215,6 @@ void ACommander::UpdateState(float deltaTime)
 			m_eCurAnimState = ACommander::Idle;
 		break;
 	case ACommander::RunOrder:
-		OrderToUnit();
 		Move(deltaTime);
 		OrderToUnit();
 		if (m_fOrder == 0.f)
@@ -226,7 +225,7 @@ void ACommander::UpdateState(float deltaTime)
 		break;
 	case ACommander::RunBuild:
 		Move(deltaTime);
-		if (m_tFrame.fFrame >= m_tFrame.fMax - 0.1f)
+		if (m_tFrame.fFrame >= m_tFrame.fMax - 0.5f)
 		{
 			m_bBuild = false;
 			m_eCurAnimState = ACommander::Run;
@@ -266,8 +265,6 @@ void ACommander::Move(float deltaTime)
 	}
 }
 
-
-
 void ACommander::SetAnimState()
 {
 	if (m_ePreAnimState != m_eCurAnimState)
@@ -305,7 +302,7 @@ void ACommander::OrderToUnit()
 {
 	const OBJLIST& objUnitList = GameMgr->GetObjectList(OBJ_UNIT);
 	auto iter = std::find_if(objUnitList.begin(), objUnitList.end(),
-		[&](auto& pUnit)
+		[&](auto& pUnit)->bool
 	{
 		if (true == m_bAllOrder)
 			return (pUnit->GetTeamID() == m_eTeam);
@@ -369,7 +366,7 @@ void ACommander::CheckHQ()
 
 		if (CheckObjectNetual(pTile->pGameObject, OBJ_HQ))
 		{
-			if (true == m_bBuild && pTile->pGameObject->GetTeamID() == TEAM_NEUTRAL && m_iFood >= 60)
+			if (true == m_bBuild && m_iFood >= 60)
 			{
 				SoundMgr->PlayEffectSound(TEXT("Build_HQ"), m_tInfo.vPosition);
 				pTile->pGameObject->Destroy();
@@ -532,9 +529,9 @@ bool ACommander::CheckObjectID(CGameObject * pObject, OBJID eObjectID)
 	return false;
 }
 
-bool ACommander::CheckObjectTeam(CGameObject * pObject, TEAMID eTeam)
+bool ACommander::CheckObjectTeam(CGameObject * pObject, TEAMID eTeamID)
 {
-	if (pObject->GetTeamID() == eTeam) return true;
+	if (pObject->GetTeamID() == eTeamID) return true;
 
 	return false;
 }

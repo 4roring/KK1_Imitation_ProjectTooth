@@ -36,7 +36,7 @@ typedef struct tagCollisionTile
 	D3DXVECTOR3 vPosition;
 	BYTE byOption;
 	BYTE byDrawID;
-	CGameObject* pGameObject; // 타일에 존재하는 유닛의 주소를 담는 포인터
+	CGameObject* pGameObject;
 }COLLTILE;
 
 typedef struct tagDecoration

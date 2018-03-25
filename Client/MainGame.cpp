@@ -12,12 +12,19 @@ CMainGame::~CMainGame()
 	Release();
 }
 
-void CMainGame::Initialize()
+HRESULT CMainGame::Initialize()
 {
-	Device->InitDevice();
+	if (FAILED(Device->InitDevice()))
+		return E_FAIL;
+
 	Time->InitTime();
-	TextureMgr->InsertTexture(TEXT("../Texture/BlackScreen.png"), TEXT("BlackScreen"), TEX_SINGLE);
-	SceneMgr->SceneChange(SCENE_LOGO);
+	if (FAILED(TextureMgr->InsertTexture(TEXT("../Texture/BlackScreen.png"), TEXT("BlackScreen"), TEX_SINGLE)))
+		return E_FAIL;
+
+	if (SceneMgr->SceneChange(SCENE_LOGO))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 void CMainGame::Update()
@@ -29,7 +36,7 @@ void CMainGame::Update()
 void CMainGame::LateUpdate()
 {
 	SceneMgr->LateUpdate();
-	GetKey->Update();
+	KeyMgr->Update();
 	SoundMgr->Update();
 }
 
@@ -47,7 +54,7 @@ void CMainGame::Release()
 	SceneMgr->DestroyInstance();
 	GameMgr->DestroyInstance();
 	TextureMgr->DestroyInstance();
-	GetKey->DestroyInstance();
+	KeyMgr->DestroyInstance();
 	Time->DestroyInstance();
 	Device->DestroyInstance();
 }

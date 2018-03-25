@@ -9,7 +9,7 @@ CAStar::CAStar()
 
 CAStar::~CAStar()
 {
-
+	ReleaseList();
 }
 
 void CAStar::AStarStart(int iStart, const COLLTILE * pGoal, VECCOLLTILE& rVecPath)
@@ -18,7 +18,6 @@ void CAStar::AStarStart(int iStart, const COLLTILE * pGoal, VECCOLLTILE& rVecPat
 		m_pLevel = dynamic_cast<CLevel*>(GameMgr->GetObjectList(OBJ_LEVEL).front());
 
 	m_iStart = iStart;
-
 	m_iGoal = m_pLevel->GetTileIndex(pGoal->vPosition);
 
 	if (pGoal->byOption != 0)
@@ -30,17 +29,6 @@ void CAStar::AStarStart(int iStart, const COLLTILE * pGoal, VECCOLLTILE& rVecPat
 	rVecPath.clear();
 	ReleaseList();
 
-	//m_Thread = std::thread(
-	//	[&]() 
-	//{ 
-	//	m_Mutex.lock();
-	//	MakeRoute(rVecPath); 
-	//	m_Mutex.unlock();
-	//});
-
-
-	//m_Thread.join();
-	
 	MakeRoute(rVecPath);
 }
 
@@ -51,35 +39,32 @@ void CAStar::MakeRoute(VECCOLLTILE& rVecPath)
 	pParentNode->iIndex = m_iStart;
 	pParentNode->fCost = 0.f;
 
-	m_CloseList.push_back(pParentNode);
+	m_CloseList.emplace_back(pParentNode);
 
 	while (true)
 	{
 		for (int i = 0; i < NEIGHBOR_END; ++i)
 		{
 			int iIndex = m_pLevel->GetNeighborTileIndex(i, pParentNode->iIndex);
-
 			if (false == CheckTileIndex(iIndex))
 				continue;
 
 			ASTARNODE* pNode = MakeNode(iIndex, pParentNode);
-			m_OpenList.push_back(pNode);
+			m_OpenList.emplace_back(pNode);
 		}
 
 		m_OpenList.sort([](auto& p1, auto& p2){ return p1->fCost < p2->fCost; });
-
 		pParentNode = m_OpenList.front();
-
 		if (pParentNode->iIndex == m_iGoal)
 			break;
 
 		m_OpenList.pop_front();
-		m_CloseList.push_back(pParentNode);
+		m_CloseList.emplace_back(pParentNode);
 	}
 	
 	while (nullptr != pParentNode->pParent)
 	{
-		rVecPath.push_back(m_pLevel->GetCollTile(pParentNode->iIndex));
+		rVecPath.emplace_back(m_pLevel->GetCollTile(pParentNode->iIndex));
 		pParentNode = pParentNode->pParent;
 	}
 	ReleaseList();
@@ -100,9 +85,6 @@ bool CAStar::CheckTileIndex(int iIndex)
 
 	if (m_pLevel->GetCollTile(iIndex)->byOption == 1)
 		return false;
-
-	//if (nullptr != m_pLevel->GetTileObject(iIndex))
-	//	return false;
 
 	if (false == m_OpenList.empty())
 	{

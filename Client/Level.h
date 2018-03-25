@@ -21,32 +21,28 @@ public:
 	bool isCulling(const Vector3& vPos);
 	
 public:
-	void MapRender(Vector3& vScroll, D3DXMATRIX& matScale);
-	void CollTileRender(Vector3& vScroll, D3DXMATRIX& matScale);
+	void MapRender(const Vector3& vScroll, const D3DXMATRIX& matScale);
+	void CollTileRender(const Vector3& vScroll, const D3DXMATRIX& matScale);
 
 public: // Tile Picking
-	int GetTileIndex(Vector3 vPos);
-
-	void GetRange(VECCOLLTILE& rVecRange, int iStart); // 마름모꼴 타일 사거리 1
+	int GetTileIndex(const Vector3& vPos);
+	void GetRange(VECCOLLTILE& rVecRange, int iStart);
 	void GetRange(VECCOLLTILE& rVecRange, int iStart, int iRange);
-	
-	// 원하는 방향의 인접 타일의 번호를 가져온다.
 	int GetNeighborTileIndex(int iNeighbor, int iStart);
-	// 원하는 방향의 인접 타일의 번호를 원하는 깊이만큼 들어가서 가져온다.
-	int GetNeighborTileIndex(int iNeighbor, int iStart, int iCount);
+	int GetNeighborTileIndex(int iNeighbor, int iStart, int iDepth);
 
 public:
 	void LoadCollTile();
 	void CreateBuilding();
-	void CreateFarm(int iTileIndex, TEAMID eTeam);
-	void CreateFinishedFarm(int iTileIndex, TEAMID eTeam);
+	void CreateFarm(int iTileIndex, TEAMID eTeamID);
+	void CreateFinishedFarm(int iTileIndex, TEAMID eTeamID);
 	void CreateNeutralFarm(int iTileIndex);
-	void CreateTeamStartFarm(int iTileIndex, TEAMID eTeam);
-	void CreateTeamHQ(int iTileIndex, TEAMID eTeam);
+	void CreateTeamStartFarm(int iTileIndex, TEAMID eTeamID);
+	void CreateTeamHQ(int iTileIndex, TEAMID eTeamID);
 
 public:
-	COLLTILE* GetCollTile(int iIndex) const;
-	CGameObject* GetTileObject(int iIndex) { return m_vecCollTile[iIndex]->pGameObject; }
+	COLLTILE* GetCollTile(int iIndex) const { return m_vecCollTile[iIndex]; }
+	CGameObject* GetTileObject(int iIndex) const { return m_vecCollTile[iIndex]->pGameObject; }
 
 public:
 	void SetTileObject(int iIndex, CGameObject* pObject) { m_vecCollTile[iIndex]->pGameObject = pObject; }
@@ -59,7 +55,6 @@ private:
 	LPD3DXFONT m_pFont = nullptr;
 
 private:
-	int m_iPickIndex = 0;
 	bool m_bTileRender = false;
 };
 

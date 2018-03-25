@@ -16,20 +16,16 @@ private:
 	CGameManager& operator=(CGameManager&) = delete;
 
 public:
-	const OBJLIST& GetObjectList(OBJID eObjID) const { return m_ObjectList[eObjID]; }
+	const OBJLIST& GetObjectList(OBJID eObjectID) const { return m_ObjectList[eObjectID]; }
 	const D3DCOLOR* GetTeamColor(TEAMID eTeamID) const { return &m_TeamColor[eTeamID]; }
-	DSubject* GetSubject(TEAMID eTeam) const { return m_pSubject[eTeam]; }
+	DSubject* GetSubject(TEAMID eTeamID) const { return m_pSubject[eTeamID]; }
 	CAStar* GetAStar() const { return m_pAStar; }
+	ACommander* GetCommander(TEAMID eTeamID) const { return m_pCommander[eTeamID]; }
 	int GetRandom(int iMin, int iMax) const;
-	ACommander* GetCommander(TEAMID eTeam) const { return m_pCommander[eTeam]; }
 
 public:
 	void CreateObject(CGameObject* pObject, OBJID eID);
-
-public:
 	void DestroyObject(int eObjID);
-
-public:
 	bool ObjectCulling(const Vector3& vPos);
 
 public:

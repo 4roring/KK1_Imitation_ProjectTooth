@@ -16,7 +16,7 @@ void DSubject::Subscribe(DObserver * pObserver)
 	if (nullptr == pObserver)
 		return;
 
-	m_Observerlist.push_back(pObserver);
+	m_Observerlist.emplace_back(pObserver);
 }
 
 void DSubject::UnSubscribe(DObserver * pObserver)

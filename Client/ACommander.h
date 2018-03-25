@@ -49,7 +49,7 @@ private:
 
 private:
 	bool CheckObjectID(CGameObject* pObject, OBJID eObjectID);
-	bool CheckObjectTeam(CGameObject* pObject, TEAMID eTeam);
+	bool CheckObjectTeam(CGameObject* pObject, TEAMID eTeamID);
 	bool CheckObjectNetual(CGameObject* pObject, OBJID eObjectID);
 
 private:
@@ -78,7 +78,7 @@ private:
 	CGameObject* m_pBurstEffect = nullptr;
 
 public:
-	void ViewTeamSelect(TEAMID eTeam) { m_eViewToTeam = eTeam; }
+	void ViewTeamSelect(TEAMID eTeamID) { m_eViewToTeam = eTeamID; }
 
 private: // Scroll Select
 	TEAMID m_eViewToTeam = TEAM_RED;

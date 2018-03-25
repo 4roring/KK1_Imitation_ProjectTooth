@@ -40,11 +40,11 @@ public:
 		return pObject;
 	}
 
-	static CGameObject* Create(Vector3 vPos, TEAMID eTeam)
+	static CGameObject* Create(Vector3 vPos, TEAMID eTeamID)
 	{
 		CGameObject* pObject = new T;
 		pObject->SetPos(vPos);
-		pObject->SetTeam(eTeam);
+		pObject->SetTeam(eTeamID);
 		if (FAILED(pObject->Initialize()))
 		{
 			MSG_BOX(TEXT("Create GameObject Error!!!"));
@@ -54,11 +54,11 @@ public:
 		return pObject;
 	}
 
-	static CGameObject* CreateBuilding(int iStart, TEAMID eTeam)
+	static CGameObject* CreateBuilding(int iStart, TEAMID eTeamID)
 	{
 		BBuilding* pObject = new T;
 		pObject->SetTileIndexArray(iStart);
-		pObject->SetTeam(eTeam);
+		pObject->SetTeam(eTeamID);
 		if (FAILED(pObject->Initialize()))
 		{
 			MSG_BOX(TEXT("Create Building Error!!!"));
@@ -68,12 +68,12 @@ public:
 		return pObject;
 	}
 
-	static CGameObject* CreateUnitFactory(int iStart, UNITID eUnitID, TEAMID eTeam)
+	static CGameObject* CreateUnitFactory(int iStart, UNITID eUnitID, TEAMID eTeamID)
 	{
 		BUnitFactory* pObject = new BUnitFactory;
 		pObject->SetTileIndexArray(iStart);
 		pObject->SetUnitID(eUnitID);
-		pObject->SetTeam(eTeam);
+		pObject->SetTeam(eTeamID);
 
 		if (FAILED(pObject->Initialize()))
 		{
@@ -84,12 +84,12 @@ public:
 		return pObject;
 	}
 
-	static CGameObject* CreateUnit(int iStart, UNITID eUnitID, TEAMID eTeam, BUnitFactory* pFactory)
+	static CGameObject* CreateUnit(int iStart, UNITID eUnitID, TEAMID eTeamID, BUnitFactory* pFactory)
 	{
 		AUnit* pObject = new T;
 		
 		pObject->SetUnitID(eUnitID);
-		pObject->SetTeam(eTeam);
+		pObject->SetTeam(eTeamID);
 		pObject->SetTileIndex(iStart);
 		pObject->SetFactory(pFactory);
 		if (FAILED(pObject->Initialize()))

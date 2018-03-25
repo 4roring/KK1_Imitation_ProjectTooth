@@ -23,8 +23,7 @@ protected:
 	void UpdateRect();
 	void SetAnimFrame(float fFrameMin, float fFrameMax, float fFrameSpeed);
 	void RenderShadow(BYTE Alpha);
-	void RenderFlyChar();
-	void RenderGroundChar();
+	void RenderActor();
 	void UpdateFlipX();
 	bool CheckEnemy(int iRange);
 	bool AttackPossible(CGameObject* pObject);

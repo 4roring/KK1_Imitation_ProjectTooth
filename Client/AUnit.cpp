@@ -116,7 +116,7 @@ void AUnit::LateUpdate()
 void AUnit::Render()
 {
 	RenderShadow(60);
-	RenderGroundChar();
+	RenderActor();
 }
 
 void AUnit::Release()

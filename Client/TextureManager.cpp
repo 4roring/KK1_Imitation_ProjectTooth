@@ -54,7 +54,7 @@ HRESULT CTextureManager::InsertTexture(const std::wstring & wstrFilePath, const 
 			return E_FAIL;
 		}
 
-		m_mapTexture.insert(TEXTUREMAP::value_type(wstrObjKey, pTexture));
+		m_mapTexture.emplace(TEXTUREMAP::value_type(wstrObjKey, pTexture));
 	}
 	else
 	{

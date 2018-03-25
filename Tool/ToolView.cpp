@@ -149,7 +149,7 @@ void CToolView::PostNcDestroy()
 	ToolMgr->DestroyInstance();
 	TextureMgr->DestroyInstance();
 	Device->DestroyInstance();
-	GetKey->DestroyInstance();
+	KeyMgr->DestroyInstance();
 	
 	CView::PostNcDestroy();
 }
@@ -199,24 +199,24 @@ void CToolView::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 
-	if (GetKey->KeyPress('A'))
+	if (KeyMgr->KeyPress('A'))
 		ToolMgr->SetScroll(D3DXVECTOR3(-100.f, 0.f, 0.f));
 
-	if (GetKey->KeyPress('D'))
+	if (KeyMgr->KeyPress('D'))
 		ToolMgr->SetScroll(D3DXVECTOR3(100.f, 0.f, 0.f));
 
-	if (GetKey->KeyPress('W'))
+	if (KeyMgr->KeyPress('W'))
 		ToolMgr->SetScroll(D3DXVECTOR3(0.f, -100.f, 0.f));
 
-	if (GetKey->KeyPress('S'))
+	if (KeyMgr->KeyPress('S'))
 		ToolMgr->SetScroll(D3DXVECTOR3(0.f, 100.f, 0.f));
 
-	if (GetKey->KeyDown('Z'))
+	if (KeyMgr->KeyDown('Z'))
 		ToolMgr->SetCollTileRender();
 
 	ToolMgr->GetLevel()->Picking();
 
-	GetKey->Update();
+	KeyMgr->Update();
 
 	Invalidate(0);
 

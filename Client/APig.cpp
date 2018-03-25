@@ -66,7 +66,7 @@ void APig::LateUpdate()
 void APig::Render()
 {
 	RenderShadow(60);
-	RenderGroundChar();
+	RenderActor();
 }
 
 void APig::Release()

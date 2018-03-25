@@ -51,7 +51,7 @@ void DUnit_3Tear::UpdateState(float deltaTime)
 	case DUnit_3Tear::Idle:
 		// 자신이 서있는 타일에 오브젝트가 존재하면 근처로 이동
 		if (nullptr != GetTileIndexObject() && m_pUnit != GetTileIndexObject())
-			m_vecPath.push_back(GetAroundEmptyTile());
+			m_vecPath.emplace_back(GetAroundEmptyTile());
 
 		if (false == m_vecPath.empty())
 			m_eCurState = DUnit_3Tear::Move;
@@ -60,7 +60,7 @@ void DUnit_3Tear::UpdateState(float deltaTime)
 		if (true == CheckSight())
 		{
 			m_vecPath.clear();
-			m_vecPath.push_back(m_pUnit->m_pTarget);
+			m_vecPath.emplace_back(m_pUnit->m_pTarget);
 		}
 
 		if (m_fMiniGunTime >= 2.f)
@@ -81,7 +81,7 @@ void DUnit_3Tear::UpdateState(float deltaTime)
 		if (true == CheckSight())
 		{
 			m_vecPath.clear();
-			m_vecPath.push_back(m_pUnit->m_pTarget);
+			m_vecPath.emplace_back(m_pUnit->m_pTarget);
 		}
 
 		if (true == m_vecPath.empty())

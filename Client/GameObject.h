@@ -16,11 +16,11 @@ public:
 	virtual void ApplyDamage(int iDamage);
 
 public:
-	OBJLAYER GetLayer() { return m_eLayer; }
-	const INFO& GetInfo() { return m_tInfo; }
-	TEAMID GetTeamID() { return m_eTeam; }
-	OBJID GetObjectID() { return m_eObjectID; }
-	int GetTileIndex() { return m_iTileIndex; }
+	OBJLAYER GetLayer() const { return m_eLayer; }
+	const INFO& GetInfo() const { return m_tInfo; }
+	TEAMID GetTeamID() const { return m_eTeam; }
+	OBJID GetObjectID() const { return m_eObjectID; }
+	int GetTileIndex() const { return m_iTileIndex; }
 	int GetHp() const { return m_iHp; }
 	float GetHpRatio() const { return m_iHp / (float)m_iMaxHp; }
 
@@ -28,7 +28,7 @@ public:
 	void SetPos(const Vector3& vPos) { m_tInfo.vPosition = vPos; }
 	void SetTexMain(const TEXINFO* pTexInfo) { m_pTexMain = pTexInfo; }
 	void SetObjectID(OBJID eObjectID) { m_eObjectID = eObjectID; }
-	void SetTeam(TEAMID eTeam) { m_eTeam = eTeam; }
+	void SetTeam(TEAMID eTeamID) { m_eTeam = eTeamID; }
 	void SetTileIndex(int iTileIndex) { m_iTileIndex = iTileIndex; }
 	void Destroy() { m_bDestroy = true; }
 

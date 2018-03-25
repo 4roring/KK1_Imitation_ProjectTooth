@@ -98,8 +98,8 @@ HRESULT CDevice::FontInit()
 	D3DXFONT_DESC tFontInfo;
 	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESC));
 
-	tFontInfo.Width = 8;
-	tFontInfo.Height = 10;
+	tFontInfo.Width = 12;
+	tFontInfo.Height = 20;
 	tFontInfo.Weight = FW_NORMAL;
 	tFontInfo.CharSet = HANGUL_CHARSET;
 	lstrcpy(tFontInfo.FaceName, TEXT("°íµñ"));

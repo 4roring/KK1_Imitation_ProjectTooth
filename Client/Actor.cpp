@@ -30,9 +30,6 @@ OBJSTATE AActor::Update(float deltaTime)
 
 void AActor::LateUpdate()
 {
-	// GetTileIndex를 실행하여 현재타일과 이전타일이 다를 경우
-	// 갈 수 있는 공간인지 우선 체크하고
-	// 이전 타일의 CGameObejct*은 nullptr 현재 타일은 자신을 넘겨준다.
 	UpdateRect();
 	CheckCollTile();
 }
@@ -110,12 +107,7 @@ void AActor::RenderShadow(BYTE Alpha)
 		, nullptr, D3DCOLOR_ARGB(Alpha, 0, 0, 0));
 }
 
-void AActor::RenderFlyChar()
-{
-
-}
-
-void AActor::RenderGroundChar()
+void AActor::RenderActor()
 {
 	Vector3 vScroll = ViewMgr->GetScroll();
 
