@@ -19,17 +19,19 @@ public:
 
 protected:
 	void FrameMove(float deltaTime);
-	void HealTime(float deltaTime);
 	void UpdateRect();
 	void SetAnimFrame(float fFrameMin, float fFrameMax, float fFrameSpeed);
-	void RenderShadow(BYTE Alpha);
+	void RenderShadow(BYTE byAlpha);
 	void RenderActor();
 	void UpdateFlipX();
+
+protected:
 	bool CheckEnemy(int iRange);
 	bool AttackPossible(CGameObject* pObject);
 
 private:
 	void CheckCollTile();
+	void HealTime(float deltaTime);
 
 protected:
 	float m_fSpeed = 0.f;

@@ -18,13 +18,13 @@ public:
 
 public:
 	void AddFood(int iFood);
-	void SetFarmReserve(bool bReserve) { m_bFarmReserve = bReserve; }
+	void SetFarmReserve(bool bReserve);
 
 public:
-	const int GetFood() const { return m_iFood; }
+	const int GetFood() const;
 
 private:
-	enum ANIMSTATE { Idle, Order, Run, Build, RunOrder, RunBuild, ReturnHome, Dead, End };
+	enum ANIMSTATE { Idle, Order, Run, Build, RunOrder, RunBuild, Dead, End };
 	ANIMSTATE m_eCurAnimState = ACommander::Idle;
 	ANIMSTATE m_ePreAnimState = ACommander::End;
 	
@@ -63,7 +63,6 @@ private:
 
 private:
 	int m_iFood = 0;
-	float m_fReturn = 0.f;
 	float m_fOrder = 0.f;
 	bool m_bFarmReserve = false;
 	bool m_bBuild = false;
@@ -77,10 +76,11 @@ private:
 private:
 	CGameObject* m_pBurstEffect = nullptr;
 
+	// View Scroll Select
 public:
 	void ViewTeamSelect(TEAMID eTeamID) { m_eViewToTeam = eTeamID; }
 
-private: // Scroll Select
+private: 
 	TEAMID m_eViewToTeam = TEAM_RED;
 };
 

@@ -89,7 +89,6 @@ void CDevice::End()
 void CDevice::Draw(const D3DXMATRIX & matWorld)
 {
 	m_pSprite->SetTransform(&matWorld);
-	
 }
 
 void CDevice::SetParameters(D3DPRESENT_PARAMETERS & d3dpp)

@@ -21,6 +21,9 @@ HRESULT AActor::Initialize()
 
 OBJSTATE AActor::Update(float deltaTime)
 {
+	if (nullptr == m_pLevel)
+		m_pLevel = dynamic_cast<CLevel*>(GameMgr->GetObjectList(OBJ_LEVEL).back());
+
 	FrameMove(deltaTime);
 	UpdateFlipX();
 	HealTime(deltaTime);
@@ -56,8 +59,7 @@ void AActor::HealTime(float deltaTime)
 	if (m_fHealTime <= 0.f)
 	{
 		++m_iHp;
-		if (m_iHp > m_iMaxHp)
-			m_iHp = m_iMaxHp;
+		m_iHp = min(m_iHp, m_iMaxHp);
 		m_fHealTime = 3.f;
 	}
 }
@@ -80,18 +82,17 @@ void AActor::UpdateRect()
 	m_tRect = { iSceneLeft, iSceneTop, iSceneRight, iSceneBottom };
 }
 
-void AActor::RenderShadow(BYTE Alpha)
+void AActor::RenderShadow(BYTE byAlpha)
 {
-	D3DXMATRIX matShadow, matRotZ;
-	D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(-40.f));
-
+	D3DXMATRIX matShadow, matScale, matRotZ, matTrans;
 	Vector3 vScroll = ViewMgr->GetScroll();
 
-	D3DXMATRIX matScale, matTrans;
 	if (false == m_bFlipX)
 		D3DXMatrixScaling(&matScale, fScreenZoom, fScreenZoom * 0.7f, 1.f);
 	else
 		D3DXMatrixScaling(&matScale, -fScreenZoom, fScreenZoom * 0.7f, 1.f);
+
+	D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(-40.f));
 
 	D3DXMatrixTranslation(&matTrans
 		, m_tInfo.vPosition.x + vScroll.x - 10.f
@@ -104,13 +105,12 @@ void AActor::RenderShadow(BYTE Alpha)
 	m_pSprite->Draw(m_pTexMain->pTexture
 		, &m_tRect
 		, &Vector3(m_tFrame.fCenterX, m_tFrame.fCenterY, 0.f)
-		, nullptr, D3DCOLOR_ARGB(Alpha, 0, 0, 0));
+		, nullptr, D3DCOLOR_ARGB(byAlpha, 0, 0, 0));
 }
 
 void AActor::RenderActor()
 {
 	Vector3 vScroll = ViewMgr->GetScroll();
-
 	D3DXMATRIX matScale, matTrans;
 
 	if (false == m_bFlipX)
@@ -143,7 +143,7 @@ void AActor::UpdateFlipX()
 		m_bFlipX = false;
 	else if (m_tInfo.vDir.x < 0.f)
 		m_bFlipX = true;
-	else if(m_tInfo.vDir.y < 0.f)
+	else if (m_tInfo.vDir.y < 0.f)
 		m_bFlipX = false;
 	else if (m_tInfo.vDir.y > 0.f)
 		m_bFlipX = true;
@@ -165,7 +165,6 @@ bool AActor::CheckEnemy(int iRange)
 			return true;
 		}
 	}
-
 	return false;
 }
 
@@ -181,9 +180,6 @@ bool AActor::AttackPossible(CGameObject* pObject)
 
 void AActor::CheckCollTile()
 {
-	if(nullptr == m_pLevel)
-		m_pLevel = dynamic_cast<CLevel*>(GameMgr->GetObjectList(OBJ_LEVEL).back());
-
 	int m_iTemp = m_pLevel->GetTileIndex(m_tInfo.vPosition);
 
 	if (m_iTileIndex != m_iTemp)

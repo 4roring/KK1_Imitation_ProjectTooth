@@ -90,6 +90,16 @@ void ACommander::AddFood(int iFood)
 	m_iFood += iFood;
 }
 
+void ACommander::SetFarmReserve(bool bReserve)
+{
+	m_bFarmReserve = bReserve;
+}
+
+const int ACommander::GetFood() const
+{
+	return m_iFood;
+}
+
 void ACommander::InitCommander()
 {
 	m_tInfo.vLook = { 1.f, 0.f, 0.f };
@@ -150,10 +160,6 @@ void ACommander::SetCommand()
 	}
 	else if (m_eObjectID == OBJ_AI)
 	{
-		//Vector3 vInitScroll((WINCX >> 1) - m_tInfo.vPosition.x, (WINCY >> 1) - m_tInfo.vPosition.y, 0.f);
-		//ViewMgr->SetScroll(vInitScroll);
-
-		// AI Command 생성
 		m_pCommand = new DAICommand;
 		m_pCommand->SetCommander(this);
 	}
@@ -164,23 +170,20 @@ void ACommander::UpdateState(float deltaTime)
 {
 	switch (m_eCurAnimState)
 	{
-	case ACommander::Idle:
+	case ANIMSTATE::Idle:
 		if (m_fOrder > 0.f)
-			m_eCurAnimState = ACommander::Order;
+			m_eCurAnimState = ANIMSTATE::Order;
 
 		if (true == m_bBuild)
-			m_eCurAnimState = ACommander::Build;
+			m_eCurAnimState = ANIMSTATE::Build;
 
 		if (m_tInfo.vDir.x != 0.f || m_tInfo.vDir.y != 0.f)
-			m_eCurAnimState = ACommander::Run;
-
-		if (m_fReturn > 0.f)
-			m_eCurAnimState = ACommander::ReturnHome;
+			m_eCurAnimState = ANIMSTATE::Run;
 
 		if (true == m_bDead)
-			m_eCurAnimState = ACommander::Dead;
+			m_eCurAnimState = ANIMSTATE::Dead;
 		break;
-	case ACommander::Order:
+	case ANIMSTATE::Order:
 		OrderToUnit();
 		if (nullptr == m_pBurstEffect)
 		{
@@ -191,55 +194,49 @@ void ACommander::UpdateState(float deltaTime)
 			m_pBurstEffect->SetPos(m_tInfo.vPosition);
 
 		if (m_tInfo.vDir.x != 0.f || m_tInfo.vDir.y != 0.f)
-			m_eCurAnimState = ACommander::RunOrder;
+			m_eCurAnimState = ANIMSTATE::RunOrder;
 
 		if (m_fOrder == 0.f)
-			m_eCurAnimState = ACommander::Idle;
+			m_eCurAnimState = ANIMSTATE::Idle;
 		break;
-	case ACommander::Build:
+	case ANIMSTATE::Build:
 		if (m_tFrame.fFrame >= m_tFrame.fMax - 0.1f)
 		{
 			m_bBuild = false;
-			m_eCurAnimState = ACommander::Idle;
+			m_eCurAnimState = ANIMSTATE::Idle;
 		}
 		break;
-	case ACommander::Run:
+	case ANIMSTATE::Run:
 		Move(deltaTime);
 		if (m_fOrder > 0.f)
-			m_eCurAnimState = ACommander::RunOrder;
+			m_eCurAnimState = ANIMSTATE::RunOrder;
 
 		if (true == m_bBuild)
-			m_eCurAnimState = ACommander::RunBuild;
+			m_eCurAnimState = ANIMSTATE::RunBuild;
 
 		if (m_tInfo.vDir.x == 0.f && m_tInfo.vDir.y == 0.f)
-			m_eCurAnimState = ACommander::Idle;
+			m_eCurAnimState = ANIMSTATE::Idle;
 		break;
-	case ACommander::RunOrder:
+	case ANIMSTATE::RunOrder:
 		Move(deltaTime);
 		OrderToUnit();
 		if (m_fOrder == 0.f)
-			m_eCurAnimState = ACommander::Run;
+			m_eCurAnimState = ANIMSTATE::Run;
 
 		if (m_tInfo.vDir.x == 0.f && m_tInfo.vDir.y == 0.f)
-			m_eCurAnimState = ACommander::Idle;
+			m_eCurAnimState = ANIMSTATE::Idle;
 		break;
-	case ACommander::RunBuild:
+	case ANIMSTATE::RunBuild:
 		Move(deltaTime);
 		if (m_tFrame.fFrame >= m_tFrame.fMax - 0.5f)
 		{
 			m_bBuild = false;
-			m_eCurAnimState = ACommander::Run;
+			m_eCurAnimState = ANIMSTATE::Run;
 		}
 		if (m_tInfo.vDir.x == 0.f && m_tInfo.vDir.y == 0.f)
-			m_eCurAnimState = ACommander::Idle;
-		break;
-	case ACommander::ReturnHome:
-		if (m_fReturn == 0.f)
-			m_eCurAnimState = ACommander::Idle;
+			m_eCurAnimState = ANIMSTATE::Idle;
 		break;
 	case ACommander::Dead:
-		// TODO: 죽었을 때 처리.
-
 		break;
 	default:
 #ifdef _DEBUG
@@ -271,23 +268,21 @@ void ACommander::SetAnimState()
 	{
 		switch (m_eCurAnimState)
 		{
-		case ACommander::Idle: SetAnimFrame(0.f, 9.f, 1.3f);
+		case ANIMSTATE::Idle: SetAnimFrame(0.f, 9.f, 1.3f);
 			break;
-		case ACommander::Order: SetAnimFrame(10.f, 19.f, 1.3f);
+		case ANIMSTATE::Order: SetAnimFrame(10.f, 19.f, 1.3f);
 			break;
-		case ACommander::Build:	SetAnimFrame(20.f, 21.f, 5.f);
+		case ANIMSTATE::Build:	SetAnimFrame(20.f, 21.f, 5.f);
 			break;
-		case ACommander::Run: SetAnimFrame(22.f, 31.f, 1.3f);
+		case ANIMSTATE::Run: SetAnimFrame(22.f, 31.f, 1.3f);
 			break;
-		case ACommander::RunOrder: SetAnimFrame(32.f, 41.f, 1.3f);
+		case ANIMSTATE::RunOrder: SetAnimFrame(32.f, 41.f, 1.3f);
 			break;
-		case ACommander::RunBuild: SetAnimFrame(42.f, 46.f, 3.f);
+		case ANIMSTATE::RunBuild: SetAnimFrame(42.f, 46.f, 3.f);
 			break;
-		case ACommander::ReturnHome: SetAnimFrame(47.f, 51.f, 1.3f);
+		case ANIMSTATE::Dead: SetAnimFrame(57.f, 71.f, 1.3f);
 			break;
-		case ACommander::Dead: SetAnimFrame(57.f, 71.f, 1.3f);
-			break;
-		case ACommander::End:
+		case ANIMSTATE::End:
 		default:
 #ifdef _DEBUG
 			assert(!"Commander AnimState Error(defalut or End");
@@ -449,10 +444,8 @@ bool ACommander::CheckTile4x4(VECCOLLTILE & vecRange, int iDir)
 void ACommander::CreateSlotUnitFactory(int iStart)
 {
 	if (false == CheckUnitFactoryPay())
-	{
-		// TODO: 빨간 UI 넣어주고
 		return;
-	}
+
 	SoundMgr->PlayEffectSound(TEXT("Build_UnitFactory"), m_tInfo.vPosition);
 	CGameObject* pObject = DObjectFactory<BUnitFactory>::CreateUnitFactory(iStart, m_eUnit[m_iSelectSlot], m_eTeam);
 	GameMgr->CreateObject(pObject, OBJ_UNITFACTORY);
