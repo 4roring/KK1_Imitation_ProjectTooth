@@ -30,4 +30,8 @@ public:
 public:
 	CFilePath m_FilePath;
 	CUnitTool m_UnitTool;
+	afx_msg void OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized);
+	afx_msg void OnEnable(BOOL bEnable);
+	virtual BOOL OnKillActive();
+	virtual BOOL OnSetActive();
 };
